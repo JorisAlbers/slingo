@@ -1,2 +1,2 @@
 # slingo
-Stream Lingo
+Lingo, but then for streaming purposes 
