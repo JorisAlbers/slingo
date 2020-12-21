@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slingo", "Slingo\Slingo.csproj", "{4617F770-2F3C-4938-B655-89E90897E83C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlingoLib", "SlingoLib\SlingoLib.csproj", "{A1BE17DA-840F-4F3C-B4E5-AB53B9DDC6F3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlingoLib.Test", "SlingoLib.Test\SlingoLib.Test.csproj", "{6E388E0D-A381-435E-A312-1A820C2B683E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{4617F770-2F3C-4938-B655-89E90897E83C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4617F770-2F3C-4938-B655-89E90897E83C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4617F770-2F3C-4938-B655-89E90897E83C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1BE17DA-840F-4F3C-B4E5-AB53B9DDC6F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1BE17DA-840F-4F3C-B4E5-AB53B9DDC6F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1BE17DA-840F-4F3C-B4E5-AB53B9DDC6F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1BE17DA-840F-4F3C-B4E5-AB53B9DDC6F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E388E0D-A381-435E-A312-1A820C2B683E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E388E0D-A381-435E-A312-1A820C2B683E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E388E0D-A381-435E-A312-1A820C2B683E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E388E0D-A381-435E-A312-1A820C2B683E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
