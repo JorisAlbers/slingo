@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slingo", "Slingo\Slingo.csproj", "{4617F770-2F3C-4938-B655-89E90897E83C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slingo", "Slingo\Slingo.csproj", "{4617F770-2F3C-4938-B655-89E90897E83C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlingoLib", "SlingoLib\SlingoLib.csproj", "{A1BE17DA-840F-4F3C-B4E5-AB53B9DDC6F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlingoLib", "SlingoLib\SlingoLib.csproj", "{A1BE17DA-840F-4F3C-B4E5-AB53B9DDC6F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlingoLib.Test", "SlingoLib.Test\SlingoLib.Test.csproj", "{6E388E0D-A381-435E-A312-1A820C2B683E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlingoLib.Test", "SlingoLib.Test\SlingoLib.Test.csproj", "{6E388E0D-A381-435E-A312-1A820C2B683E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
