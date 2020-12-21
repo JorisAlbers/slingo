@@ -38,5 +38,19 @@ namespace SlingoLib.Test.Serialization
             WordRepository repo = new WordRepository(fileSystem.FileSystem, @"c:\words.txt");
             Assert.IsEmpty(repo.Deserialize5LetterWords());
         }
+
+        [TestCase("bomen")]
+        [TestCase("zuren")]
+        [TestCase("clown")]
+        public void Deserialize5LetterWords_ReturnsAllowedWord(string word)
+        {
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                { @"c:\words.txt", new MockFileData(word) },
+            });
+
+            WordRepository repo = new WordRepository(fileSystem.FileSystem, @"c:\words.txt");
+            Assert.IsEmpty(repo.Deserialize5LetterWords());
+        }
     }
 }
