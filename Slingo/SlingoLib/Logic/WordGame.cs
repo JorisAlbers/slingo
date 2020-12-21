@@ -18,29 +18,52 @@ namespace SlingoLib.Logic
         public List<WordGameLetterEntry[]> Submissions { get; }
 
 
-        public void Solve(string word)
+        public void Solve(string inputWord)
         {
-            char[] input = word.ToCharArray();
+            char[] inputCharArray = inputWord.ToCharArray();
+            if (inputCharArray.Length != _word.Length)
+            {
+                Submissions.Add(CreateIncorrectLengthSubmission(inputCharArray));
+                return;
+            }
             
             WordGameLetterEntry[] newSubmission = new WordGameLetterEntry[_word.Length];
             for (int i = 0; i < _word.Length; i++)
             {
-                if (input[i] == _word[i])
+                if (inputCharArray[i] == _word[i])
                 {
-                    newSubmission[i] = new WordGameLetterEntry(input[i],LetterState.CorrectLocation);
+                    newSubmission[i] = new WordGameLetterEntry(inputCharArray[i],LetterState.CorrectLocation);
                     continue;
                 }
 
-                if (_word.Contains(input[i]))
+                if (_word.Contains(inputCharArray[i]))
                 {
-                    newSubmission[i] = new WordGameLetterEntry(input[i], LetterState.IncorrectLocation);
+                    newSubmission[i] = new WordGameLetterEntry(inputCharArray[i], LetterState.IncorrectLocation);
                     continue;
                 }
 
-                newSubmission[i] = new WordGameLetterEntry(input[i], LetterState.DoesNotExistInWord);
+                newSubmission[i] = new WordGameLetterEntry(inputCharArray[i], LetterState.DoesNotExistInWord);
             }
 
             Submissions.Add(newSubmission);
+        }
+
+        private WordGameLetterEntry[] CreateIncorrectLengthSubmission(char[] input)
+        {
+            WordGameLetterEntry[] newSubmission = new WordGameLetterEntry[_word.Length];
+            for (int i = 0; i < _word.Length; i++)
+            {
+                if (input.Length -1 < i)
+                {
+                    newSubmission[i] = new WordGameLetterEntry('.',LetterState.DoesNotExistInWord);
+                }
+                else
+                {
+                    newSubmission[i] = new WordGameLetterEntry(input[i],LetterState.DoesNotExistInWord);
+                }
+            }
+
+            return newSubmission;
         }
     }
 

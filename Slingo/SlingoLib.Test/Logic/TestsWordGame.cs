@@ -46,5 +46,29 @@ namespace SlingoLib.Test.Logic
             CollectionAssert.AreEqual(expectedLetters, wordGame.Submissions[0].Select(x => x.Letter));
             CollectionAssert.AreEqual(expectedStates, wordGame.Submissions[0].Select(x => x.State));
         }
+
+        [Test]
+        public void Solve_WordTooLong()
+        {
+            WordGame wordGame = new WordGame("bomen");
+            wordGame.Solve("bomenverzameling");
+
+            char[] expectedLetters = "bomen".ToCharArray();
+
+            CollectionAssert.AreEqual(expectedLetters, wordGame.Submissions[0].Select(x => x.Letter));
+            Assert.IsTrue(wordGame.Submissions[0].All(x => x.State == LetterState.DoesNotExistInWord));
+        }
+
+        [Test]
+        public void Solve_WordTooShort()
+        {
+            WordGame wordGame = new WordGame("bomen");
+            wordGame.Solve("bome");
+
+            char[] expectedLetters = "bome.".ToCharArray();
+
+            CollectionAssert.AreEqual(expectedLetters, wordGame.Submissions[0].Select(x => x.Letter));
+            Assert.IsTrue(wordGame.Submissions[0].All(x => x.State == LetterState.DoesNotExistInWord));
+        }
     }
 }
