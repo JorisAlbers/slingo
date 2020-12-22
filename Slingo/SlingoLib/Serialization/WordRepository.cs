@@ -9,7 +9,7 @@ namespace SlingoLib.Serialization
     {
         private readonly IFileSystem _fileSystem;
         private readonly string _filePath;
-        private const string _ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyz";
+        private const string _ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzĳ";
         private readonly char[] _allowedCharsAsArray = _ALLOWED_CHARS.ToCharArray();
 
         public WordRepository(IFileSystem fileSystem, string filePath)
@@ -31,7 +31,9 @@ namespace SlingoLib.Serialization
                 string line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    string word = line.Substring(0, line.Length - 2); // remove \r\n
+                    string word = line.Replace("\n", "").Replace("\r", "");
+                    word = word.Replace("ij", "ĳ"); // digraph 'ij' to monograph ij
+
                     if (WordIsAllowed(word))
                     {
                         words.Add(word);

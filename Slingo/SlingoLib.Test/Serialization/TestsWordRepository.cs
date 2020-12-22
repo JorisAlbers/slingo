@@ -50,7 +50,22 @@ namespace SlingoLib.Test.Serialization
             });
 
             WordRepository repo = new WordRepository(fileSystem.FileSystem, @"c:\words.txt");
-            Assert.IsEmpty(repo.Deserialize5LetterWords());
+            var result = repo.Deserialize5LetterWords();
+            CollectionAssert.AreEqual(new string[] { word }, result);
+        }
+
+        [Test]
+        public void Deserialize5LetterWords_IJIsSeenAsSingleLetter()
+        {
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                { @"c:\words.txt", new MockFileData("ijsjes") },
+            });
+
+            WordRepository repo = new WordRepository(fileSystem.FileSystem, @"c:\words.txt");
+            var result = repo.Deserialize5LetterWords();
+            CollectionAssert.AreEqual(new string[]{ "ĳsjes" }, result);
+            
         }
     }
 }
