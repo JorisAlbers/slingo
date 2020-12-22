@@ -7,18 +7,41 @@
                            xmlns:reactiveUi="http://reactiveui.net"
                            mc:Ignorable="d" 
                            d:DesignHeight="450" d:DesignWidth="800">
-    <UniformGrid>
-        <reactiveUi:ViewModelViewHost x:Name="TeamAViewHost"
-                                      HorizontalAlignment="Stretch" 
-                                      VerticalAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch"
-                                      HorizontalContentAlignment="Stretch"/>
-        <reactiveUi:ViewModelViewHost x:Name="TeamBViewHost"
-                                      HorizontalAlignment="Stretch" 
-                                      VerticalAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch"
-                                      HorizontalContentAlignment="Stretch"/>
-    </UniformGrid>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Column="1" Grid.Row="1">
+            <UniformGrid DockPanel.Dock="Top" >
+                <reactiveUi:ViewModelViewHost x:Name="TeamAViewHost"
+                                              HorizontalAlignment="Stretch" 
+                                              VerticalAlignment="Stretch"
+                                              VerticalContentAlignment="Stretch"
+                                              HorizontalContentAlignment="Stretch"/>
+                <reactiveUi:ViewModelViewHost x:Name="TeamBViewHost"
+                                              HorizontalAlignment="Stretch" 
+                                              VerticalAlignment="Stretch"
+                                              VerticalContentAlignment="Stretch"
+                                              HorizontalContentAlignment="Stretch"/>
+            </UniformGrid>
+
+            <Button DockPanel.Dock="Top"  Height="30" Width="100"
+                    x:Name="StartButton" Content="Start game"/>
+        </DockPanel>
+
+       
+    </Grid>
+
+   
 
    
 </reactiveUi:ReactiveUserControl>

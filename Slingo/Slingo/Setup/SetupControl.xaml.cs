@@ -23,6 +23,12 @@ namespace Slingo.Setup
                         vm => vm.TeamB,
                         view => view.TeamBViewHost.ViewModel)
                     .DisposeWith(dispose);
+
+                this.BindCommand(ViewModel,
+                    vm => vm.Start,
+                    view => view.StartButton)
+                    .DisposeWith(dispose);
+
             });
 
         }
