@@ -18,7 +18,7 @@ namespace SlingoLib.Serialization
             _filePath = filePath;
         }
 
-        public List<string> Deserialize5LetterWords()
+        public List<string> Deserialize(int wordLength)
         {
             if (!_fileSystem.File.Exists(_filePath))
             {
@@ -34,7 +34,7 @@ namespace SlingoLib.Serialization
                     string word = line.Replace("\n", "").Replace("\r", "");
                     word = word.Replace("ij", "ĳ"); // digraph 'ij' to monograph ij
 
-                    if (WordIsAllowed(word))
+                    if (WordIsAllowed(wordLength,word))
                     {
                         words.Add(word);
                     }
@@ -44,9 +44,9 @@ namespace SlingoLib.Serialization
             return words;
         }
 
-        private bool WordIsAllowed(string line)
+        private bool WordIsAllowed(int wordLength,string line)
         {
-            if (line.Length != 5)
+            if (line.Length != wordLength)
             {
                 return false;
             }

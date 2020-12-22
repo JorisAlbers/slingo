@@ -13,11 +13,11 @@ namespace SlingoLib.Test.Serialization
     public class TestsWordRepository
     {
         [Test()]
-        public void Deserialize5LetterWords_FileDoesNotExist_Throws()
+        public void Deserialize_FileDoesNotExist_Throws()
         {
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
             WordRepository repo = new WordRepository(fileSystem.FileSystem, "words.txt");
-            Assert.Throws<FileNotFoundException>(() => repo.Deserialize5LetterWords());
+            Assert.Throws<FileNotFoundException>(() => repo.Deserialize(5));
         }
 
         [TestCase("thisWordIsTooLong")]
@@ -28,7 +28,7 @@ namespace SlingoLib.Test.Serialization
         [TestCase("ab,df")]
         [TestCase("abédf")]
         [TestCase("ab|df")]
-        public void Deserialize5LetterWords_IgnoresWordsWhichAreNotAllowed(string word)
+        public void Deserialize_IgnoresWordsWhichAreNotAllowed(string word)
         {
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -36,13 +36,13 @@ namespace SlingoLib.Test.Serialization
             });
             
             WordRepository repo = new WordRepository(fileSystem.FileSystem, @"c:\words.txt");
-            Assert.IsEmpty(repo.Deserialize5LetterWords());
+            Assert.IsEmpty(repo.Deserialize(5));
         }
 
         [TestCase("bomen")]
         [TestCase("zuren")]
         [TestCase("clown")]
-        public void Deserialize5LetterWords_ReturnsAllowedWord(string word)
+        public void Deserialize_ReturnsAllowedWord(string word)
         {
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -50,12 +50,12 @@ namespace SlingoLib.Test.Serialization
             });
 
             WordRepository repo = new WordRepository(fileSystem.FileSystem, @"c:\words.txt");
-            var result = repo.Deserialize5LetterWords();
+            var result = repo.Deserialize(5);
             CollectionAssert.AreEqual(new string[] { word }, result);
         }
 
         [Test]
-        public void Deserialize5LetterWords_IJIsSeenAsSingleLetter()
+        public void Deserialize_IJIsSeenAsSingleLetter()
         {
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -63,7 +63,7 @@ namespace SlingoLib.Test.Serialization
             });
 
             WordRepository repo = new WordRepository(fileSystem.FileSystem, @"c:\words.txt");
-            var result = repo.Deserialize5LetterWords();
+            var result = repo.Deserialize(5);
             CollectionAssert.AreEqual(new string[]{ "ĳsjes" }, result);
             
         }
