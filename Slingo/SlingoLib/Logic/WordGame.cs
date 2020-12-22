@@ -12,19 +12,14 @@ namespace SlingoLib.Logic
         public WordGame(string word)
         {
             _word = word.ToCharArray();
-            Submissions = new List<WordGameLetterEntry[]>();
         }
 
-        public List<WordGameLetterEntry[]> Submissions { get; }
-
-
-        public void Solve(string inputWord)
+        public WordGameEntry Solve(string inputWord)
         {
             char[] inputCharArray = inputWord.ToCharArray();
             if (inputCharArray.Length != _word.Length)
             {
-                Submissions.Add(CreateIncorrectLengthSubmission(inputCharArray));
-                return;
+               return new WordGameEntry(CreateIncorrectLengthSubmission(inputCharArray));
             }
             
             WordGameLetterEntry[] newSubmission = new WordGameLetterEntry[_word.Length];
@@ -45,7 +40,7 @@ namespace SlingoLib.Logic
                 newSubmission[i] = new WordGameLetterEntry(inputCharArray[i], LetterState.DoesNotExistInWord);
             }
 
-            Submissions.Add(newSubmission);
+            return new WordGameEntry(newSubmission);
         }
 
         private WordGameLetterEntry[] CreateIncorrectLengthSubmission(char[] input)
