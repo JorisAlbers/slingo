@@ -1,0 +1,24 @@
+﻿<reactiveUi:ReactiveUserControl x:TypeArguments="local:SetupViewModel" x:Class="Slingo.Setup.SetupControl"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                           xmlns:local="clr-namespace:Slingo.Setup"
+                           xmlns:reactiveUi="http://reactiveui.net"
+                           mc:Ignorable="d" 
+                           d:DesignHeight="450" d:DesignWidth="800">
+    <UniformGrid>
+        <reactiveUi:ViewModelViewHost x:Name="TeamAViewHost"
+                                      HorizontalAlignment="Stretch" 
+                                      VerticalAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      HorizontalContentAlignment="Stretch"/>
+        <reactiveUi:ViewModelViewHost x:Name="TeamBViewHost"
+                                      HorizontalAlignment="Stretch" 
+                                      VerticalAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      HorizontalContentAlignment="Stretch"/>
+    </UniformGrid>
+
+   
+</reactiveUi:ReactiveUserControl>
