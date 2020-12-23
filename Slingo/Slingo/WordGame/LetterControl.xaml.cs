@@ -27,9 +27,8 @@ namespace Slingo.WordGame
             this.WhenActivated((dispose) =>
             {
                 this.OneWayBind(ViewModel,
-                        vm => ViewModel.Letter,
-                        view => view.LetterTextBlock.Text)
-                    .DisposeWith(dispose);
+                    vm => vm.Letter,
+                    view => view.LetterTextBlock.Text);
             });
         }
     }
