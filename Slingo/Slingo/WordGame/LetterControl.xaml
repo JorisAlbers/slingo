@@ -12,9 +12,9 @@
         <Border x:Name="OuterBorder" BorderBrush="Gray" BorderThickness="1" CornerRadius="15" ClipToBounds="True">
             <Grid>
                 <Border Background="Transparent" BorderBrush="Black" 
-                        BorderThickness="3 5 3 3" CornerRadius="15" Margin="-2">
+                        BorderThickness="5 5 3 3" CornerRadius="15" Margin="-2">
                     <Border.Effect>
-                        <DropShadowEffect Direction="315" ShadowDepth="0" BlurRadius="10"/>
+                        <DropShadowEffect Direction="315" ShadowDepth="0" BlurRadius="5"/>
                     </Border.Effect>
                 </Border>
             </Grid>
@@ -24,7 +24,7 @@
         <Border x:Name="InnerBorder" CornerRadius="100" Margin="2"/>
 
         <Viewbox>
-            <TextBlock x:Name="LetterTextBlock" HorizontalAlignment="Center" Foreground="White">
+            <TextBlock x:Name="LetterTextBlock" HorizontalAlignment="Stretch" Foreground="White">
                 <TextBlock.Effect>
                     <DropShadowEffect
                         ShadowDepth="1"
