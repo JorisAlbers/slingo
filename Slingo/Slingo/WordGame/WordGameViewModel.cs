@@ -13,7 +13,7 @@ namespace Slingo.WordGame
         {
             _settings = settings;
             // todo contain gameLogic
-            BoardViewModel = new BoardViewModel(settings.WordSize, 'x');
+            BoardViewModel = new BoardViewModel(settings.WordSize);
         }
     }
 }

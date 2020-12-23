@@ -21,8 +21,9 @@ namespace Slingo.Game
 
             SlingoLib.Logic.WordGame gameLogic = new SlingoLib.Logic.WordGame("noten");
             
-            BoardViewModel boardViewModel = new BoardViewModel(settings.WordSize,'n' );
+            BoardViewModel boardViewModel = new BoardViewModel(settings.WordSize);
             SelectedViewModel = boardViewModel;
+            boardViewModel.StartNextAttempt("n   n");
         }
     }
 }

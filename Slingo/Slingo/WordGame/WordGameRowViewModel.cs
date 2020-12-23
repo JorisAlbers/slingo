@@ -13,21 +13,29 @@ namespace Slingo.WordGame
 
         public ReadOnlyObservableCollection<LetterViewModel> Letters { get; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="wordSize"></param>
-        /// <param name="knownLetters"> space if not yet known</param>
-        public WordGameRowViewModel(int wordSize, char[] knownLetters)
+        public WordGameRowViewModel(int wordSize)
         {
             _wordSize = wordSize;
-            foreach (char knownLetter in knownLetters)
+            for (int i = 0; i < wordSize; i++)
             {
-                _letters.Add(new LetterViewModel(knownLetter, LetterState.DoesNotExistInWord));
+                _letters.Add(new LetterViewModel(' ', LetterState.DoesNotExistInWord));
             }
             
             _letters.Connect().Bind(out var items).Subscribe();
             Letters = items;
+        }
+        
+        public void SetLetter(int index, char letter, LetterState state)
+        {
+            _letters.ReplaceAt(index,new LetterViewModel(letter, state));
+        }
+
+        public void SetInitialLetters(string knownLetters)
+        {
+            for (int i = 0; i < knownLetters.Length; i++)
+            {
+                _letters.ReplaceAt(i, new LetterViewModel(knownLetters[i], LetterState.DoesNotExistInWord));
+            }
         }
     }
 }
