@@ -16,10 +16,11 @@ namespace Slingo.WordGame
         public WordGameRowViewModel(int wordSize)
         {
             _wordSize = wordSize;
-            for (int i = 0; i < wordSize; i++)
-            {
-                _letters.Add(new LetterViewModel('D', LetterState.DoesNotExistInWord));
-            }
+            _letters.Add(new LetterViewModel('N', LetterState.CorrectLocation));
+            _letters.Add(new LetterViewModel('O', LetterState.DoesNotExistInWord));
+            _letters.Add(new LetterViewModel('T', LetterState.DoesNotExistInWord));
+            _letters.Add(new LetterViewModel('E', LetterState.IncorrectLocation));
+            _letters.Add(new LetterViewModel('N', LetterState.CorrectLocation));
 
             _letters.Connect().Bind(out var items).Subscribe();
             Letters = items;
