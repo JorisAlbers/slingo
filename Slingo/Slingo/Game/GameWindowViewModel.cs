@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reactive;
-using System.Text;
-using ReactiveUI;
+﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Slingo.Admin;
-using Slingo.Admin.Setup;
-using Slingo.Admin.WordGameControl;
-using Slingo.WordGame;
 using Splat;
 
-namespace Slingo
+namespace Slingo.Game
 {
-    public class MainWindowViewModel : ReactiveObject
+    public class GameWindowViewModel : ReactiveObject
     {
         private AdminViewModel _adminViewModel;
         private AdminWindow _adminWindow;
 
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
         
-        public MainWindowViewModel()
+        public GameWindowViewModel()
         {
             _adminViewModel = new AdminViewModel();
             var view = Locator.Current.GetService<IViewFor<AdminViewModel>>();

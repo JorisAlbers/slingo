@@ -1,13 +1,14 @@
-﻿<reactiveUi:ReactiveWindow x:TypeArguments="local:MainWindowViewModel" 
-                           x:Class="Slingo.MainWindow"
+﻿<reactiveUi:ReactiveWindow x:TypeArguments="game:GameWindowViewModel" 
+                           x:Class="Slingo.Game.GameWindow"
                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                            xmlns:local="clr-namespace:Slingo"
                            xmlns:reactiveUi="http://reactiveui.net"
+                           xmlns:game="clr-namespace:Slingo.Game"
                            mc:Ignorable="d"
-                           Title="MainWindow" Height="450" Width="800">
+                           Title="GameWindow" Height="450" Width="800">
         <reactiveUi:ViewModelViewHost x:Name="ViewModelViewHost"
                                       HorizontalAlignment="Stretch" 
                                       VerticalAlignment="Stretch"
