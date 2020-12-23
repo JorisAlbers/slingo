@@ -2,7 +2,7 @@
 using ReactiveUI;
 using SlingoLib;
 
-namespace Slingo.Setup
+namespace Slingo.Admin.Setup
 {
     public class SetupViewModel : ReactiveObject
     {

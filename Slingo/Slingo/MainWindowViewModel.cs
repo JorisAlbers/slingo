@@ -4,8 +4,8 @@ using System.Reactive;
 using System.Text;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Slingo.Input;
-using Slingo.Setup;
+using Slingo.Admin.Setup;
+using Slingo.Admin.WordGameControl;
 using Slingo.WordGame;
 
 namespace Slingo

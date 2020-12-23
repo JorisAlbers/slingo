@@ -2,7 +2,7 @@
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace Slingo.Input
+namespace Slingo.Admin.WordGameControl
 {
     public class InputViewModel : ReactiveObject
     {

@@ -1,7 +1,7 @@
 ﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace Slingo.Setup
+namespace Slingo.Admin.Setup
 {
     public class TeamViewModel : ReactiveObject
     {

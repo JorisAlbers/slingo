@@ -1,6 +1,6 @@
 ﻿using ReactiveUI;
 
-namespace Slingo.Setup
+namespace Slingo.Admin.Setup
 {
     /// <summary>
     /// Interaction logic for TeamControl.xaml

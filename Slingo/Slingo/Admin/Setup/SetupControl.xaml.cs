@@ -1,7 +1,7 @@
 ﻿using System.Reactive.Disposables;
 using ReactiveUI;
 
-namespace Slingo.Setup
+namespace Slingo.Admin.Setup
 {
     /// <summary>
     /// Interaction logic for SetupControl.xaml
