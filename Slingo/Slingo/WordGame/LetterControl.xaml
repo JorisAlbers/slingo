@@ -9,13 +9,31 @@
                                 d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-        <Border x:Name="OuterBorder" BorderBrush="Gray" BorderThickness="1" CornerRadius="10"
-                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <Border x:Name="InnerBorder" CornerRadius="100" Margin="2"/>
-
+        <Border x:Name="OuterBorder" BorderBrush="Gray" BorderThickness="1" CornerRadius="15" ClipToBounds="True">
+            <Grid>
+                <Border Background="Transparent" BorderBrush="Black" 
+                        BorderThickness="3 5 3 3" CornerRadius="15" Margin="-2">
+                    <Border.Effect>
+                        <DropShadowEffect Direction="315" ShadowDepth="0" BlurRadius="10"/>
+                    </Border.Effect>
+                </Border>
+            </Grid>
+            
         </Border>
+
+        <Border x:Name="InnerBorder" CornerRadius="100" Margin="2"/>
+
         <Viewbox>
-            <TextBlock x:Name="LetterTextBlock" HorizontalAlignment="Center" Foreground="White"/>
+            <TextBlock x:Name="LetterTextBlock" HorizontalAlignment="Center" Foreground="White">
+                <TextBlock.Effect>
+                    <DropShadowEffect
+                        ShadowDepth="1"
+                        Direction="315"
+                        Color="Black"
+                        Opacity="1"
+                        BlurRadius="1"/>
+                </TextBlock.Effect>
+            </TextBlock>
         </Viewbox>
     </Grid>
 
