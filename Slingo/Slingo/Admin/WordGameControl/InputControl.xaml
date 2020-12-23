@@ -10,11 +10,11 @@
                                 d:DesignHeight="450" d:DesignWidth="800">
     <UniformGrid Rows="1" Height="40">
        
-        <TextBox Grid.Column="1" x:Name="WordTextBox" Margin="5,0" FontSize="20"/>
+        <TextBox  x:Name="WordTextBox" Margin="5,0" FontSize="20"/>
+        
+        <Button x:Name="AcceptButton" Content="Accept" Margin="5,0"></Button>
 
-        <CheckBox Grid.Row="1" Grid.Column="1" Content="Accepted" VerticalAlignment="Center" x:Name="IsAcceptedCheckBox" Margin="5,0"></CheckBox>
-
-        <Button Grid.Row="2" Grid.Column="1" Content="Submit" Margin="5,0"></Button>
+        <Button x:Name="RejectButton" Content="Reject" Margin="5,0"></Button>
 
     </UniformGrid>
 </reactiveUi:ReactiveUserControl>

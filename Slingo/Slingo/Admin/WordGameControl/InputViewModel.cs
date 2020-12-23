@@ -7,9 +7,14 @@ namespace Slingo.Admin.WordGameControl
     public class InputViewModel : ReactiveObject
     {
         [Reactive] public string Word { get; set; }
-        
-        [Reactive] public bool WordIsAccepted { get; set; }
 
-        private ReactiveCommand<Unit,Unit> Submit { get; }
+        public ReactiveCommand<Unit,Unit> Accept { get; }
+        public ReactiveCommand<Unit,Unit> Reject { get; }
+
+        public InputViewModel()
+        {
+            Accept = ReactiveCommand.Create(() => new Unit());
+            Reject = ReactiveCommand.Create(() => new Unit());
+        }
     }
 }

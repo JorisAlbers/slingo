@@ -19,9 +19,14 @@ namespace Slingo.Admin.WordGameControl
                         view => view.WordTextBox.Text)
                     .DisposeWith(dispose);
 
-                this.Bind(ViewModel,
-                        vm => vm.WordIsAccepted,
-                        view => view.IsAcceptedCheckBox.IsChecked)
+                this.BindCommand(ViewModel,
+                        vm => vm.Accept,
+                        view => view.AcceptButton)
+                    .DisposeWith(dispose);
+
+                this.BindCommand(ViewModel,
+                        vm => vm.Reject,
+                        view => view.RejectButton)
                     .DisposeWith(dispose);
             });
         }
