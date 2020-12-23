@@ -18,7 +18,7 @@ namespace Slingo.WordGame
             _wordSize = wordSize;
             for (int i = 0; i < wordSize; i++)
             {
-                _letters.Add(new LetterViewModel(' ', LetterState.DoesNotExistInWord));
+                _letters.Add(new LetterViewModel('D', LetterState.DoesNotExistInWord));
             }
 
             _letters.Connect().Bind(out var items).Subscribe();
