@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using DynamicData;
 using ReactiveUI;
 
@@ -11,16 +12,29 @@ namespace Slingo.WordGame
 
         public ReadOnlyObservableCollection<WordGameRowViewModel> Rows { get; }
 
-        public BoardViewModel(int wordsize)
+        public BoardViewModel(int wordsize, char firstLetter)
         {
-            // create 5 empty rows
-            for (int i = 0; i < 5; i++)
+            char[] knownLetters = new char[wordsize];
+            knownLetters[0] = firstLetter;
+            for (int i = 1; i < wordsize; i++)
             {
-                _wordGameRows.Add(new WordGameRowViewModel(wordsize));
+                knownLetters[i] = ' ';
+            }
+            
+            // The first row is set, others are empty
+            _wordGameRows.Add(new WordGameRowViewModel(wordsize, knownLetters));
+            for (int i = 1; i < 5; i++)
+            {
+                _wordGameRows.Add(CreateEmptyRow(wordsize));
             }
 
             _wordGameRows.Connect().Bind(out var rows).Subscribe();
             Rows = rows;
+        }
+
+        private WordGameRowViewModel CreateEmptyRow(int wordSize)
+        {
+            return new WordGameRowViewModel(wordSize, Enumerable.Repeat(' ', wordSize).ToArray());
         }
     }
 }

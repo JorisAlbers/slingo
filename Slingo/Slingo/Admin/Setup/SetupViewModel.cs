@@ -20,7 +20,7 @@ namespace Slingo.Admin.Setup
             {
                 Team team1 = new Team(TeamA.Name, TeamA.Player1, TeamA.Player2);
                 Team team2 = new Team(TeamB.Name, TeamB.Player1, TeamB.Player2);
-                return new Settings(team1, team2);
+                return new Settings(team1, team2,5);
             });
         }
     }

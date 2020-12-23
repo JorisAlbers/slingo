@@ -12,7 +12,8 @@ namespace Slingo.WordGame
         public WordGameViewModel(Settings settings)
         {
             _settings = settings;
-            BoardViewModel = new BoardViewModel(settings.WordSize);
+            // todo contain gameLogic
+            BoardViewModel = new BoardViewModel(settings.WordSize, 'x');
         }
     }
 }

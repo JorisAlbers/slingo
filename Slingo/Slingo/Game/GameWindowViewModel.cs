@@ -18,7 +18,10 @@ namespace Slingo.Game
         public void StartGame(Settings settings)
         {
             //WordGameViewModel viewmodel = new WordGameViewModel(settings);
-            BoardViewModel boardViewModel = new BoardViewModel(5);
+
+            SlingoLib.Logic.WordGame gameLogic = new SlingoLib.Logic.WordGame("noten");
+            
+            BoardViewModel boardViewModel = new BoardViewModel(settings.WordSize,'n' );
             SelectedViewModel = boardViewModel;
         }
     }
