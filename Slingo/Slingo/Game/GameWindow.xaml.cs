@@ -11,7 +11,6 @@ namespace Slingo.Game
         public GameWindow()
         {
             InitializeComponent();
-            ViewModel = new GameWindowViewModel();
             
             this.WhenActivated((dispose) =>
             {

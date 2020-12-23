@@ -22,6 +22,7 @@ namespace Slingo.Admin
         public AdminWindow()
         {
             InitializeComponent();
+            ViewModel = new AdminViewModel();
 
             this.WhenActivated((dispose) =>
             {
