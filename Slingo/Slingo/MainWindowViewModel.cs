@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Text;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Slingo.Input;
 using Slingo.Setup;
 using Slingo.WordGame;
 
@@ -21,8 +22,9 @@ namespace Slingo
             _setupViewModel.Start.Subscribe(settings =>
             {
                 //WordGameViewModel viewmodel = new WordGameViewModel(settings);
-                BoardViewModel boardViewModel = new BoardViewModel(5);
-                SelectedViewModel = boardViewModel;
+                //BoardViewModel boardViewModel = new BoardViewModel(5);
+                InputViewModel inputViewModel = new InputViewModel();
+                SelectedViewModel = inputViewModel;
             });
             
             SelectedViewModel = _setupViewModel;
