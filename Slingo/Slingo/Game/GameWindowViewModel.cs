@@ -35,13 +35,13 @@ namespace Slingo.Game
             // TODO The next lines should all move to the wordGameViewModel.
             // THis should also keep track of the scores etc, next to the board.
             //WordGameViewModel viewmodel = new WordGameViewModel(settings);
-            var words = _wordRepository.Deserialize(5);
+            var words = _wordRepository.Deserialize(settings.WordSize);
             string word = words[_random.Next(0, words.Count - 1)];
             _gameLogic = new SlingoLib.Logic.WordGame(word);
             
             _boardViewModel = new BoardViewModel(settings.WordSize);
             SelectedViewModel = _boardViewModel;
-            _boardViewModel.StartNextAttempt($"{word[0]}....");
+            _boardViewModel.StartNextAttempt(word[0] + new string('.',word.Length-1));
         }
 
         public void SetWord(string word)
