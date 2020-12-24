@@ -23,10 +23,10 @@ namespace Slingo.Admin.WordGameControl
         public ReactiveCommand<Unit, Unit> GenerateWord;
         public ReactiveCommand<Unit, string> StartGame;
 
-        public InputViewModel(WordRepository wordRepository)
+        public InputViewModel(WordRepository wordRepository, int wordSize)
         {
             _wordRepository = wordRepository;
-            _words = _wordRepository.Deserialize(5);
+            _words = _wordRepository.Deserialize(wordSize);
             _random = new Random();
             NextWord = GetRandomWord();
             Accept = ReactiveCommand.Create(() => new Unit());
