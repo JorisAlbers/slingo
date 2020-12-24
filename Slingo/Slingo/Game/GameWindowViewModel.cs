@@ -38,7 +38,6 @@ namespace Slingo.Game
 
         public void SetWord(string word)
         {
-            _activeWord = word;
             if (word.Length < _settings.WordSize)
             {
                 word = word + new string('.', _settings.WordSize - word.Length);
@@ -48,6 +47,9 @@ namespace Slingo.Game
             {
                 word = word.Substring(0, _settings.WordSize);
             }
+
+            
+            _activeWord = word;
 
             _boardViewModel.SetWord(word);
         }

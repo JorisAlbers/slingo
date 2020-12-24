@@ -8,6 +8,7 @@ using ReactiveUI.Fody.Helpers;
 using Slingo.Admin.Setup;
 using Slingo.Admin.WordGameControl;
 using Slingo.Game;
+using SlingoLib;
 using SlingoLib.Serialization;
 using Splat;
 
@@ -27,7 +28,7 @@ namespace Slingo.Admin
             {
                 InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"));
                 inputViewModel.StartGame.Subscribe(word=> _gameWindowViewModel.StartGame(settings,word));
-                inputViewModel.WhenAnyValue(x => x.Word).Where(x=>!string.IsNullOrWhiteSpace(x)).Subscribe(onNext => _gameWindowViewModel.SetWord(onNext.ToLower()));
+                inputViewModel.WhenAnyValue(x => x.Word).Where(x=>!string.IsNullOrWhiteSpace(x)).Subscribe(onNext => _gameWindowViewModel.SetWord(WordFormatter.Format(onNext)));
                 inputViewModel.Accept.Subscribe(onNext => _gameWindowViewModel.AcceptWord());
 
                 SelectedViewModel = inputViewModel;

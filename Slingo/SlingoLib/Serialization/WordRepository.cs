@@ -32,7 +32,7 @@ namespace SlingoLib.Serialization
                 while ((line = reader.ReadLine()) != null)
                 {
                     string word = line.Replace("\n", "").Replace("\r", "");
-                    word = word.Replace("ij", "ĳ"); // digraph 'ij' to monograph ij
+                    word = WordFormatter.Format(word);
 
                     if (WordIsAllowed(wordLength,word))
                     {
