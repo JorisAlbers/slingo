@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Automation;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -6,32 +7,41 @@ using Slingo.Admin;
 using Slingo.WordGame;
 using SlingoLib;
 using SlingoLib.Logic;
+using SlingoLib.Serialization;
 using Splat;
 
 namespace Slingo.Game
 {
     public class GameWindowViewModel : ReactiveObject
     {
+        private readonly WordRepository _wordRepository;
         private BoardViewModel _boardViewModel;
         private Settings _settings;
         private SlingoLib.Logic.WordGame _gameLogic;
         private string _word;
+        private Random _random;
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
         
-        public GameWindowViewModel()
+        public GameWindowViewModel(WordRepository wordRepository)
         {
+            _wordRepository = wordRepository;
+            _random = new Random();
         }
 
         public void StartGame(Settings settings)
         {
             _settings = settings;
+            
+            // TODO The next lines should all move to the wordGameViewModel.
+            // THis should also keep track of the scores etc, next to the board.
             //WordGameViewModel viewmodel = new WordGameViewModel(settings);
-
-            _gameLogic = new SlingoLib.Logic.WordGame("noten");
+            var words = _wordRepository.Deserialize(5);
+            string word = words[_random.Next(0, words.Count - 1)];
+            _gameLogic = new SlingoLib.Logic.WordGame(word);
             
             _boardViewModel = new BoardViewModel(settings.WordSize);
             SelectedViewModel = _boardViewModel;
-            _boardViewModel.StartNextAttempt("n....");
+            _boardViewModel.StartNextAttempt($"{word[0]}....");
         }
 
         public void SetWord(string word)

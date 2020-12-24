@@ -16,4 +16,10 @@
     <ProjectReference Include="..\SlingoLib\SlingoLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\basiswoorden-gekeurd.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -11,7 +11,7 @@ namespace SlingoLib.Serialization
         private readonly string _filePath;
         private const string _ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzĳ";
         private readonly char[] _allowedCharsAsArray = _ALLOWED_CHARS.ToCharArray();
-
+        
         public WordRepository(IFileSystem fileSystem, string filePath)
         {
             _fileSystem = fileSystem;

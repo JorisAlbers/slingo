@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Abstractions;
 using System.Reactive.Linq;
 using System.Text;
 using ReactiveUI;
@@ -7,6 +8,7 @@ using ReactiveUI.Fody.Helpers;
 using Slingo.Admin.Setup;
 using Slingo.Admin.WordGameControl;
 using Slingo.Game;
+using SlingoLib.Serialization;
 using Splat;
 
 namespace Slingo.Admin
@@ -33,7 +35,7 @@ namespace Slingo.Admin
 
             SelectedViewModel = _setupViewModel;
 
-            _gameWindowViewModel = new GameWindowViewModel();
+            _gameWindowViewModel = new GameWindowViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"));
             var view = Locator.Current.GetService<IViewFor<GameWindowViewModel>>();
             var window = view as ReactiveWindow<GameWindowViewModel>;
             window.ViewModel = _gameWindowViewModel;
