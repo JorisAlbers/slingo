@@ -43,5 +43,14 @@ namespace Slingo.WordGame
                 viewmodel.SetLetter(i,word[i],LetterState.DoesNotExistInWord);
             }
         }
+
+        public void AcceptWord(WordGameEntry result)
+        {
+            WordGameRowViewModel viewmodel = _wordGameRows.Items.ElementAt(attemptIndex);
+            for (int i = 0; i < result.LetterEntries.Length; i++)
+            {
+                viewmodel.SetLetter(i, result.LetterEntries[i].Letter, result.LetterEntries[i].State);
+            }
+        }
     }
 }

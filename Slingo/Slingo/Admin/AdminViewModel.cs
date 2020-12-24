@@ -26,7 +26,9 @@ namespace Slingo.Admin
                 _gameWindowViewModel.StartGame(settings);
                 InputViewModel inputViewModel = new InputViewModel();
                 inputViewModel.WhenAnyValue(x => x.Word).Where(x=>x!=null).Subscribe(onNext => _gameWindowViewModel.SetWord(onNext));
-                SelectedViewModel = inputViewModel;
+                inputViewModel.Accept.Subscribe(onNext => _gameWindowViewModel.AcceptWord());
+
+                    SelectedViewModel = inputViewModel;
             });
 
             SelectedViewModel = _setupViewModel;
