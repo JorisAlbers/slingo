@@ -29,7 +29,13 @@ namespace Slingo.Admin.WordGameControl
             _words = _wordRepository.Deserialize(wordSize);
             _random = new Random();
             NextWord = GetRandomWord();
-            Accept = ReactiveCommand.Create(() => new Unit());
+
+
+            var canAccept = this.WhenAnyValue(
+                x => x.Word, (word) =>
+                    !string.IsNullOrEmpty(word) && word.Length == wordSize);
+
+            Accept = ReactiveCommand.Create(() => new Unit(), canAccept);
             Reject = ReactiveCommand.Create(() => new Unit());
             GenerateWord = ReactiveCommand.Create(() =>
             {
@@ -38,6 +44,8 @@ namespace Slingo.Admin.WordGameControl
             });
             StartGame = ReactiveCommand.Create(() => NextWord);
         }
+        
+        
 
         private string GetRandomWord()
         {
