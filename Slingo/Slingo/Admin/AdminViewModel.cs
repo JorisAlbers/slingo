@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reactive.Linq;
 using System.Text;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -24,6 +25,7 @@ namespace Slingo.Admin
             {
                 _gameWindowViewModel.StartGame(settings);
                 InputViewModel inputViewModel = new InputViewModel();
+                inputViewModel.WhenAnyValue(x => x.Word).Where(x=>x!=null).Subscribe(onNext => _gameWindowViewModel.SetWord(onNext));
                 SelectedViewModel = inputViewModel;
             });
 

@@ -3,12 +3,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using DynamicData;
 using ReactiveUI;
+using SlingoLib.Logic;
 
 namespace Slingo.WordGame
 {
     public class BoardViewModel : ReactiveObject
     {
-        private int attemptIndex = 0;
+        private int attemptIndex = -1;
         private SourceList<WordGameRowViewModel> _wordGameRows = new SourceList<WordGameRowViewModel>();
 
         public ReadOnlyObservableCollection<WordGameRowViewModel> Rows { get; }
@@ -26,9 +27,21 @@ namespace Slingo.WordGame
 
         public void StartNextAttempt(string knownLetters)
         {
-            WordGameRowViewModel viewmodel = _wordGameRows.Items.ElementAt(attemptIndex);
+            WordGameRowViewModel viewmodel = _wordGameRows.Items.ElementAt(++attemptIndex);
             viewmodel.SetInitialLetters(knownLetters);
+        }
 
+        /// <summary>
+        /// Sets the word without checking for correctness yet
+        /// </summary>
+        /// <param name="word"></param>
+        public void SetWord(string word)
+        {
+            WordGameRowViewModel viewmodel = _wordGameRows.Items.ElementAt(attemptIndex);
+            for (int i = 0; i < word.Length; i++)
+            {
+                viewmodel.SetLetter(i,word[i],LetterState.DoesNotExistInWord);
+            }
         }
     }
 }
