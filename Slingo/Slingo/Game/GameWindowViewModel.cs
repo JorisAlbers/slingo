@@ -20,6 +20,7 @@ namespace Slingo.Game
         private SlingoLib.Logic.WordGame _gameLogic;
         private string _word;
         private Random _random;
+        private string _knownLetters;
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
         
         public GameWindowViewModel(WordRepository wordRepository)
@@ -41,7 +42,8 @@ namespace Slingo.Game
             
             _boardViewModel = new BoardViewModel(settings.WordSize);
             SelectedViewModel = _boardViewModel;
-            _boardViewModel.StartNextAttempt(word[0] + new string('.',word.Length-1));
+            _knownLetters = word[0] + new string('.', word.Length - 1);
+            _boardViewModel.StartNextAttempt(_knownLetters);
         }
 
         public void SetWord(string word)
@@ -68,13 +70,24 @@ namespace Slingo.Game
             var result = _gameLogic.Solve(_word);
             _boardViewModel.AcceptWord(result);
             // TODO check if correct
-            _boardViewModel.StartNextAttempt(ConvertWordEntryToKnownLetters(result));
+            _boardViewModel.StartNextAttempt(UpdateKnownLetters(result));
         }
 
-        private string ConvertWordEntryToKnownLetters(WordGameEntry wordGameEntry)
+        private string UpdateKnownLetters(WordGameEntry wordGameEntry)
         {
-            return new string(wordGameEntry.LetterEntries.Select(x =>
-                x.State == LetterState.CorrectLocation ? x.Letter : '.').ToArray());
+            char[] knownLetters = _knownLetters.ToCharArray();
+            for (int i = 0; i < knownLetters.Length; i++)
+            {
+                if (knownLetters[i] == '.')
+                {
+                    if (wordGameEntry.LetterEntries[i].State == LetterState.CorrectLocation)
+                    {
+                        knownLetters[i] = wordGameEntry.LetterEntries[i].Letter;
+                    }
+                }
+            }
+
+            return new string(knownLetters);
         }
 
         /// <summary>
