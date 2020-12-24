@@ -70,10 +70,11 @@ namespace Slingo.Game
             var result = _gameLogic.Solve(_word);
             _boardViewModel.AcceptWord(result);
             // TODO check if correct
-            _boardViewModel.StartNextAttempt(UpdateKnownLetters(result));
+            UpdateKnownLetters(result);
+            _boardViewModel.StartNextAttempt(_knownLetters);
         }
 
-        private string UpdateKnownLetters(WordGameEntry wordGameEntry)
+        private void UpdateKnownLetters(WordGameEntry wordGameEntry)
         {
             char[] knownLetters = _knownLetters.ToCharArray();
             for (int i = 0; i < knownLetters.Length; i++)
@@ -87,7 +88,7 @@ namespace Slingo.Game
                 }
             }
 
-            return new string(knownLetters);
+            _knownLetters = new string(knownLetters);
         }
 
         /// <summary>
