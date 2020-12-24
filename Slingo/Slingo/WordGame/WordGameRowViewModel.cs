@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using DynamicData;
 using ReactiveUI;
 using SlingoLib.Logic;
@@ -30,11 +31,12 @@ namespace Slingo.WordGame
             _letters.ReplaceAt(index,new LetterViewModel(letter, state));
         }
 
-        public void SetInitialLetters(string knownLetters)
+        public async Task SetInitialLetters(string knownLetters)
         {
             for (int i = 0; i < knownLetters.Length; i++)
             {
                 _letters.ReplaceAt(i, new LetterViewModel(knownLetters[i], LetterState.DoesNotExistInWord));
+                await Task.Delay(100);
             }
         }
     }

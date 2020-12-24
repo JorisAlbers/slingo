@@ -26,10 +26,10 @@ namespace Slingo.WordGame
             Rows = rows;
         }
 
-        public void StartNextAttempt(string knownLetters)
+        public async Task StartNextAttempt(string knownLetters)
         {
             WordGameRowViewModel viewmodel = _wordGameRows.Items.ElementAt(++attemptIndex);
-            viewmodel.SetInitialLetters(knownLetters);
+            await viewmodel.SetInitialLetters(knownLetters);
         }
 
         /// <summary>
