@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using DynamicData;
 using ReactiveUI;
 using SlingoLib.Logic;
@@ -44,12 +45,31 @@ namespace Slingo.WordGame
             }
         }
 
-        public void AcceptWord(WordGameEntry result)
+        public async Task AcceptWord(WordGameEntry result)
         {
             WordGameRowViewModel viewmodel = _wordGameRows.Items.ElementAt(attemptIndex);
             for (int i = 0; i < result.LetterEntries.Length; i++)
             {
                 viewmodel.SetLetter(i, result.LetterEntries[i].Letter, result.LetterEntries[i].State);
+
+                await Task.Run(() =>
+                {
+                    switch (result.LetterEntries[i].State)
+                    {
+                        case LetterState.DoesNotExistInWord:
+                            Console.Beep(440,350);
+                            break;
+                        case LetterState.CorrectLocation:
+                            Console.Beep(494,350);
+                            break;
+                        case LetterState.IncorrectLocation:
+                            Console.Beep(262,350);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    
+                });
             }
         }
     }
