@@ -30,6 +30,7 @@ namespace Slingo.Admin
                 inputViewModel.StartGame.Subscribe(word=> _gameWindowViewModel.StartGame(settings,word));
                 inputViewModel.WhenAnyValue(x => x.Word).Where(x=>!string.IsNullOrWhiteSpace(x)).Subscribe(onNext => _gameWindowViewModel.SetWord(WordFormatter.Format(onNext)));
                 inputViewModel.Accept.Subscribe(onNext => _gameWindowViewModel.AcceptWord());
+                inputViewModel.Reject.Subscribe(onNext => _gameWindowViewModel.RejectWord());
 
                 SelectedViewModel = inputViewModel;
             });

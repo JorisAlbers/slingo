@@ -66,6 +66,14 @@ namespace Slingo.Game
             UpdateKnownLetters(result);
             _boardViewModel.StartNextAttempt(_knownLetters);
         }
+        
+        /// <summary>
+        /// Reject the word that was previously set
+        /// </summary>
+        public void RejectWord()
+        {
+            _boardViewModel.StartNextAttempt(_knownLetters);
+        }
 
         private void UpdateKnownLetters(WordGameEntry wordGameEntry)
         {
@@ -82,14 +90,6 @@ namespace Slingo.Game
             }
 
             _knownLetters = new string(knownLetters);
-        }
-
-        /// <summary>
-        /// Reject the word that was previously set
-        /// </summary>
-        public void RejectWord()
-        {
-            // TODO ignore and move to next
         }
     }
 }
