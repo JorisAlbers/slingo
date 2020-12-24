@@ -58,9 +58,9 @@ namespace SlingoLib.Test.Logic
             {
                 LetterState.DoesNotExistInWord,
                 LetterState.DoesNotExistInWord,
-                LetterState.CorrectLocation, // first o, incorrect location
+                LetterState.CorrectLocation, 
                 LetterState.IncorrectLocation,
-                LetterState.DoesNotExistInWord, // second o, incorrect location but that is already indicated
+                LetterState.DoesNotExistInWord,
             };
 
             CollectionAssert.AreEqual(expectedLetters, result.LetterEntries.Select(x => x.Letter));
