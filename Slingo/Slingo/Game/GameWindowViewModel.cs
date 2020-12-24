@@ -17,29 +17,19 @@ namespace Slingo.Game
         private readonly WordRepository _wordRepository;
         private BoardViewModel _boardViewModel;
         private Settings _settings;
-        private SlingoLib.Logic.WordGame _gameLogic;
-        private string _word;
-        private Random _random;
         private string _knownLetters;
+        private string _activeWord;
+        private SlingoLib.Logic.WordGame _gameLogic;
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
         
-        public GameWindowViewModel(WordRepository wordRepository)
-        {
-            _wordRepository = wordRepository;
-            _random = new Random();
-        }
 
-        public void StartGame(Settings settings)
+        public void StartGame(Settings settings, string word)
         {
             _settings = settings;
-            
             // TODO The next lines should all move to the wordGameViewModel.
             // THis should also keep track of the scores etc, next to the board.
             //WordGameViewModel viewmodel = new WordGameViewModel(settings);
-            var words = _wordRepository.Deserialize(settings.WordSize);
-            string word = words[_random.Next(0, words.Count - 1)];
             _gameLogic = new SlingoLib.Logic.WordGame(word);
-            
             _boardViewModel = new BoardViewModel(settings.WordSize);
             SelectedViewModel = _boardViewModel;
             _knownLetters = word[0] + new string('.', word.Length - 1);
@@ -48,7 +38,7 @@ namespace Slingo.Game
 
         public void SetWord(string word)
         {
-            _word = word;
+            _activeWord = word;
             if (word.Length < _settings.WordSize)
             {
                 word = word + new string('.', _settings.WordSize - word.Length);
@@ -67,7 +57,7 @@ namespace Slingo.Game
         /// </summary>
         public void AcceptWord()
         {
-            var result = _gameLogic.Solve(_word);
+            var result = _gameLogic.Solve(_activeWord);
             _boardViewModel.AcceptWord(result);
             // TODO check if correct
             UpdateKnownLetters(result);

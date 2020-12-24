@@ -28,6 +28,21 @@ namespace Slingo.Admin.WordGameControl
                         vm => vm.Reject,
                         view => view.RejectButton)
                     .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.NextWord,
+                        view => view.NextWordTextBlock.Text)
+                    .DisposeWith(dispose);
+
+                this.BindCommand(ViewModel,
+                        vm => vm.GenerateWord,
+                        view => view.GenerateNewWordButton)
+                    .DisposeWith(dispose);
+
+                this.BindCommand(ViewModel,
+                        vm => vm.StartGame,
+                        view => view.StartNewGameButton)
+                    .DisposeWith(dispose);
             });
         }
     }

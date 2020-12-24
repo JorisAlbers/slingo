@@ -8,13 +8,23 @@
                                 xmlns:input="clr-namespace:Slingo.Admin.WordGameControl"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="450" d:DesignWidth="800">
-    <UniformGrid Rows="1" Height="40">
-       
-        <TextBox  x:Name="WordTextBox" Margin="5,0" FontSize="20"/>
-        
-        <Button x:Name="AcceptButton" Content="Accept" Margin="5,0"></Button>
+    <StackPanel VerticalAlignment="Center">
+        <UniformGrid DockPanel.Dock="Top" Rows="1" Height="40">
+            <TextBlock Text="The next word will be:"/>
+            <TextBlock x:Name="NextWordTextBlock"/>
+            <Button x:Name="GenerateNewWordButton" Content="Generate"/>
+            <Button x:Name="StartNewGameButton" Content="Start"/>
+        </UniformGrid>
 
-        <Button x:Name="RejectButton" Content="Reject" Margin="5,0"></Button>
+        <UniformGrid Rows="1" Height="40" Margin="0,10,0,0">
 
-    </UniformGrid>
+            <TextBox  x:Name="WordTextBox" Margin="5,0" FontSize="20"/>
+
+            <Button x:Name="AcceptButton" Content="Accept" Margin="5,0"></Button>
+
+            <Button x:Name="RejectButton" Content="Reject" Margin="5,0"></Button>
+
+        </UniformGrid>
+    </StackPanel>
+    
 </reactiveUi:ReactiveUserControl>

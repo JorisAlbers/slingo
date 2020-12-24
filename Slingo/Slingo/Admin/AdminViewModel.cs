@@ -25,17 +25,17 @@ namespace Slingo.Admin
             _setupViewModel = new SetupViewModel();
             _setupViewModel.Start.Subscribe(settings =>
             {
-                _gameWindowViewModel.StartGame(settings);
-                InputViewModel inputViewModel = new InputViewModel();
+                InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"));
+                inputViewModel.StartGame.Subscribe(word=> _gameWindowViewModel.StartGame(settings,word));
                 inputViewModel.WhenAnyValue(x => x.Word).Where(x=>!string.IsNullOrWhiteSpace(x)).Subscribe(onNext => _gameWindowViewModel.SetWord(onNext.ToLower()));
                 inputViewModel.Accept.Subscribe(onNext => _gameWindowViewModel.AcceptWord());
 
-                    SelectedViewModel = inputViewModel;
+                SelectedViewModel = inputViewModel;
             });
 
             SelectedViewModel = _setupViewModel;
 
-            _gameWindowViewModel = new GameWindowViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"));
+            _gameWindowViewModel = new GameWindowViewModel();
             var view = Locator.Current.GetService<IViewFor<GameWindowViewModel>>();
             var window = view as ReactiveWindow<GameWindowViewModel>;
             window.ViewModel = _gameWindowViewModel;
