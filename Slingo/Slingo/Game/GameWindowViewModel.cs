@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Automation;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -57,10 +58,10 @@ namespace Slingo.Game
         /// <summary>
         /// Accept the word that was previously set
         /// </summary>
-        public void AcceptWord()
+        public async Task AcceptWord()
         {
             var result = _gameLogic.Solve(_activeWord);
-            _boardViewModel.AcceptWord(result);
+            await _boardViewModel.AcceptWord(result);
             // TODO check if correct
             UpdateKnownLetters(result);
             _boardViewModel.StartNextAttempt(_knownLetters);
