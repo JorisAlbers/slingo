@@ -13,7 +13,7 @@ namespace Slingo.WordGame
 
         public LetterViewModel(char letter, LetterState letterState)
         {
-            Letter = letter;
+            Letter = char.ToUpper(letter);
             LetterState = letterState;
         }
     }
