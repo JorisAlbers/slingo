@@ -47,6 +47,26 @@ namespace SlingoLib.Test.Logic
             CollectionAssert.AreEqual(expectedStates, result.LetterEntries.Select(x => x.State));
         }
 
+        [Test()]
+        public void Solve_LetterInIncorrectLocationIsOnlySetToIncorrectLocationNTimesItExistsInTheWord()
+        {
+            WordGame wordGame = new WordGame("yxxyy");
+            var result = wordGame.Solve("zzxxx");
+
+            char[] expectedLetters = "zzxxx".ToCharArray();
+            LetterState[] expectedStates = new LetterState[]
+            {
+                LetterState.DoesNotExistInWord,
+                LetterState.DoesNotExistInWord,
+                LetterState.CorrectLocation, // first o, incorrect location
+                LetterState.IncorrectLocation,
+                LetterState.DoesNotExistInWord, // second o, incorrect location but that is already indicated
+            };
+
+            CollectionAssert.AreEqual(expectedLetters, result.LetterEntries.Select(x => x.Letter));
+            CollectionAssert.AreEqual(expectedStates, result.LetterEntries.Select(x => x.State));
+        }
+
         [Test]
         public void Solve_WordTooLong()
         {

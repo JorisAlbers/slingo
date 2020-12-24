@@ -21,24 +21,40 @@ namespace SlingoLib.Logic
             {
                return new WordGameEntry(CreateIncorrectLengthSubmission(inputCharArray));
             }
+
             
             WordGameLetterEntry[] newSubmission = new WordGameLetterEntry[_word.Length];
+            // first check for the correct locations
             for (int i = 0; i < _word.Length; i++)
             {
                 if (inputCharArray[i] == _word[i])
                 {
                     newSubmission[i] = new WordGameLetterEntry(inputCharArray[i],LetterState.CorrectLocation);
-                    continue;
                 }
-
-                if (_word.Contains(inputCharArray[i]))
+            }
+            // Then check for incorrect locations
+            for (int i = 0; i < _word.Length; i++)
+            {
+                if (newSubmission[i] != null)
                 {
-                    newSubmission[i] = new WordGameLetterEntry(inputCharArray[i], LetterState.IncorrectLocation);
                     continue;
                 }
-
+                
+                int timesInputCharExistInWord = _word.Count(x=>x == inputCharArray[i]);
+                if (timesInputCharExistInWord > 0)
+                {
+                    int timesAlreadyIndicated = newSubmission.Count(x => x!= null && x.Letter == inputCharArray[i]);
+                    if (timesInputCharExistInWord > timesAlreadyIndicated)
+                    {
+                        newSubmission[i] = new WordGameLetterEntry(inputCharArray[i], LetterState.IncorrectLocation);
+                        continue;
+                    }
+                }
+                
                 newSubmission[i] = new WordGameLetterEntry(inputCharArray[i], LetterState.DoesNotExistInWord);
             }
+
+
 
             return new WordGameEntry(newSubmission);
         }
