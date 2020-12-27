@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reactive;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using SlingoLib;
 using SlingoLib.Serialization;
 
 namespace Slingo.Admin.WordGameControl
@@ -33,7 +34,7 @@ namespace Slingo.Admin.WordGameControl
 
             var canAccept = this.WhenAnyValue(
                 x => x.Word, (word) =>
-                    !string.IsNullOrEmpty(word) && word.Length == wordSize);
+                    !string.IsNullOrEmpty(word) && WordFormatter.Format(word).Length == wordSize);
 
             Accept = ReactiveCommand.Create(() => new Unit(), canAccept);
             Reject = ReactiveCommand.Create(() => new Unit());
