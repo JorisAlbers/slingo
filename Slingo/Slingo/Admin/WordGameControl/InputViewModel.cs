@@ -20,6 +20,7 @@ namespace Slingo.Admin.WordGameControl
         public ReactiveCommand<Unit,Unit> Reject { get; }
 
         [Reactive] public string CandidateWord { get; private set; }
+        [Reactive] public string CurrentWord { get; private set; }
 
         public ReactiveCommand<Unit, Unit> GenerateWord;
         public ReactiveCommand<Unit, string> StartGame;
@@ -43,7 +44,11 @@ namespace Slingo.Admin.WordGameControl
                 CandidateWord = GetRandomWord();
                 return new Unit();
             });
-            StartGame = ReactiveCommand.Create(() => CandidateWord);
+            StartGame = ReactiveCommand.Create(() =>
+            {
+                CurrentWord = CandidateWord;   
+                return CandidateWord;
+            });
         }
         
         

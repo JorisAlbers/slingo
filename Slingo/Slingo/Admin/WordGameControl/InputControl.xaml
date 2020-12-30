@@ -16,6 +16,13 @@
             <Button x:Name="StartNewGameButton" Content="Start"/>
         </UniformGrid>
 
+        <UniformGrid DockPanel.Dock="Top" Rows="1" Height="40" Margin="0,10">
+            <TextBlock Text="The current word is:"/>
+            <TextBlock x:Name="CurrentWordTextBlock"/>
+            <ToggleButton Content="Hide" x:Name="Hide"/>
+            <Rectangle/>
+        </UniformGrid>
+
         <UniformGrid Rows="1" Height="40" Margin="0,10,0,0">
 
             <TextBox  x:Name="WordTextBox" Margin="5,0" FontSize="20"/>

@@ -1,4 +1,5 @@
 ﻿using System.Reactive.Disposables;
+using System.Windows;
 using ReactiveUI;
 
 namespace Slingo.Admin.WordGameControl
@@ -43,6 +44,14 @@ namespace Slingo.Admin.WordGameControl
                         vm => vm.StartGame,
                         view => view.StartNewGameButton)
                     .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.CurrentWord,
+                        view => view.CurrentWordTextBlock.Text)
+                    .DisposeWith(dispose);
+
+                this.Hide.Checked += (sender, args) => CurrentWordTextBlock.Visibility = Visibility.Hidden;
+                this.Hide.Unchecked += (sender, args) => CurrentWordTextBlock.Visibility = Visibility.Visible;
             });
         }
     }
