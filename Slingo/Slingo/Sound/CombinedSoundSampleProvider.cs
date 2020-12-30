@@ -82,7 +82,7 @@ namespace Slingo.Sound
         private int SamplesPerMillisecond(CachedSound sound)
         {
             int sampleRatePerMillisecond = sound.WaveFormat.SampleRate / 1000;
-            return sampleRatePerMillisecond * sound.WaveFormat.Channels; // TODO x2?
+            return sampleRatePerMillisecond * sound.WaveFormat.Channels;
         }
 
         public WaveFormat WaveFormat => _cachedSounds[0].WaveFormat;
