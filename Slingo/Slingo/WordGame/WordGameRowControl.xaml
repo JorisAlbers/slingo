@@ -8,7 +8,10 @@
                                 mc:Ignorable="d" 
                                 d:DesignHeight="450" d:DesignWidth="800">
     <ListView x:Name="RowListView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderThickness="0" Padding="-2"
-              Background="Gray">
+              Background="Gray"
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+              ScrollViewer.VerticalScrollBarVisibility="Disabled"
+              >
         <ListView.ItemContainerStyle>
             <Style TargetType="ListViewItem">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
