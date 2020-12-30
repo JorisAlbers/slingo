@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NAudio" Version="1.10.0" />
     <PackageReference Include="ReactiveUI" Version="13.0.27" />
     <PackageReference Include="ReactiveUI.Fody" Version="13.0.27" />
     <PackageReference Include="ReactiveUI.WPF" Version="13.0.27" />
@@ -18,6 +19,15 @@
 
   <ItemGroup>
     <None Update="Resources\basiswoorden-gekeurd.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Sounds\WordGame\correct.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Sounds\WordGame\incorrect.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Sounds\WordGame\incorrect_location.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

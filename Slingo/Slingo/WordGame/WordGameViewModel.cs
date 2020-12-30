@@ -1,4 +1,5 @@
 ﻿using ReactiveUI;
+using Slingo.Sound;
 using SlingoLib;
 
 namespace Slingo.WordGame
@@ -9,11 +10,11 @@ namespace Slingo.WordGame
         
         public BoardViewModel BoardViewModel { get; }
 
-        public WordGameViewModel(Settings settings)
+        public WordGameViewModel(Settings settings, AudioPlaybackEngine audioPlaybackEngine)
         {
             _settings = settings;
             // todo contain gameLogic
-            BoardViewModel = new BoardViewModel(settings.WordSize);
+            BoardViewModel = new BoardViewModel(settings.WordSize, audioPlaybackEngine);
         }
     }
 }
