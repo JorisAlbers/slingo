@@ -55,7 +55,8 @@ namespace Slingo.Admin.WordGameControl
             StartGame = ReactiveCommand.Create(() =>
             {
                 CurrentWord = CandidateWord;
-                return CandidateWord;
+                CandidateWord = GetRandomWord();
+                return CurrentWord;
             });
         }
         
