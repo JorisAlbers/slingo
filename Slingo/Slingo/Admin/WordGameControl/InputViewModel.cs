@@ -14,12 +14,12 @@ namespace Slingo.Admin.WordGameControl
         private readonly Random _random;
         private readonly List<string> _words;
 
-        [Reactive] public string Word { get; set; }
+        [Reactive] public string WordInputtedByUser { get; set; }
         
         public ReactiveCommand<Unit,Unit> Accept { get; }
         public ReactiveCommand<Unit,Unit> Reject { get; }
 
-        [Reactive] public string NextWord { get; private set; }
+        [Reactive] public string CandidateWord { get; private set; }
 
         public ReactiveCommand<Unit, Unit> GenerateWord;
         public ReactiveCommand<Unit, string> StartGame;
@@ -29,21 +29,21 @@ namespace Slingo.Admin.WordGameControl
             _wordRepository = wordRepository;
             _words = _wordRepository.Deserialize(wordSize);
             _random = new Random();
-            NextWord = GetRandomWord();
+            CandidateWord = GetRandomWord();
 
 
             var canAccept = this.WhenAnyValue(
-                x => x.Word, (word) =>
+                x => x.WordInputtedByUser, (word) =>
                     !string.IsNullOrEmpty(word) && WordFormatter.Format(word).Length == wordSize);
 
             Accept = ReactiveCommand.Create(() => new Unit(), canAccept);
             Reject = ReactiveCommand.Create(() => new Unit());
             GenerateWord = ReactiveCommand.Create(() =>
             {
-                NextWord = GetRandomWord();
+                CandidateWord = GetRandomWord();
                 return new Unit();
             });
-            StartGame = ReactiveCommand.Create(() => NextWord);
+            StartGame = ReactiveCommand.Create(() => CandidateWord);
         }
         
         

@@ -15,7 +15,7 @@ namespace Slingo.Admin.WordGameControl
             this.WhenActivated((dispose) =>
             {
                 this.Bind(ViewModel,
-                        vm => vm.Word,
+                        vm => vm.WordInputtedByUser,
                         view => view.WordTextBox.Text)
                     .DisposeWith(dispose);
 
@@ -30,7 +30,7 @@ namespace Slingo.Admin.WordGameControl
                     .DisposeWith(dispose);
 
                 this.OneWayBind(ViewModel,
-                        vm => vm.NextWord,
+                        vm => vm.CandidateWord,
                         view => view.NextWordTextBlock.Text)
                     .DisposeWith(dispose);
 
