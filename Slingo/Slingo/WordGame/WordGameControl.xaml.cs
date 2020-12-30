@@ -33,12 +33,12 @@ namespace Slingo.WordGame
 
                 this.OneWayBind(ViewModel,
                         vm => vm.ScoreBoardTeam1,
-                        view => view.Team1ScoreBoardViewModelHost.ViewModel)
+                        view => view.Team1ScoreBoard.ViewModel)
                     .DisposeWith(dispose);
 
                 this.OneWayBind(ViewModel,
                         vm => vm.ScoreBoardTeam2,
-                        view => view.Team2ScoreBoardViewModelHost.ViewModel)
+                        view => view.Team2ScoreBoard.ViewModel)
                     .DisposeWith(dispose);
             });
         }

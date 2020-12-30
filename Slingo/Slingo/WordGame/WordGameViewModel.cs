@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Windows;
 using ReactiveUI;
 using Slingo.Sound;
 using SlingoLib;
@@ -22,8 +23,8 @@ namespace Slingo.WordGame
         public WordGameViewModel(Settings settings, string word, AudioPlaybackEngine audioPlaybackEngine)
         {
             _settings = settings;
-            ScoreBoardTeam1 = new ScoreboardViewModel(settings.Team1.Name);
-            ScoreBoardTeam2 = new ScoreboardViewModel(settings.Team2.Name);
+            ScoreBoardTeam1 = new ScoreboardViewModel(settings.Team1.Name, HorizontalAlignment.Left);
+            ScoreBoardTeam2 = new ScoreboardViewModel(settings.Team2.Name, HorizontalAlignment.Right);
             
             // todo contain gameLogic
             BoardViewModel = new BoardViewModel(settings.WordSize, audioPlaybackEngine);

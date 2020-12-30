@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using System.Windows;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace Slingo
@@ -9,10 +10,12 @@ namespace Slingo
         
         [Reactive] public int Score { get; private set; }
         [Reactive] public bool IsActiveTeam { get; set; }
+        public HorizontalAlignment HorizontalPosition { get;}
 
-        public ScoreboardViewModel(string teamName)
+        public ScoreboardViewModel(string teamName, HorizontalAlignment horizontalPosition)
         {
             TeamName = teamName;
+            HorizontalPosition = horizontalPosition;
         }
     }
 }

@@ -5,6 +5,7 @@
                                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
                                 xmlns:local="clr-namespace:Slingo.WordGame"
                                 xmlns:reactiveUi="http://reactiveui.net"
+                                xmlns:slingo="clr-namespace:Slingo"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -19,19 +20,21 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <reactiveUi:ViewModelViewHost x:Name="Team1ScoreBoardViewModelHost"
+
+
+        <slingo:ScoreBoardControl x:Name="Team1ScoreBoard"
                                       Grid.Column="0" Grid.Row="0"
                                       HorizontalAlignment="Stretch" 
                                       VerticalAlignment="Top"
                                       VerticalContentAlignment="Top"
                                       HorizontalContentAlignment="Stretch"/>
 
-        <reactiveUi:ViewModelViewHost x:Name="Team2ScoreBoardViewModelHost"
-                                      Grid.Column="2" Grid.Row="0"
-                                      HorizontalAlignment="Stretch" 
-                                      VerticalAlignment="Stretch"
-                                      VerticalContentAlignment="Top"
-                                      HorizontalContentAlignment="Stretch"/>
+        <slingo:ScoreBoardControl x:Name="Team2ScoreBoard"
+                                  Grid.Column="2" Grid.Row="0"
+                                  HorizontalAlignment="Stretch" 
+                                  VerticalAlignment="Stretch"
+                                  VerticalContentAlignment="Top"
+                                  HorizontalContentAlignment="Stretch"/>
 
         <reactiveUi:ViewModelViewHost x:Name="BoardGameViewModelHost"
                                       Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
