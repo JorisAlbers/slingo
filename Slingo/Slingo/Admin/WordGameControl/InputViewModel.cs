@@ -15,15 +15,13 @@ namespace Slingo.Admin.WordGameControl
         private readonly List<string> _words;
 
         [Reactive] public string WordInputtedByUser { get; set; }
-        
-        public ReactiveCommand<Unit,Unit> Accept { get; }
-        public ReactiveCommand<Unit,Unit> Reject { get; }
-
         [Reactive] public string CandidateWord { get; private set; }
         [Reactive] public string CurrentWord { get; private set; }
 
-        public ReactiveCommand<Unit, Unit> GenerateWord;
-        public ReactiveCommand<Unit, string> StartGame;
+        public ReactiveCommand<Unit,Unit> Accept { get; }
+        public ReactiveCommand<Unit,Unit> Reject { get; }
+        public ReactiveCommand<Unit, Unit> GenerateWord { get; }
+        public ReactiveCommand<Unit, string> StartGame { get; }
 
         public InputViewModel(WordRepository wordRepository, int wordSize)
         {
