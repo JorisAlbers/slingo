@@ -30,11 +30,11 @@ namespace Slingo.Sound
             }
 
             long positionThisBuffer = 0;
-            
             CachedSound currentSound = _cachedSounds[_soundIndex];
+            
+            // Copy sound
             var availableSamples = Math.Max(currentSound.AudioData.Length - _position,0);
             var samplesToCopy = Math.Min(availableSamples, count);
-
             if (availableSamples > 0)
             {
                 Array.Copy(currentSound.AudioData, _position, buffer, offset, samplesToCopy);
@@ -45,9 +45,9 @@ namespace Slingo.Sound
             // If the sound ended
             if (availableSamples < count)
             {
-                int millisecondsInSound = MillisecondsInSound(currentSound);
-                int millisecondsInBreak = Math.Max(_millisecondsPerSound - millisecondsInSound, 0);
-                int samplesInBreak = SamplesPerMillisecond(currentSound) * millisecondsInBreak;
+                int soundDuration = MillisecondsInSound(currentSound);
+                int breakDuration = Math.Max(_millisecondsPerSound - soundDuration, 0);
+                int samplesInBreak = SamplesPerMillisecond(currentSound) * breakDuration;
                 long samplesInBreakPassed = _position - currentSound.AudioData.Length;
                 long samplesInBreakLeft = samplesInBreak - samplesInBreakPassed;
                 long breakLengthThisBuffer = 0;
