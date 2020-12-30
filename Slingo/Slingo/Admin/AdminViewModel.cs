@@ -31,7 +31,7 @@ namespace Slingo.Admin
             _setupViewModel.Start.Subscribe(settings =>
             {
                 InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings);
-                inputViewModel.StartGame.Subscribe(word=>  _gameWindowViewModel.StartGame(settings, word, _audioPlaybackEngine));
+                inputViewModel.StartGame.Subscribe(word=>  _gameWindowViewModel.StartGame(settings, word));
                 inputViewModel.WhenAnyValue(x => x.WordInputtedByUser).Where(x=>!string.IsNullOrWhiteSpace(x)).Subscribe(onNext => _gameWindowViewModel.SetWord(WordFormatter.Format(onNext)));
                 inputViewModel.Accept.Subscribe(onNext => _gameWindowViewModel.AcceptWord());
                 inputViewModel.Reject.Subscribe(onNext => _gameWindowViewModel.RejectWord());
@@ -44,7 +44,7 @@ namespace Slingo.Admin
 
             SelectedViewModel = _setupViewModel;
 
-            _gameWindowViewModel = new GameWindowViewModel();
+            _gameWindowViewModel = new GameWindowViewModel(_audioPlaybackEngine);
             var view = Locator.Current.GetService<IViewFor<GameWindowViewModel>>();
             var window = view as ReactiveWindow<GameWindowViewModel>;
             window.ViewModel = _gameWindowViewModel;
