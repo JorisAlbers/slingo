@@ -30,11 +30,14 @@ namespace Slingo.Admin
 ;            _setupViewModel = new SetupViewModel();
             _setupViewModel.Start.Subscribe(settings =>
             {
-                InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings.WordSize);
-                inputViewModel.StartGame.Subscribe(word=> _gameWindowViewModel.StartGame(settings,word, _audioPlaybackEngine));
+                InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings);
+                inputViewModel.StartGame.Subscribe(word=>  _gameWindowViewModel.StartGame(settings, word, _audioPlaybackEngine));
                 inputViewModel.WhenAnyValue(x => x.WordInputtedByUser).Where(x=>!string.IsNullOrWhiteSpace(x)).Subscribe(onNext => _gameWindowViewModel.SetWord(WordFormatter.Format(onNext)));
                 inputViewModel.Accept.Subscribe(onNext => _gameWindowViewModel.AcceptWord());
                 inputViewModel.Reject.Subscribe(onNext => _gameWindowViewModel.RejectWord());
+                inputViewModel.TimeOut.Subscribe(onNext => _gameWindowViewModel.TimeOut());
+
+                _gameWindowViewModel.CountDownStarted.Subscribe(onNext => inputViewModel.StartCountDown());
 
                 SelectedViewModel = inputViewModel;
             });

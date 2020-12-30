@@ -23,6 +23,14 @@
             <Rectangle/>
         </UniformGrid>
 
+        <UniformGrid DockPanel.Dock="Top" Rows="1" Height="40" Margin="0,10">
+            <TextBlock Text="Time left:"/>
+            <TextBlock x:Name="TimeLeftTextBlock"/>
+            <Button Content="Force time out" x:Name="ForceTimeOutButton"/>
+            <CheckBox Content="auto timeout" x:Name="AutoTimeOutCheckBox" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        </UniformGrid>
+
         <UniformGrid Rows="1" Height="40" Margin="0,10,0,0">
 
             <TextBox  x:Name="WordTextBox" Margin="5,0" FontSize="20"/>

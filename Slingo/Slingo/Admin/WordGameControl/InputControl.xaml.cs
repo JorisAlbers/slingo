@@ -52,6 +52,21 @@ namespace Slingo.Admin.WordGameControl
 
                 this.Hide.Checked += (sender, args) => CurrentWordTextBlock.Visibility = Visibility.Hidden;
                 this.Hide.Unchecked += (sender, args) => CurrentWordTextBlock.Visibility = Visibility.Visible;
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.TimeLeftBeforeTimeOut,
+                        view => view.TimeLeftTextBlock.Text)
+                    .DisposeWith(dispose);
+
+                this.Bind(ViewModel,
+                        vm => vm.AutoTimeOut,
+                        view => view.AutoTimeOutCheckBox.IsChecked)
+                    .DisposeWith(dispose);
+
+                this.BindCommand(ViewModel,
+                        vm => vm.TimeOut,
+                        view => view.ForceTimeOutButton)
+                    .DisposeWith(dispose);
             });
         }
     }

@@ -62,15 +62,15 @@ namespace Slingo.WordGame
             await BoardViewModel.AcceptWord(result);
             // TODO check if correct
             UpdateKnownLetters(result);
-            BoardViewModel.StartNextAttempt(_knownLetters);
+            await BoardViewModel.StartNextAttempt(_knownLetters);
         }
 
         /// <summary>
         /// Reject the word that was previously set
         /// </summary>
-        public void RejectWord()
+        public async Task RejectWord()
         {
-            BoardViewModel.StartNextAttempt(_knownLetters);
+            await BoardViewModel.StartNextAttempt(_knownLetters);
         }
 
         private void UpdateKnownLetters(WordGameEntry wordGameEntry)
@@ -88,6 +88,12 @@ namespace Slingo.WordGame
             }
 
             _knownLetters = new string(knownLetters);
+        }
+
+        public async  Task TimeOut()
+        {
+            // TODO play timeout sound
+            await BoardViewModel.StartNextAttempt(_knownLetters);
         }
     }
 }

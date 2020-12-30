@@ -10,12 +10,16 @@ namespace SlingoLib
         public Team Team1 { get; }
         public Team Team2 { get; }
         public int WordSize { get; }
+        
+        /// <summary> Seconds available to come up with the next word entry. </summary>
+        public int Timeout { get; }
 
-        public Settings(Team team1, Team team2, int wordSize)
+        public Settings(Team team1, Team team2, int wordSize, int timeout)
         {
             Team1 = team1;
             Team2 = team2;
             WordSize = wordSize;
+            Timeout = timeout;
         }
     }
 }
