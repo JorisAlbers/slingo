@@ -16,12 +16,12 @@
       
 
         <Border Grid.Column="0" Grid.ColumnSpan="2"
-                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="15" 
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="10" 
                 Background="#034360" CornerRadius="200,0,0,200">
            
         </Border>
 
-        <Viewbox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" >
+        <Viewbox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" >
             <TextBlock x:Name="ScoreTextBlock" HorizontalAlignment="Stretch" Foreground="White">
                 <TextBlock.Effect>
                     <DropShadowEffect
@@ -36,10 +36,10 @@
 
         <Border Grid.Column="0" Grid.ColumnSpan="2"
                 x:Name="OuterBorder"
-                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="20" 
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="10" 
                 BorderBrush="Silver" Background="Transparent" CornerRadius="200,0,0,200">
             <Border.Effect>
-                <DropShadowEffect Direction="315" ShadowDepth="20" BlurRadius="10"/>
+                <DropShadowEffect Direction="315" ShadowDepth="10" BlurRadius="10"/>
             </Border.Effect>
         </Border>
 

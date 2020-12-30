@@ -16,12 +16,8 @@ namespace Slingo.Game
 {
     public class GameWindowViewModel : ReactiveObject
     {
-        private readonly WordRepository _wordRepository;
-        private BoardViewModel _boardViewModel;
+        private WordGameViewModel _wordGameViewModel;
         private Settings _settings;
-        private string _knownLetters;
-        private string _activeWord;
-        private SlingoLib.Logic.WordGame _gameLogic;
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
         
 
@@ -30,67 +26,22 @@ namespace Slingo.Game
             _settings = settings;
             // TODO The next lines should all move to the wordGameViewModel.
             // THis should also keep track of the scores etc, next to the board.
-            //WordGameViewModel viewmodel = new WordGameViewModel(settings);
-            _gameLogic = new SlingoLib.Logic.WordGame(word);
-            _boardViewModel = new BoardViewModel(settings.WordSize, audioPlaybackEngine);
-            SelectedViewModel = _boardViewModel;
-            _knownLetters = word[0] + new string('.', word.Length - 1);
-            _boardViewModel.StartNextAttempt(_knownLetters);
+            _wordGameViewModel = new WordGameViewModel(settings,word,audioPlaybackEngine);
+            SelectedViewModel = _wordGameViewModel;
         }
 
-        public void SetWord(string word)
+
+        public void AcceptWord()
         {
-            if (word.Length < _settings.WordSize)
-            {
-                word = word + new string('.', _settings.WordSize - word.Length);
-            }
-
-            if (word.Length > _settings.WordSize)
-            {
-                word = word.Substring(0, _settings.WordSize);
-            }
-
-            
-            _activeWord = word;
-
-            _boardViewModel.SetWord(word);
+            _wordGameViewModel.AcceptWord();
         }
-
-        /// <summary>
-        /// Accept the word that was previously set
-        /// </summary>
-        public async Task AcceptWord()
-        {
-            var result = _gameLogic.Solve(_activeWord);
-             await _boardViewModel.AcceptWord(result);
-            // TODO check if correct
-            UpdateKnownLetters(result);
-            _boardViewModel.StartNextAttempt(_knownLetters);
-        }
-        
-        /// <summary>
-        /// Reject the word that was previously set
-        /// </summary>
         public void RejectWord()
         {
-            _boardViewModel.StartNextAttempt(_knownLetters);
+            _wordGameViewModel.RejectWord();
         }
-
-        private void UpdateKnownLetters(WordGameEntry wordGameEntry)
+        public void SetWord(string word)
         {
-            char[] knownLetters = _knownLetters.ToCharArray();
-            for (int i = 0; i < knownLetters.Length; i++)
-            {
-                if (knownLetters[i] == '.')
-                {
-                    if (wordGameEntry.LetterEntries[i].State == LetterState.CorrectLocation)
-                    {
-                        knownLetters[i] = wordGameEntry.LetterEntries[i].Letter;
-                    }
-                }
-            }
-
-            _knownLetters = new string(knownLetters);
+            _wordGameViewModel.SetWord(word);
         }
     }
 }
