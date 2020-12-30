@@ -10,9 +10,11 @@ namespace Slingo.WordGame
     public class WordGameViewModel : ReactiveObject
     {
         private readonly Settings _settings;
+        private readonly AudioPlaybackEngine _audioPlaybackEngine;
         private SlingoLib.Logic.WordGame _gameLogic;
         private string _knownLetters;
         private string _activeWord;
+        private CachedSound _timeOutSound;
 
         public BoardViewModel BoardViewModel { get; }
         
@@ -23,13 +25,12 @@ namespace Slingo.WordGame
         public WordGameViewModel(Settings settings, string word, AudioPlaybackEngine audioPlaybackEngine)
         {
             _settings = settings;
+            _audioPlaybackEngine = audioPlaybackEngine;
+            _gameLogic = new SlingoLib.Logic.WordGame(word);
+            _timeOutSound = new CachedSound(@"Resources\Sounds\WordGame\timeout.wav");
+
             ScoreBoardTeam1 = new ScoreboardViewModel(settings.Team1.Name, HorizontalAlignment.Left);
             ScoreBoardTeam2 = new ScoreboardViewModel(settings.Team2.Name, HorizontalAlignment.Right);
-            
-            // todo contain gameLogic
-            BoardViewModel = new BoardViewModel(settings.WordSize, audioPlaybackEngine);
-
-            _gameLogic = new SlingoLib.Logic.WordGame(word);
             BoardViewModel = new BoardViewModel(settings.WordSize, audioPlaybackEngine);
             _knownLetters = word[0] + new string('.', word.Length - 1);
             BoardViewModel.StartNextAttempt(_knownLetters);
@@ -73,6 +74,12 @@ namespace Slingo.WordGame
             await BoardViewModel.StartNextAttempt(_knownLetters);
         }
 
+        public async Task TimeOut()
+        {
+            _audioPlaybackEngine.PlaySound(_timeOutSound);
+            await BoardViewModel.StartNextAttempt(_knownLetters);
+        }
+
         private void UpdateKnownLetters(WordGameEntry wordGameEntry)
         {
             char[] knownLetters = _knownLetters.ToCharArray();
@@ -88,12 +95,6 @@ namespace Slingo.WordGame
             }
 
             _knownLetters = new string(knownLetters);
-        }
-
-        public async  Task TimeOut()
-        {
-            // TODO play timeout sound
-            await BoardViewModel.StartNextAttempt(_knownLetters);
         }
     }
 }
