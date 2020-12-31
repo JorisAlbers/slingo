@@ -29,6 +29,21 @@ namespace Slingo.Admin.Setup
                     view => view.StartButton)
                     .DisposeWith(dispose);
 
+                this.Bind(ViewModel,
+                        vm => vm.WordSize,
+                        view => view.WordSizeTextBox.Text)
+                    .DisposeWith(dispose);
+
+                this.Bind(ViewModel,
+                        vm => vm.Rounds,
+                        view => view.RoundsTextBox.Text)
+                    .DisposeWith(dispose);
+
+                this.Bind(ViewModel,
+                        vm => vm.TimeOut,
+                        view => view.TimeOutTextBox.Text)
+                    .DisposeWith(dispose);
+
             });
 
         }
