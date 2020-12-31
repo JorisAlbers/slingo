@@ -24,8 +24,8 @@ namespace Slingo.Admin.Setup
 
             Start = ReactiveCommand.Create(() =>
             {
-                Team team1 = new Team(TeamA.Name, TeamA.Player1, TeamA.Player2);
-                Team team2 = new Team(TeamB.Name, TeamB.Player1, TeamB.Player2);
+                TeamSettings team1 = new TeamSettings(TeamA.Name, TeamA.Player1, TeamA.Player2);
+                TeamSettings team2 = new TeamSettings(TeamB.Name, TeamB.Player1, TeamB.Player2);
                 return new Settings(team1, team2,team1,WordSize,TimeOut,Rounds);
             });
         }

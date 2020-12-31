@@ -4,13 +4,13 @@ using System.Text;
 
 namespace SlingoLib
 {
-    public class Team
+    public class TeamSettings
     {
         public string Name { get; }
         public string Player1 { get; }
         public string Player2 { get; }
 
-        public Team(string name, string player1, string player2)
+        public TeamSettings(string name, string player1, string player2)
         {
             Name = name;
             Player1 = player1;
