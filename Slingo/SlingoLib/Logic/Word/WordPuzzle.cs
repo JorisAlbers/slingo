@@ -11,7 +11,7 @@ namespace SlingoLib.Logic.Word
             _word = word.ToCharArray();
         }
 
-        public WordPuzzleEntry Solve(string inputWord)
+        public virtual WordPuzzleEntry Solve(string inputWord)
         {
             char[] inputCharArray = inputWord.ToCharArray();
             if (inputCharArray.Length != _word.Length)
