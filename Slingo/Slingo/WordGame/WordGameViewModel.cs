@@ -81,7 +81,7 @@ namespace Slingo.WordGame
             await BoardViewModel.StartNextAttempt(_knownLetters);
         }
 
-        private void UpdateKnownLetters(WordGameEntry wordGameEntry)
+        private void UpdateKnownLetters(WordPuzzleEntry wordGameEntry)
         {
             char[] knownLetters = _knownLetters.ToCharArray();
             for (int i = 0; i < knownLetters.Length; i++)

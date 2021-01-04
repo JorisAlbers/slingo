@@ -56,7 +56,7 @@ namespace Slingo.WordGame
             }
         }
 
-        public async Task AcceptWord(WordGameEntry result)
+        public async Task AcceptWord(WordPuzzleEntry result)
         {
             CombinedSoundSampleProvider soundProvider = SetupWordGameEntrySounds(result, 200);
 
@@ -69,7 +69,7 @@ namespace Slingo.WordGame
             }
         }
         
-        private CombinedSoundSampleProvider SetupWordGameEntrySounds(WordGameEntry entry, int millisecondsPerSound)
+        private CombinedSoundSampleProvider SetupWordGameEntrySounds(WordPuzzleEntry entry, int millisecondsPerSound)
         {
             CachedSound[] sounds = new CachedSound[entry.LetterEntries.Length];
             for (int i = 0; i < entry.LetterEntries.Length; i++)

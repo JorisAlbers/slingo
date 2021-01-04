@@ -1,11 +1,11 @@
 ﻿namespace SlingoLib.Logic.Word
 {
-    public class WordGameLetterEntry
+    public class WordPuzzleLetterEntry
     {
         public char Letter { get; }
         public LetterState State { get; }
 
-        public WordGameLetterEntry(char letter, LetterState state)
+        public WordPuzzleLetterEntry(char letter, LetterState state)
         {
             Letter = letter;
             State = state;

@@ -11,22 +11,22 @@ namespace SlingoLib.Logic.Word
             _word = word.ToCharArray();
         }
 
-        public WordGameEntry Solve(string inputWord)
+        public WordPuzzleEntry Solve(string inputWord)
         {
             char[] inputCharArray = inputWord.ToCharArray();
             if (inputCharArray.Length != _word.Length)
             {
-               return new WordGameEntry(CreateIncorrectLengthSubmission(inputCharArray));
+               return new WordPuzzleEntry(CreateIncorrectLengthSubmission(inputCharArray));
             }
 
             
-            WordGameLetterEntry[] newSubmission = new WordGameLetterEntry[_word.Length];
+            WordPuzzleLetterEntry[] newSubmission = new WordPuzzleLetterEntry[_word.Length];
             // first check for the correct locations
             for (int i = 0; i < _word.Length; i++)
             {
                 if (inputCharArray[i] == _word[i])
                 {
-                    newSubmission[i] = new WordGameLetterEntry(inputCharArray[i],LetterState.CorrectLocation);
+                    newSubmission[i] = new WordPuzzleLetterEntry(inputCharArray[i],LetterState.CorrectLocation);
                 }
             }
             // Then check for incorrect locations
@@ -43,31 +43,31 @@ namespace SlingoLib.Logic.Word
                     int timesAlreadyIndicated = newSubmission.Count(x => x!= null && x.Letter == inputCharArray[i]);
                     if (timesInputCharExistInWord > timesAlreadyIndicated)
                     {
-                        newSubmission[i] = new WordGameLetterEntry(inputCharArray[i], LetterState.IncorrectLocation);
+                        newSubmission[i] = new WordPuzzleLetterEntry(inputCharArray[i], LetterState.IncorrectLocation);
                         continue;
                     }
                 }
                 
-                newSubmission[i] = new WordGameLetterEntry(inputCharArray[i], LetterState.DoesNotExistInWord);
+                newSubmission[i] = new WordPuzzleLetterEntry(inputCharArray[i], LetterState.DoesNotExistInWord);
             }
 
 
 
-            return new WordGameEntry(newSubmission);
+            return new WordPuzzleEntry(newSubmission);
         }
 
-        private WordGameLetterEntry[] CreateIncorrectLengthSubmission(char[] input)
+        private WordPuzzleLetterEntry[] CreateIncorrectLengthSubmission(char[] input)
         {
-            WordGameLetterEntry[] newSubmission = new WordGameLetterEntry[_word.Length];
+            WordPuzzleLetterEntry[] newSubmission = new WordPuzzleLetterEntry[_word.Length];
             for (int i = 0; i < _word.Length; i++)
             {
                 if (input.Length -1 < i)
                 {
-                    newSubmission[i] = new WordGameLetterEntry('.',LetterState.DoesNotExistInWord);
+                    newSubmission[i] = new WordPuzzleLetterEntry('.',LetterState.DoesNotExistInWord);
                 }
                 else
                 {
-                    newSubmission[i] = new WordGameLetterEntry(input[i],LetterState.DoesNotExistInWord);
+                    newSubmission[i] = new WordPuzzleLetterEntry(input[i],LetterState.DoesNotExistInWord);
                 }
             }
 
