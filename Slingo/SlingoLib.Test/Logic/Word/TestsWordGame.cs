@@ -56,7 +56,7 @@ namespace SlingoLib.Test.Logic.Word
         }
 
         [Test()]
-        public void Solve_5IncorrectAnsweers_SwitchesTeam()
+        public void Solve_5IncorrectAnswers_SwitchesTeam()
         {
             var puzzleEntry = new WordPuzzleEntry(Enumerable.Repeat(new WordPuzzleLetterEntry('a', LetterState.IncorrectLocation), 5).ToArray());
 
@@ -71,6 +71,28 @@ namespace SlingoLib.Test.Logic.Word
             wordGame.Solve("aaaaa");
             wordGame.Solve("aaaaa");
             wordGame.Solve("aaaaa");
+
+            Assert.AreEqual(1, wordGame.ActiveTeamIndex);
+            Assert.AreEqual(5, wordGame.AttemptIndex);
+            Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State);
+        }
+
+        [Test()]
+        public void Reject_MovesToNextAttemptIndex()
+        {
+            var puzzleEntry = new WordPuzzleEntry(Enumerable.Repeat(new WordPuzzleLetterEntry('a', LetterState.IncorrectLocation), 5).ToArray());
+
+
+            var wordPuzzleMock = new Mock<WordPuzzle>("aaaa");
+            wordPuzzleMock.Setup(x => x.Solve(It.IsAny<string>())).Returns(puzzleEntry);
+
+
+            WordGame wordGame = new WordGame(wordPuzzleMock.Object, 0);
+            wordGame.Reject();
+            wordGame.Reject();
+            wordGame.Reject();
+            wordGame.Reject();
+            wordGame.Reject();
 
             Assert.AreEqual(1, wordGame.ActiveTeamIndex);
             Assert.AreEqual(5, wordGame.AttemptIndex);

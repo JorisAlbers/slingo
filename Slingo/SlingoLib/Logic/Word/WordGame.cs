@@ -48,6 +48,24 @@ namespace SlingoLib.Logic.Word
 
             return puzzleEntry;
         }
+
+        public void Reject()
+        {
+            if (State == WordGameState.Won)
+            {
+                throw new InvalidOperationException("Game is already over.");
+            }
+
+            if (AttemptIndex++ > 3)
+            {
+                ActiveTeamIndex = ActiveTeamIndex == 0 ? 1 : 0;
+                State = WordGameState.SwitchTeam;
+            }
+            else
+            {
+                State = WordGameState.Ongoing;
+            }
+        }
     }
     
 
