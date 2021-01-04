@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using SlingoLib.Logic;
+using SlingoLib.Logic.Word;
 
-namespace SlingoLib.Test.Logic
+namespace SlingoLib.Test.Logic.Word
 {
     [TestFixture()]
     public class TestsWordGame

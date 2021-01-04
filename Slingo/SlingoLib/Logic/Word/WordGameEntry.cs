@@ -1,4 +1,4 @@
-﻿namespace SlingoLib.Logic
+﻿namespace SlingoLib.Logic.Word
 {
     public class WordGameEntry
     {

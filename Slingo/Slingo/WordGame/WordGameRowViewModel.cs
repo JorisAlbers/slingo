@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using DynamicData;
 using ReactiveUI;
 using SlingoLib.Logic;
+using SlingoLib.Logic.Word;
 
 namespace Slingo.WordGame
 {

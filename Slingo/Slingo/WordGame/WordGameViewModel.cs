@@ -4,6 +4,7 @@ using ReactiveUI;
 using Slingo.Sound;
 using SlingoLib;
 using SlingoLib.Logic;
+using SlingoLib.Logic.Word;
 
 namespace Slingo.WordGame
 {
@@ -11,7 +12,7 @@ namespace Slingo.WordGame
     {
         private readonly Settings _settings;
         private readonly AudioPlaybackEngine _audioPlaybackEngine;
-        private SlingoLib.Logic.WordPuzzle _puzzleLogic;
+        private WordPuzzle _puzzleLogic;
         private string _knownLetters;
         private string _activeWord;
         private CachedSound _timeOutSound;
@@ -26,7 +27,7 @@ namespace Slingo.WordGame
         {
             _settings = settings;
             _audioPlaybackEngine = audioPlaybackEngine;
-            _puzzleLogic = new SlingoLib.Logic.WordPuzzle(word);
+            _puzzleLogic = new WordPuzzle(word);
             _timeOutSound = new CachedSound(@"Resources\Sounds\WordGame\timeout.wav");
 
             ScoreBoardTeam1 = new ScoreboardViewModel(settings.Team1.Name, HorizontalAlignment.Left);

@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ReactiveUI;
 using SlingoLib.Logic;
+using SlingoLib.Logic.Word;
 
 namespace Slingo.WordGame
 {

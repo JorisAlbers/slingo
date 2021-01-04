@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 
-namespace SlingoLib.Logic
+namespace SlingoLib.Logic.Word
 {
     public class WordPuzzle
     {

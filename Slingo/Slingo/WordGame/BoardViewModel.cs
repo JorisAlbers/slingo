@@ -6,6 +6,7 @@ using DynamicData;
 using ReactiveUI;
 using Slingo.Sound;
 using SlingoLib.Logic;
+using SlingoLib.Logic.Word;
 
 namespace Slingo.WordGame
 {

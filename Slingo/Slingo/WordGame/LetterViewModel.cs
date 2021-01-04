@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ReactiveUI;
 using SlingoLib.Logic;
+using SlingoLib.Logic.Word;
 
 namespace Slingo.WordGame
 {
