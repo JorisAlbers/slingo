@@ -136,10 +136,10 @@ namespace Slingo.WordGame
 
         private async Task SwitchTeam()
         {
-            // TODO:
-            // Play switch team sound
+            // TODO:// Play switch team sound
             await BoardViewModel.AddAdditionalRow();
             SetActiveTeam(_wordGame.ActiveTeamIndex);
+            // TODO add bonus letter sound
         }
     }
 }
