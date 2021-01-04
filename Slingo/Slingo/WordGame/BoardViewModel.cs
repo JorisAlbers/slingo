@@ -18,6 +18,7 @@ namespace Slingo.WordGame
         private readonly CachedSound _incorrectSound;
         private readonly CachedSound _incorrectLocationSound;
         private readonly CachedSound _correctSound;
+        private CachedSound _newRowAppears;
 
         public ReadOnlyObservableCollection<WordGameRowViewModel> Rows { get; }
 
@@ -27,6 +28,7 @@ namespace Slingo.WordGame
             _correctSound = new CachedSound(@"Resources\Sounds\WordGame\correct.wav");
             _incorrectSound = new CachedSound(@"Resources\Sounds\WordGame\incorrect.wav");
             _incorrectLocationSound = new CachedSound(@"Resources\Sounds\WordGame\incorrect_location.wav");
+            _newRowAppears = new CachedSound(@"Resources\Sounds\WordGame\additional_row_appears.wav");
            
             for (int i = 0; i < wordsize; i++)
             {
@@ -72,6 +74,7 @@ namespace Slingo.WordGame
 
         public async Task AddAdditionalRow()
         {
+            _audioPlaybackEngine.PlaySound(_newRowAppears);
             _wordGameRows.RemoveAt(0);
             _wordGameRows.Add(new WordGameRowViewModel(_wordGameRows.Items.First().Letters.Count));
             await Task.Delay(200);
