@@ -5,7 +5,7 @@ using SlingoLib.Logic.Word;
 namespace SlingoLib.Test.Logic.Word
 {
     [TestFixture()]
-    public class TestsWordGame
+    public class TestsWordPuzzle
     {
         [Test()]
         public void Solve_CorrectWord()
