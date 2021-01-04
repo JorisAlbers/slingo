@@ -32,8 +32,12 @@ namespace SlingoLib.Serialization
                 while ((line = reader.ReadLine()) != null)
                 {
                     string word = line.Replace("\n", "").Replace("\r", "");
+                    if (char.IsUpper(word[0]))
+                    {
+                        continue;
+                    }
+                    
                     word = WordFormatter.Format(word);
-
                     if (WordIsAllowed(wordLength,word))
                     {
                         words.Add(word);
