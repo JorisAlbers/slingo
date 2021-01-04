@@ -10,8 +10,8 @@ namespace SlingoLib.Test.Logic
         [Test()]
         public void Solve_CorrectWord()
         {
-            WordGame wordGame = new WordGame("bomen");
-            var result = wordGame.Solve("bomen");
+            WordPuzzle wordPuzzle = new WordPuzzle("bomen");
+            var result = wordPuzzle.Solve("bomen");
 
             char[] expectedLetters = "bomen".ToCharArray();
             LetterState[] expectedStates = new LetterState[]
@@ -30,8 +30,8 @@ namespace SlingoLib.Test.Logic
         [Test()]
         public void Solve_InCorrectWord()
         {
-            WordGame wordGame = new WordGame("bomen");
-            var result = wordGame.Solve("clown");
+            WordPuzzle wordPuzzle = new WordPuzzle("bomen");
+            var result = wordPuzzle.Solve("clown");
 
             char[] expectedLetters = "clown".ToCharArray();
             LetterState[] expectedStates = new LetterState[]
@@ -50,8 +50,8 @@ namespace SlingoLib.Test.Logic
         [Test()]
         public void Solve_LetterInIncorrectLocationIsOnlySetToIncorrectLocationNTimesItExistsInTheWord()
         {
-            WordGame wordGame = new WordGame("yxxyy");
-            var result = wordGame.Solve("zzxxx");
+            WordPuzzle wordPuzzle = new WordPuzzle("yxxyy");
+            var result = wordPuzzle.Solve("zzxxx");
 
             char[] expectedLetters = "zzxxx".ToCharArray();
             LetterState[] expectedStates = new LetterState[]
@@ -70,8 +70,8 @@ namespace SlingoLib.Test.Logic
         [Test]
         public void Solve_WordTooLong()
         {
-            WordGame wordGame = new WordGame("bomen");
-            var result = wordGame.Solve("bomenverzameling");
+            WordPuzzle wordPuzzle = new WordPuzzle("bomen");
+            var result = wordPuzzle.Solve("bomenverzameling");
 
             char[] expectedLetters = "bomen".ToCharArray();
 
@@ -82,8 +82,8 @@ namespace SlingoLib.Test.Logic
         [Test]
         public void Solve_WordTooShort()
         {
-            WordGame wordGame = new WordGame("bomen");
-            var result = wordGame.Solve("bome");
+            WordPuzzle wordPuzzle = new WordPuzzle("bomen");
+            var result = wordPuzzle.Solve("bome");
 
             char[] expectedLetters = "bome.".ToCharArray();
 

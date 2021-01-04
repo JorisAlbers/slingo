@@ -5,11 +5,11 @@ using System.Text;
 
 namespace SlingoLib.Logic
 {
-    public class WordGame
+    public class WordPuzzle
     {
         private char[] _word;
 
-        public WordGame(string word)
+        public WordPuzzle(string word)
         {
             _word = word.ToCharArray();
         }

@@ -11,7 +11,7 @@ namespace Slingo.WordGame
     {
         private readonly Settings _settings;
         private readonly AudioPlaybackEngine _audioPlaybackEngine;
-        private SlingoLib.Logic.WordGame _gameLogic;
+        private SlingoLib.Logic.WordPuzzle _puzzleLogic;
         private string _knownLetters;
         private string _activeWord;
         private CachedSound _timeOutSound;
@@ -26,7 +26,7 @@ namespace Slingo.WordGame
         {
             _settings = settings;
             _audioPlaybackEngine = audioPlaybackEngine;
-            _gameLogic = new SlingoLib.Logic.WordGame(word);
+            _puzzleLogic = new SlingoLib.Logic.WordPuzzle(word);
             _timeOutSound = new CachedSound(@"Resources\Sounds\WordGame\timeout.wav");
 
             ScoreBoardTeam1 = new ScoreboardViewModel(settings.Team1.Name, HorizontalAlignment.Left);
@@ -59,7 +59,7 @@ namespace Slingo.WordGame
         /// </summary>
         public async Task AcceptWord()
         {
-            var result = _gameLogic.Solve(_activeWord);
+            var result = _puzzleLogic.Solve(_activeWord);
             await BoardViewModel.AcceptWord(result);
             // TODO check if correct
             UpdateKnownLetters(result);
