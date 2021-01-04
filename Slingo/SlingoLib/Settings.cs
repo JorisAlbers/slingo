@@ -9,7 +9,7 @@ namespace SlingoLib
     {
         public TeamSettings Team1 { get; }
         public TeamSettings Team2 { get; }
-        public TeamSettings StartingTeam { get; }
+        public int StartingTeamIndex { get; }
         
         public int WordSize { get; }
         
@@ -22,19 +22,19 @@ namespace SlingoLib
         public int Rounds { get; }
         
 
-        public Settings(TeamSettings team1, TeamSettings team2, TeamSettings startingTeam, int wordSize, int timeout, int rounds)
+        public Settings(TeamSettings team1, TeamSettings team2, int startingTeamIndex, int wordSize, int timeout, int rounds)
         {
-            if (startingTeam != team1 && startingTeam != team2)
+            if (startingTeamIndex != 0 && startingTeamIndex != 1)
             {
-                throw new ArgumentException("The starting team must be either team 1 or team 2");
+                throw new ArgumentException("The starting team must be either 0 or 1");
             }
 
             Team1 = team1;
             Team2 = team2;
-            StartingTeam= startingTeam;
             WordSize = wordSize;
             Timeout = timeout;
             Rounds = rounds;
+            StartingTeamIndex = startingTeamIndex;
         }
     }
 }

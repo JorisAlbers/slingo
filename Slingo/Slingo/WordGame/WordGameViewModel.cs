@@ -26,14 +26,15 @@ namespace Slingo.WordGame
         public WordGameViewModel(Settings settings, string word, AudioPlaybackEngine audioPlaybackEngine)
         {
             _settings = settings;
-            int startingTeamIndex = settings.StartingTeam == settings.Team1 ? 0 : 1;
-            _wordGame = new SlingoLib.Logic.Word.WordGame(new WordPuzzle(word), startingTeamIndex);
+            _wordGame = new SlingoLib.Logic.Word.WordGame(new WordPuzzle(word), settings.StartingTeamIndex);
 
             _audioPlaybackEngine = audioPlaybackEngine;
             _timeOutSound = new CachedSound(@"Resources\Sounds\WordGame\timeout.wav");
 
             ScoreBoardTeam1 = new ScoreboardViewModel(settings.Team1.Name, HorizontalAlignment.Left);
             ScoreBoardTeam2 = new ScoreboardViewModel(settings.Team2.Name, HorizontalAlignment.Right);
+            SetActiveTeam(settings.StartingTeamIndex);
+
             BoardViewModel = new BoardViewModel(settings.WordSize, audioPlaybackEngine);
             _knownLetters = word[0] + new string('.', word.Length - 1);
             BoardViewModel.StartNextAttempt(_knownLetters);
@@ -69,14 +70,13 @@ namespace Slingo.WordGame
             {
                 // TODO:
                 // Play win sound
+                // add score
                 // End game
                 return;
             }
             else if (_wordGame.State == WordGameState.SwitchTeam)
             {
-                // TODO:
-                // Play switch team sound
-                // Switch score board active team state
+                SwitchTeam();
             }
             
             UpdateKnownLetters(result);
@@ -91,9 +91,7 @@ namespace Slingo.WordGame
             _wordGame.Reject();
             if(_wordGame.State == WordGameState.SwitchTeam)
             {
-                // TODO:
-                // Play switch team sound
-                // Switch score board active team state
+                SwitchTeam();
             }
 
             await BoardViewModel.StartNextAttempt(_knownLetters);
@@ -120,6 +118,28 @@ namespace Slingo.WordGame
             }
 
             _knownLetters = new string(knownLetters);
+        }
+
+        private void SetActiveTeam(int index)
+        {
+            if (index == 0)
+            {
+                ScoreBoardTeam1.IsActiveTeam = true;
+                ScoreBoardTeam2.IsActiveTeam = false;
+            }
+            else
+            {
+                ScoreBoardTeam2.IsActiveTeam = true;
+                ScoreBoardTeam1.IsActiveTeam = false;
+            }
+        }
+
+        private void SwitchTeam()
+        {
+            // TODO:
+            // Play switch team sound
+            // Add additional row
+            SetActiveTeam(_wordGame.ActiveTeamIndex);
         }
     }
 }

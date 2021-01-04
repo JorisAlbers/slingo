@@ -26,7 +26,7 @@ namespace Slingo.Admin.Setup
             {
                 TeamSettings team1 = new TeamSettings(TeamA.Name, TeamA.Player1, TeamA.Player2);
                 TeamSettings team2 = new TeamSettings(TeamB.Name, TeamB.Player1, TeamB.Player2);
-                return new Settings(team1, team2,team1,WordSize,TimeOut,Rounds);
+                return new Settings(team1, team2,1,WordSize,TimeOut,Rounds);
             });
         }
     }
