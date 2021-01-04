@@ -12,10 +12,10 @@ namespace Slingo.WordGame
     {
         private readonly Settings _settings;
         private readonly AudioPlaybackEngine _audioPlaybackEngine;
-        private WordPuzzle _puzzleLogic;
         private string _knownLetters;
         private string _activeWord;
         private CachedSound _timeOutSound;
+        private SlingoLib.Logic.Word.WordGame _wordGame;
 
         public BoardViewModel BoardViewModel { get; }
         
@@ -26,8 +26,10 @@ namespace Slingo.WordGame
         public WordGameViewModel(Settings settings, string word, AudioPlaybackEngine audioPlaybackEngine)
         {
             _settings = settings;
+            int startingTeamIndex = settings.StartingTeam == settings.Team1 ? 0 : 1;
+            _wordGame = new SlingoLib.Logic.Word.WordGame(new WordPuzzle(word), startingTeamIndex);
+
             _audioPlaybackEngine = audioPlaybackEngine;
-            _puzzleLogic = new WordPuzzle(word);
             _timeOutSound = new CachedSound(@"Resources\Sounds\WordGame\timeout.wav");
 
             ScoreBoardTeam1 = new ScoreboardViewModel(settings.Team1.Name, HorizontalAlignment.Left);
@@ -60,9 +62,23 @@ namespace Slingo.WordGame
         /// </summary>
         public async Task AcceptWord()
         {
-            var result = _puzzleLogic.Solve(_activeWord);
+            var result = _wordGame.Solve(_activeWord);
             await BoardViewModel.AcceptWord(result);
-            // TODO check if correct
+
+            if (_wordGame.State == WordGameState.Won)
+            {
+                // TODO:
+                // Play win sound
+                // End game
+                return;
+            }
+            else if (_wordGame.State == WordGameState.SwitchTeam)
+            {
+                // TODO:
+                // Play switch team sound
+                // Switch score board active team state
+            }
+            
             UpdateKnownLetters(result);
             await BoardViewModel.StartNextAttempt(_knownLetters);
         }
@@ -72,13 +88,21 @@ namespace Slingo.WordGame
         /// </summary>
         public async Task RejectWord()
         {
+            _wordGame.Reject();
+            if(_wordGame.State == WordGameState.SwitchTeam)
+            {
+                // TODO:
+                // Play switch team sound
+                // Switch score board active team state
+            }
+
             await BoardViewModel.StartNextAttempt(_knownLetters);
         }
 
         public async Task TimeOut()
         {
             _audioPlaybackEngine.PlaySound(_timeOutSound);
-            await BoardViewModel.StartNextAttempt(_knownLetters);
+            await RejectWord();
         }
 
         private void UpdateKnownLetters(WordPuzzleEntry wordGameEntry)
