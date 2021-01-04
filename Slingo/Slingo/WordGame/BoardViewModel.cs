@@ -39,7 +39,8 @@ namespace Slingo.WordGame
 
         public async Task StartNextAttempt(string knownLetters)
         {
-            WordGameRowViewModel viewmodel = _wordGameRows.Items.ElementAt(++attemptIndex);
+            attemptIndex = Math.Min(attemptIndex + 1, 4);
+            WordGameRowViewModel viewmodel = _wordGameRows.Items.ElementAt(attemptIndex);
             await viewmodel.SetInitialLetters(knownLetters);
         }
 
@@ -68,7 +69,14 @@ namespace Slingo.WordGame
                 await Task.Delay(200);
             }
         }
-        
+
+        public async Task AddAdditionalRow()
+        {
+            _wordGameRows.RemoveAt(0);
+            _wordGameRows.Add(new WordGameRowViewModel(_wordGameRows.Items.First().Letters.Count));
+            await Task.Delay(200);
+        }
+
         private CombinedSoundSampleProvider SetupWordGameEntrySounds(WordPuzzleEntry entry, int millisecondsPerSound)
         {
             CachedSound[] sounds = new CachedSound[entry.LetterEntries.Length];

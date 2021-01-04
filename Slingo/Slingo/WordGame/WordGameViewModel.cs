@@ -134,11 +134,11 @@ namespace Slingo.WordGame
             }
         }
 
-        private void SwitchTeam()
+        private async Task SwitchTeam()
         {
             // TODO:
             // Play switch team sound
-            // Add additional row
+            await BoardViewModel.AddAdditionalRow();
             SetActiveTeam(_wordGame.ActiveTeamIndex);
         }
     }
