@@ -28,6 +28,7 @@ namespace Slingo.Admin.WordGameControl
         public ReactiveCommand<Unit, Unit> GenerateWord { get; }
         public ReactiveCommand<Unit, string> StartGame { get; }
         public ReactiveCommand<Unit, Unit> TimeOut { get; }
+        public ReactiveCommand<Unit, Unit> AddRowAndSwitchTeam { get; }
 
 
         public InputViewModel(WordRepository wordRepository, Settings settings)
@@ -45,6 +46,7 @@ namespace Slingo.Admin.WordGameControl
             Accept = ReactiveCommand.Create(() => new Unit(), canAccept);
             Reject = ReactiveCommand.Create(() => new Unit());
             TimeOut = ReactiveCommand.Create(() => new Unit());
+            AddRowAndSwitchTeam = ReactiveCommand.Create(() => new Unit());
             
             GenerateWord = ReactiveCommand.Create(() =>
             {

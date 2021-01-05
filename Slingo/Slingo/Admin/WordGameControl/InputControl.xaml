@@ -31,6 +31,13 @@
 
         </UniformGrid>
 
+        <UniformGrid DockPanel.Dock="Top" Rows="1" Height="40" Margin="0,10">
+            <Rectangle/>
+            <Rectangle/>
+            <Rectangle/>
+            <Button Content="Add row and switch team" x:Name="AddRowAndSwitchTeamButton"/>
+        </UniformGrid>
+
         <UniformGrid Rows="1" Height="40" Margin="0,10,0,0">
 
             <TextBox  x:Name="WordTextBox" Margin="5,0" FontSize="20"/>

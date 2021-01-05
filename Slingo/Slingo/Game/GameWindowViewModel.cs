@@ -36,8 +36,6 @@ namespace Slingo.Game
         public async void StartGame(Settings settings, string word)
         {
             _settings = settings;
-            // TODO The next lines should all move to the wordGameViewModel.
-            // THis should also keep track of the scores etc, next to the board.
             _wordGameViewModel = new WordGameViewModel(settings,word,_audioPlaybackEngine);
             SelectedViewModel = _wordGameViewModel;
             _audioPlaybackEngine.PlaySound(_newLetterAppearsSound);
@@ -72,6 +70,15 @@ namespace Slingo.Game
         public async void TimeOut()
         {
             await _wordGameViewModel.TimeOut();
+            if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
+            {
+                await CountDownStarted.Execute();
+            }
+        }
+
+        public async void AddRowAndSwitchTeam()
+        {
+            await _wordGameViewModel.AddRowAndSwitchTeam();
             if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
             {
                 await CountDownStarted.Execute();
