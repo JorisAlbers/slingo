@@ -14,7 +14,7 @@ namespace Slingo.WordGame
         private readonly AudioPlaybackEngine _audioPlaybackEngine;
         private string _knownLetters;
         private string _activeWord;
-        private CachedSound _timeOutSound;
+        private CachedSound _timeOutSound, _winSound;
         private SlingoLib.Logic.Word.WordGame _wordGame;
 
         public BoardViewModel BoardViewModel { get; }
@@ -30,6 +30,7 @@ namespace Slingo.WordGame
 
             _audioPlaybackEngine = audioPlaybackEngine;
             _timeOutSound = new CachedSound(@"Resources\Sounds\WordGame\timeout.wav");
+            _winSound = new CachedSound(@"Resources\Sounds\WordGame\win.wav");
 
             ScoreBoardTeam1 = new ScoreboardViewModel(settings.Team1.Name, HorizontalAlignment.Left);
             ScoreBoardTeam2 = new ScoreboardViewModel(settings.Team2.Name, HorizontalAlignment.Right);
@@ -69,7 +70,7 @@ namespace Slingo.WordGame
             if (_wordGame.State == WordGameState.Won)
             {
                 // TODO:
-                // Play win sound
+                _audioPlaybackEngine.PlaySound(_winSound);
                 // add score
                 // End game
                 return;
