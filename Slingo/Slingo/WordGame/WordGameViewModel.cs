@@ -24,7 +24,7 @@ namespace Slingo.WordGame
         [Reactive] public object ActiveTeamName { get; private set; }
 
 
-        public WordGameViewModel(Settings settings, string word, AudioPlaybackEngine audioPlaybackEngine)
+        public WordGameViewModel(Settings settings, Team team1, Team team2, string word, AudioPlaybackEngine audioPlaybackEngine)
         {
             _settings = settings;
             _wordGame = new SlingoLib.Logic.Word.WordGame(new WordPuzzle(word), settings.StartingTeamIndex);
@@ -34,8 +34,8 @@ namespace Slingo.WordGame
             _winSound = new CachedSound(@"Resources\Sounds\WordGame\win.wav");
             _rejectSound = new CachedSound(@"Resources\Sounds\WordGame\rejected.wav");
 
-            ScoreBoardTeam1 = new ScoreboardViewModel(settings.Team1.Name, HorizontalAlignment.Left);
-            ScoreBoardTeam2 = new ScoreboardViewModel(settings.Team2.Name, HorizontalAlignment.Right);
+            ScoreBoardTeam1 = new ScoreboardViewModel(team1.Settings.Name, team1.Score, HorizontalAlignment.Left);
+            ScoreBoardTeam2 = new ScoreboardViewModel(team2.Settings.Name, team2.Score, HorizontalAlignment.Right);
             SetActiveTeam(settings.StartingTeamIndex);
 
             BoardViewModel = new BoardViewModel(settings.WordSize, audioPlaybackEngine);
@@ -63,24 +63,31 @@ namespace Slingo.WordGame
         /// <summary>
         /// Accept the word that was previously set
         /// </summary>
-        public async Task AcceptWord()
+        public async Task<WordGameState> AcceptWord()
         {
             var result = _wordGame.Solve(_activeWord);
             await BoardViewModel.AcceptWord(result);
 
             if (_wordGame.State == WordGameState.Won)
             {
-                // TODO:
                 _audioPlaybackEngine.PlaySound(_winSound);
-                // add score
-                // End game
-                return;
+                if (_wordGame.ActiveTeamIndex == 0)
+                {
+                    ScoreBoardTeam1.Score += 50;
+                }
+                else
+                {
+                    ScoreBoardTeam2.Score += 50;
+                }
+                return WordGameState.Won;
             }
             
             if (_wordGame.State == WordGameState.Ongoing)
             {
                 await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             }
+
+            return WordGameState.Ongoing;
         }
 
         /// <summary>
@@ -120,7 +127,7 @@ namespace Slingo.WordGame
                 ScoreBoardTeam1.IsActiveTeam = false;
             }
         }
-
+        
         public async Task AddRowAndSwitchTeam()
         {
             // TODO:// Play switch team sound

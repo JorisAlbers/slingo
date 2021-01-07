@@ -22,6 +22,7 @@ namespace Slingo.Game
         private WordGameViewModel _wordGameViewModel;
         private Settings _settings;
         private CachedSound _newLetterAppearsSound;
+        private Team _team1,_team2;
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
 
         public ReactiveCommand<Unit,Unit> CountDownStarted { get; } // TODO move to model class
@@ -36,7 +37,10 @@ namespace Slingo.Game
         public async void StartGame(Settings settings, string word)
         {
             _settings = settings;
-            _wordGameViewModel = new WordGameViewModel(settings,word,_audioPlaybackEngine);
+            _team1 = new Team(settings.Team1);
+            _team2 = new Team(settings.Team2);
+            
+            _wordGameViewModel = new WordGameViewModel(settings, _team1, _team2, word, _audioPlaybackEngine);
             SelectedViewModel = _wordGameViewModel;
             _audioPlaybackEngine.PlaySound(_newLetterAppearsSound);
             if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class

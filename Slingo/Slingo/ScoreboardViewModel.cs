@@ -8,14 +8,15 @@ namespace Slingo
     {
         public string TeamName { get; }
         
-        [Reactive] public int Score { get; private set; }
+        [Reactive] public int Score { get; set; }
         [Reactive] public bool IsActiveTeam { get; set; }
         public HorizontalAlignment HorizontalPosition { get;}
 
-        public ScoreboardViewModel(string teamName, HorizontalAlignment horizontalPosition)
+        public ScoreboardViewModel(string teamName,int score, HorizontalAlignment horizontalPosition)
         {
             TeamName = teamName;
             HorizontalPosition = horizontalPosition;
+            Score = score;
         }
     }
 }
