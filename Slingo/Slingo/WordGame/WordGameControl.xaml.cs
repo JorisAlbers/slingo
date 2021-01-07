@@ -40,6 +40,11 @@ namespace Slingo.WordGame
                         vm => vm.ScoreBoardTeam2,
                         view => view.Team2ScoreBoard.ViewModel)
                     .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.ActiveTeamName,
+                        view => view.TeamNameTextBlock.Text)
+                    .DisposeWith(dispose);
             });
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 using Slingo.Sound;
 using SlingoLib;
 using SlingoLib.Logic;
@@ -21,7 +22,8 @@ namespace Slingo.WordGame
         
         public ScoreboardViewModel ScoreBoardTeam1 { get; }
         public ScoreboardViewModel ScoreBoardTeam2 { get; }
-        
+        [Reactive] public object ActiveTeamName { get; private set; }
+
 
         public WordGameViewModel(Settings settings, string word, AudioPlaybackEngine audioPlaybackEngine)
         {
@@ -126,6 +128,7 @@ namespace Slingo.WordGame
 
         private void SetActiveTeam(int index)
         {
+            ActiveTeamName = $"TEAM {index + 1}";
             if (index == 0)
             {
                 ScoreBoardTeam1.IsActiveTeam = true;
