@@ -50,6 +50,11 @@ namespace Slingo.Admin.WordGameControl
                         view => view.AddRowAndSwitchTeamButton)
                     .DisposeWith(dispose);
 
+                this.BindCommand(ViewModel,
+                        vm => vm.AddBonusLetter,
+                        view => view.AddBonusLetterButton)
+                    .DisposeWith(dispose);
+
                 this.OneWayBind(ViewModel,
                         vm => vm.CurrentWord,
                         view => view.CurrentWordTextBlock.Text)

@@ -37,6 +37,7 @@ namespace Slingo.Admin
                 inputViewModel.Reject.Subscribe(onNext => _gameWindowViewModel.RejectWord());
                 inputViewModel.TimeOut.Subscribe(onNext => _gameWindowViewModel.TimeOut());
                 inputViewModel.AddRowAndSwitchTeam.Subscribe(onNext => _gameWindowViewModel.AddRowAndSwitchTeam());
+                inputViewModel.AddBonusLetter.Subscribe(onNext => _gameWindowViewModel.AddBonusLetter());
 
                 _gameWindowViewModel.CountDownStarted.Subscribe(onNext => inputViewModel.StartCountDown());
 

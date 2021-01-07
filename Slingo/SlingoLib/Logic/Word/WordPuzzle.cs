@@ -6,8 +6,11 @@ namespace SlingoLib.Logic.Word
     {
         private char[] _word;
 
+        public string Word { get; }
+
         public WordPuzzle(string word)
         {
+            Word = word;
             _word = word.ToCharArray();
         }
 

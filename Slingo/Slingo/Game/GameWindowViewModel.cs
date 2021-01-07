@@ -84,5 +84,14 @@ namespace Slingo.Game
                 await CountDownStarted.Execute();
             }
         }
+
+        public async void AddBonusLetter()
+        {
+            await _wordGameViewModel.AddBonusLetter();
+            if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
+            {
+                await CountDownStarted.Execute();
+            }
+        }
     }
 }

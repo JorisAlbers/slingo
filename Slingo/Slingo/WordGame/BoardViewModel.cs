@@ -80,6 +80,14 @@ namespace Slingo.WordGame
             await Task.Delay(200);
         }
 
+        public async Task AddBonusLetter(char letter, int index)
+        {
+            // The knownLetters now has a bonus letter added
+            var viewmodel = _wordGameRows.Items.ElementAt(attemptIndex);
+            viewmodel.SetLetter(index,letter, LetterState.DoesNotExistInWord);
+            await Task.Delay(200);
+        }
+
         private CombinedSoundSampleProvider SetupWordGameEntrySounds(WordPuzzleEntry entry, int millisecondsPerSound)
         {
             CachedSound[] sounds = new CachedSound[entry.LetterEntries.Length];

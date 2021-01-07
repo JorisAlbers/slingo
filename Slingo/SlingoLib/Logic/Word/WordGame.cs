@@ -12,8 +12,12 @@ namespace SlingoLib.Logic.Word
         public WordGame(WordPuzzle wordPuzzle, int startingTeamIndex)
         {
             _wordPuzzle = wordPuzzle;
+            KnownLetters = wordPuzzle.Word[0] + new string('.', wordPuzzle.Word.Length - 1);
             ActiveTeamIndex = startingTeamIndex;
+            
         }
+        
+        public string KnownLetters { get; private set; }
         
         public int ActiveTeamIndex { get; private set; }
         
@@ -27,7 +31,7 @@ namespace SlingoLib.Logic.Word
             {
                 throw new InvalidOperationException("Game is already over.");
             }
-
+            
             var puzzleEntry = _wordPuzzle.Solve(word);
             if (puzzleEntry.LetterEntries.All(x => x.State == LetterState.CorrectLocation))
             {
@@ -35,8 +39,9 @@ namespace SlingoLib.Logic.Word
                 return puzzleEntry;
             }
             
-            
-            if(AttemptIndex++ > 3)
+            UpdateKnownLetters(puzzleEntry);
+
+            if (AttemptIndex++ > 3)
             {
                 ActiveTeamIndex = ActiveTeamIndex == 0 ? 1 : 0;
                 State = WordGameState.SwitchTeam;
@@ -47,6 +52,23 @@ namespace SlingoLib.Logic.Word
             }
 
             return puzzleEntry;
+        }
+
+        private void UpdateKnownLetters(WordPuzzleEntry entry)
+        {
+            char[] knownLetters = KnownLetters.ToCharArray();
+            for (int i = 0; i < KnownLetters.Length; i++)
+            {
+                if (knownLetters[i] == '.')
+                {
+                    if (entry.LetterEntries[i].State == LetterState.CorrectLocation)
+                    {
+                        knownLetters[i] = entry.LetterEntries[i].Letter;
+                    }
+                }
+            }
+
+            KnownLetters = new string(knownLetters);
         }
 
         public void Reject()
@@ -65,6 +87,23 @@ namespace SlingoLib.Logic.Word
             {
                 State = WordGameState.Ongoing;
             }
+        }
+
+        public char AddBonusLetter(out int index)
+        {
+            char[] knownLetters = KnownLetters.ToCharArray();
+            for (int i = 0; i < KnownLetters.Length; i++)
+            {
+                if (knownLetters[i] == '.')
+                {
+                    knownLetters[i] = _wordPuzzle.Word[i];
+                    KnownLetters = new string(knownLetters);
+                    index = i;
+                    return _wordPuzzle.Word[i];
+                }
+            }
+
+            throw new Exception("Word is already known");
         }
     }
     

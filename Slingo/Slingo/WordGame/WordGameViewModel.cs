@@ -13,7 +13,6 @@ namespace Slingo.WordGame
     {
         private readonly Settings _settings;
         private readonly AudioPlaybackEngine _audioPlaybackEngine;
-        private string _knownLetters;
         private string _activeWord;
         private CachedSound _timeOutSound, _winSound, _rejectSound;
         private SlingoLib.Logic.Word.WordGame _wordGame;
@@ -40,8 +39,7 @@ namespace Slingo.WordGame
             SetActiveTeam(settings.StartingTeamIndex);
 
             BoardViewModel = new BoardViewModel(settings.WordSize, audioPlaybackEngine);
-            _knownLetters = word[0] + new string('.', word.Length - 1);
-            BoardViewModel.StartNextAttempt(_knownLetters);
+            BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
         }
 
         public void SetWord(string word)
@@ -79,10 +77,9 @@ namespace Slingo.WordGame
                 return;
             }
             
-            UpdateKnownLetters(result);
             if (_wordGame.State == WordGameState.Ongoing)
             {
-                await BoardViewModel.StartNextAttempt(_knownLetters);
+                await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             }
         }
 
@@ -98,7 +95,7 @@ namespace Slingo.WordGame
             }
             else
             {
-                await BoardViewModel.StartNextAttempt(_knownLetters);
+                await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             }
 
         }
@@ -108,24 +105,7 @@ namespace Slingo.WordGame
             _audioPlaybackEngine.PlaySound(_timeOutSound);
             await RejectWord();
         }
-
-        private void UpdateKnownLetters(WordPuzzleEntry wordGameEntry)
-        {
-            char[] knownLetters = _knownLetters.ToCharArray();
-            for (int i = 0; i < knownLetters.Length; i++)
-            {
-                if (knownLetters[i] == '.')
-                {
-                    if (wordGameEntry.LetterEntries[i].State == LetterState.CorrectLocation)
-                    {
-                        knownLetters[i] = wordGameEntry.LetterEntries[i].Letter;
-                    }
-                }
-            }
-
-            _knownLetters = new string(knownLetters);
-        }
-
+        
         private void SetActiveTeam(int index)
         {
             ActiveTeamName = $"TEAM {index + 1}";
@@ -146,8 +126,15 @@ namespace Slingo.WordGame
             // TODO:// Play switch team sound
             await BoardViewModel.AddAdditionalRow();
             SetActiveTeam(_wordGame.ActiveTeamIndex);
-            await BoardViewModel.StartNextAttempt(_knownLetters);
+            await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             // TODO add bonus letter sound
+        }
+
+        public async Task AddBonusLetter()
+        {
+            // TODO: Play bonus letter appears sound
+            char letter = _wordGame.AddBonusLetter(out int index);
+            await BoardViewModel.AddBonusLetter(letter, index);
         }
     }
 }
