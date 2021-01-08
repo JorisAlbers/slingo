@@ -6,8 +6,24 @@
                                 xmlns:local="clr-namespace:Slingo.Bingo"
                                 xmlns:reactiveUi="http://reactiveui.net"
                                 mc:Ignorable="d" 
-                                d:DesignHeight="450" d:DesignWidth="800">
-    <Border>
-        <TextBlock x:Name="NumberTextBlock"/>
-    </Border>
+                                d:DesignHeight="100" d:DesignWidth="100">
+    <Grid>
+        <Ellipse>
+            <Ellipse.Fill>
+                <LinearGradientBrush EndPoint="0.128,0.166" StartPoint="0.908,0.752">
+                    <GradientStop Color="#FF00021D" Offset="0.055"/>
+                    <GradientStop Color="#FF3C56AD" Offset="1"/>
+                </LinearGradientBrush>
+            </Ellipse.Fill>
+
+        </Ellipse>
+
+        <Viewbox>
+            <TextBlock x:Name="NumberTextBlock" 
+                       HorizontalAlignment="Stretch"
+                       Foreground="White" 
+                       Margin="5">
+            </TextBlock>
+        </Viewbox>
+    </Grid>
 </reactiveUi:ReactiveUserControl>
