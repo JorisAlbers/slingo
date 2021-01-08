@@ -30,6 +30,51 @@ namespace Slingo.Bingo
                         vm => vm.Number,
                         view => view.NumberTextBlock.Text)
                     .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.IsFilled,
+                    view => view.PrimaryColorGradientStop.Color,
+                    (isFilled) =>
+                    {
+                        if (isFilled)
+                        {
+                            return Color.FromRgb(209, 224, 69);
+                        }
+                        else
+                        {
+                            return Color.FromRgb(60, 86, 173);
+                        }
+                    }).DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.IsFilled,
+                    view => view.SecondaryColorGradientStop.Color,
+                    (isFilled) =>
+                    {
+                        if (isFilled)
+                        {
+                            return Color.FromRgb(159, 120, 0);
+                        }
+                        else
+                        {
+                            return Color.FromRgb(0,0,0);
+                        }
+                    }).DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.IsFilled,
+                    view => view.NumberTextBlock.Visibility,
+                    (isFilled) =>
+                    {
+                        if (isFilled)
+                        {
+                            return Visibility.Collapsed;
+                        }
+                        else
+                        {
+                            return Visibility.Visible;
+                        }
+                    }).DisposeWith(dispose);
             });
         }
     }

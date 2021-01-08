@@ -11,8 +11,8 @@
         <Ellipse>
             <Ellipse.Fill>
                 <LinearGradientBrush EndPoint="0.128,0.166" StartPoint="0.908,0.752">
-                    <GradientStop Color="#FF00021D" Offset="0.055"/>
-                    <GradientStop Color="#FF3C56AD" Offset="1"/>
+                    <GradientStop x:Name="SecondaryColorGradientStop"  Offset="0.055"/>
+                    <GradientStop x:Name="PrimaryColorGradientStop"   Offset="1"/>
                 </LinearGradientBrush>
             </Ellipse.Fill>
 
