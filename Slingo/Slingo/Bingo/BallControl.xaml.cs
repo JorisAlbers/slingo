@@ -75,6 +75,31 @@ namespace Slingo.Bingo
                             return Visibility.Visible;
                         }
                     }).DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.ShowPartlyFilledIndex,
+                        view => view.Fill1.Visibility,
+                        (index) => index == 1 ? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.ShowPartlyFilledIndex,
+                        view => view.Fill2.Visibility,
+                        (index) => index == 2 ? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.ShowPartlyFilledIndex,
+                        view => view.Fill3.Visibility,
+                        (index) => index == 3 ? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.ShowPartlyFilledIndex,
+                        view => view.Fill4.Visibility,
+                        (index) => index == 4 ? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
             });
         }
     }

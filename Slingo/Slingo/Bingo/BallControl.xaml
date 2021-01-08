@@ -11,11 +11,46 @@
         <Ellipse>
             <Ellipse.Fill>
                 <LinearGradientBrush EndPoint="0.128,0.166" StartPoint="0.908,0.752">
-                    <GradientStop x:Name="SecondaryColorGradientStop"  Offset="0.055"/>
-                    <GradientStop x:Name="PrimaryColorGradientStop"   Offset="1"/>
+                    <GradientStop x:Name="PrimaryColorGradientStop" Offset="0.055" Color="Black"/>
+                    <GradientStop x:Name="SecondaryColorGradientStop" Offset="1" Color="#FF3C56AD"/>
                 </LinearGradientBrush>
             </Ellipse.Fill>
+        </Ellipse>
 
+        <Ellipse x:Name="Fill1">
+            <Ellipse.Fill>
+                <LinearGradientBrush EndPoint="0.292,0.891" StartPoint="0.744,0.027">
+                    <GradientStop Offset="0.314" Color="Yellow"/>
+                    <GradientStop Offset="0.35" Color="Transparent"/>
+                </LinearGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Ellipse x:Name="Fill2">
+            <Ellipse.Fill>
+                <LinearGradientBrush EndPoint="0.515,0.947" StartPoint="0.521,-0.029">
+                    <GradientStop Offset="0.547" Color="Yellow"/>
+                    <GradientStop Offset="0.641" Color="Transparent"/>
+                </LinearGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Ellipse x:Name="Fill3">
+            <Ellipse.Fill>
+                <LinearGradientBrush EndPoint="0.693,0.915" StartPoint="0.343,0.003">
+                    <GradientStop Offset="0.746" Color="Yellow"/>
+                    <GradientStop Offset="0.801" Color="Transparent"/>
+                </LinearGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <Ellipse x:Name="Fill4">
+            <Ellipse.Fill>
+                <LinearGradientBrush EndPoint="0.767,1.05" StartPoint="0.343,0.003">
+                    <GradientStop Offset="0.727" Color="Yellow"/>
+                    <GradientStop Offset="1" Color="#FFD1E045"/>
+                </LinearGradientBrush>
+            </Ellipse.Fill>
         </Ellipse>
 
         <Viewbox>
