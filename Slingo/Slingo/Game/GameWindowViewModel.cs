@@ -7,6 +7,7 @@ using System.Windows.Automation;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Slingo.Admin;
+using Slingo.Bingo;
 using Slingo.Sound;
 using Slingo.WordGame;
 using SlingoLib;
@@ -39,17 +40,19 @@ namespace Slingo.Game
             _settings = settings;
             _team1 = new Team(settings.Team1);
             _team2 = new Team(settings.Team2);
-            
-            _wordGameViewModel = new WordGameViewModel(settings, _team1, _team2, word, _audioPlaybackEngine);
+
+            SelectedViewModel = new BingoViewModel(true, new Random());
+            SelectedViewModel = new BingoViewModel(false, new Random());
+
+            /*_wordGameViewModel = new WordGameViewModel(settings, _team1, _team2, word, _audioPlaybackEngine);
             SelectedViewModel = _wordGameViewModel;
             _audioPlaybackEngine.PlaySound(_newLetterAppearsSound);
             if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
             {
                 await CountDownStarted.Execute();
-            }
+            }*/
         }
-
-
+        
         public async void AcceptWord()
         {
             await _wordGameViewModel.AcceptWord();
