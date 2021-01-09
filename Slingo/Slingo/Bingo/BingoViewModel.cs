@@ -91,7 +91,7 @@ namespace Slingo.Bingo
                     }
                 }
 
-                if (!filledNumbers.Contains(matrix[matrix.Length - 1 - i][matrix.Length - 1 - i].Number))
+                if (filledNumbers.Contains(matrix[matrix.Length - 1 - i][matrix.Length - 1 - i].Number))
                 {
                     if (++filled2 > 3)
                     {
