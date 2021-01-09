@@ -8,7 +8,8 @@
                            xmlns:reactiveUi="http://reactiveui.net"
                            xmlns:game="clr-namespace:Slingo.Game"
                            mc:Ignorable="d"
-                           Title="GameWindow" Height="450" Width="800">
+                           Title="GameWindow" Height="450" Width="800"
+                           AllowsTransparency="False">
         <reactiveUi:ViewModelViewHost x:Name="ViewModelViewHost"
                                       HorizontalAlignment="Stretch" 
                                       VerticalAlignment="Stretch"

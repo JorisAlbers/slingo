@@ -6,7 +6,8 @@
                            xmlns:local="clr-namespace:Slingo.Admin"
                            xmlns:reactiveUi="http://reactiveui.net"
                            mc:Ignorable="d"
-                           Title="AdminWindow" Height="450" Width="800">
+                           Title="AdminWindow" Height="450" Width="800"
+                           AllowsTransparency="False">
     <reactiveUi:ViewModelViewHost x:Name="ViewModelViewHost"
                                   HorizontalAlignment="Stretch" 
                                   VerticalAlignment="Stretch"
