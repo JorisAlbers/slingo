@@ -41,16 +41,20 @@ namespace Slingo.Game
             _team1 = new Team(settings.Team1);
             _team2 = new Team(settings.Team2);
 
-            SelectedViewModel = new BingoViewModel(true, new Random());
-            SelectedViewModel = new BingoViewModel(false, new Random());
+            //BingoViewModel bingoViewModel = new BingoViewModel(true, settings.ExcludedBallNumbersEven, new Random());
+            BingoViewModel bingoViewModel = new BingoViewModel(false, settings.ExcludedBallNumbersOdd, new Random());
+            SelectedViewModel = bingoViewModel;
+            bingoViewModel.FillInitialBalls();
+            
+            //SelectedViewModel = new BingoViewModel(false, new Random(), new int[]{1,3,5,7,9});
 
-            /*_wordGameViewModel = new WordGameViewModel(settings, _team1, _team2, word, _audioPlaybackEngine);
-            SelectedViewModel = _wordGameViewModel;
+            //_wordGameViewModel = new WordGameViewModel(settings, _team1, _team2, word, _audioPlaybackEngine);
+            //SelectedViewModel = _wordGameViewModel;
             _audioPlaybackEngine.PlaySound(_newLetterAppearsSound);
             if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
             {
                 await CountDownStarted.Execute();
-            }*/
+            }
         }
         
         public async void AcceptWord()
