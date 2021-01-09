@@ -20,9 +20,12 @@ namespace SlingoLib
         /// The number of times a SLINGO needs to be achieved before the game ends.
         /// </summary>
         public int Rounds { get; }
-        
 
-        public Settings(TeamSettings team1, TeamSettings team2, int startingTeamIndex, int wordSize, int timeout, int rounds)
+        public int[] ExcludedBallNumbersEven { get; }
+        public int[] ExcludedBallNumbersOdd { get; }
+
+
+        public Settings(TeamSettings team1, TeamSettings team2, int startingTeamIndex, int wordSize, int timeout, int rounds, int[] excludedBallNumbersEven, int[] excludedBallNumbersOdd)
         {
             if (startingTeamIndex != 0 && startingTeamIndex != 1)
             {
@@ -34,6 +37,8 @@ namespace SlingoLib
             WordSize = wordSize;
             Timeout = timeout;
             Rounds = rounds;
+            ExcludedBallNumbersEven = excludedBallNumbersEven;
+            ExcludedBallNumbersOdd = excludedBallNumbersOdd;
             StartingTeamIndex = startingTeamIndex;
         }
     }
