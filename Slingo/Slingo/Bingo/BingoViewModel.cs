@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Slingo.Bingo
     public class BingoViewModel : ReactiveObject
     {
         private readonly int[] _alreadyFilledNumbers;
-        private BingoBallViewModel[][] Matrix { get; }
+        private BingoBallViewModel[][] Matrix { get; set; }
 
         public BingoBallViewModel[] FlattendMatrix => Matrix.SelectMany(x=>x).ToArray();
         
@@ -19,18 +20,87 @@ namespace Slingo.Bingo
         {
             _alreadyFilledNumbers = alreadyFilledNumbers;
             int[] numbers = Enumerable.Range(1, 50).Where(x => evenNumbers ? ( x % 2 == 0 ) : (x % 2 != 0)).ToArray();
-            Shuffle(numbers,random);
-            Matrix = new BingoBallViewModel[5][];
-            for (int x = 0; x < 5; x += 1)
+            Matrix = SetupMatrix(random, numbers, alreadyFilledNumbers);
+        }
+
+        private BingoBallViewModel[][] SetupMatrix(Random random, int[] numbers, int[] filledNumbers)
+        {
+            BingoBallViewModel[][] matrix;
+            do
             {
-                Matrix[x] = new BingoBallViewModel[5];
-                for (int y = 0; y < 5; y += 1)
+                Shuffle(numbers, random);
+                matrix = new BingoBallViewModel[5][];
+                for (int x = 0; x < 5; x += 1)
                 {
-                    Matrix[x][y] = new BingoBallViewModel(numbers[ x * 5 + y]);
+                    matrix[x] = new BingoBallViewModel[5];
+                    for (int y = 0; y < 5; y += 1)
+                    {
+                        matrix[x][y] = new BingoBallViewModel(numbers[x * 5 + y]);
+                    }
+                }
+            } while (NeedsReshuffle(matrix, filledNumbers));
+            
+            return matrix;
+        }
+
+        private bool NeedsReshuffle(BingoBallViewModel[][] matrix, int[] filledNumbers)
+        {
+            // Horizontal
+            int filled = 0;
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                filled = 0;
+                for (int j = 0; j < matrix[i].Length; j++)
+                {
+                    if (filledNumbers.Contains(matrix[i][j].Number))
+                    {
+                        if (++filled > 3)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            // Vertical
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                filled = 0;
+                for (int j = 0; j < matrix[i].Length; j++)
+                {
+                    if (filledNumbers.Contains(matrix[j][i].Number))
+                    {
+                        if (++filled > 3)
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
             
-            // TODO make sure already filled numbers are not already in a row.
+            // Diagonal
+            filled = 0;
+            int filled2 = 0;
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                if (filledNumbers.Contains(matrix[i][i].Number))
+                {
+                    if (++filled > 3)
+                    {
+                        return true;
+                    }
+                }
+
+                if (!filledNumbers.Contains(matrix[matrix.Length - 1 - i][matrix.Length - 1 - i].Number))
+                {
+                    if (++filled2 > 3)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public async Task FillInitialBalls()
