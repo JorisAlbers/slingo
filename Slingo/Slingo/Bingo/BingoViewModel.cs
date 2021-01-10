@@ -127,7 +127,7 @@ namespace Slingo.Bingo
             diagonalLine = new BingoBallViewModel[matrix.Length];
             for (int i = 0; i < matrix.Length; i++)
             {
-                diagonalLine[i] = matrix[matrix.Length - 1 - i][matrix.Length - 1 - i];
+                diagonalLine[i] = matrix[matrix.Length - 1 - i][i];
             }
 
             yield return diagonalLine;
