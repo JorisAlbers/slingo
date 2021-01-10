@@ -13,7 +13,7 @@ namespace Slingo.Bingo
         [Reactive] public bool IsFilled { get; private set; }
         
         [Reactive] public int ShowPartlyFilledIndex { get; private set; }
-        [Reactive] public bool IsMatchPoint { get; set; } = true;
+        [Reactive] public bool IsMatchPoint { get; set; } 
 
 
         public BingoBallViewModel(int number)
