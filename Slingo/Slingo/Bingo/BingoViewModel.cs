@@ -45,6 +45,7 @@ namespace Slingo.Bingo
                 if(viewmodel.Number == number)
                 {
                     await viewmodel.Fill();
+                    break;
                 }
             }
 
