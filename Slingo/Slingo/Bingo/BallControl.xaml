@@ -76,7 +76,7 @@
             <DockPanel Height="18"
                        Width="13"
                        Margin="5">
-                <TextBlock x:Name="NumberTextBlock" 
+                <TextBlock x:Name="TextTextBlock" 
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Foreground="White">

@@ -26,47 +26,53 @@ namespace Slingo.Bingo
 
             this.WhenActivated((dispose) =>
             {
-                this.Bind(ViewModel,
-                        vm => vm.Number,
-                        view => view.NumberTextBlock.Text)
+                this.OneWayBind(ViewModel,
+                        vm => vm.Text,
+                        view => view.TextTextBlock.Text)
                     .DisposeWith(dispose);
 
                 this.OneWayBind(ViewModel,
-                    vm => vm.IsFilled,
+                    vm => vm.State,
                     view => view.PrimaryColorGradientStop.Color,
-                    (isFilled) =>
+                    (state) =>
                     {
-                        if (isFilled)
+                        switch (state)
                         {
-                            return Color.FromRgb(209, 224, 69);
-                        }
-                        else
-                        {
-                            return Color.FromRgb(60, 86, 173);
+                            case BallState.Normal:
+                                return Color.FromRgb(60, 86, 173);
+                            case BallState.Filled:
+                                return Color.FromRgb(209, 224, 69);
+                            case BallState.Won:
+                                return Color.FromRgb(223, 113, 62);
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(state), state, null);
                         }
                     }).DisposeWith(dispose);
 
                 this.OneWayBind(ViewModel,
-                    vm => vm.IsFilled,
+                    vm => vm.State,
                     view => view.SecondaryColorGradientStop.Color,
-                    (isFilled) =>
+                    (state) =>
                     {
-                        if (isFilled)
+                        switch (state)
                         {
-                            return Color.FromRgb(159, 120, 0);
-                        }
-                        else
-                        {
-                            return Color.FromRgb(0,0,0);
+                            case BallState.Normal:
+                                return Color.FromRgb(0, 0, 0);
+                            case BallState.Filled:
+                                return Color.FromRgb(159, 120, 0);
+                            case BallState.Won:
+                                return Color.FromRgb(69, 16, 0);
+                            default:
+                                throw new ArgumentOutOfRangeException(nameof(state), state, null);
                         }
                     }).DisposeWith(dispose);
 
                 this.OneWayBind(ViewModel,
-                    vm => vm.IsFilled,
-                    view => view.NumberTextBlock.Visibility,
-                    (isFilled) =>
+                    vm => vm.State,
+                    view => view.TextTextBlock.Visibility,
+                    (state) =>
                     {
-                        if (isFilled)
+                        if (state == BallState.Filled)
                         {
                             return Visibility.Collapsed;
                         }

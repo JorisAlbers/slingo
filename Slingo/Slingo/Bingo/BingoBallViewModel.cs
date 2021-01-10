@@ -9,16 +9,18 @@ namespace Slingo.Bingo
     public class BingoBallViewModel : ReactiveObject
     {
         public int Number { get; }
-
-        [Reactive] public bool IsFilled { get; private set; }
         
+        [Reactive] public string Text { get; private set; }
         [Reactive] public int ShowPartlyFilledIndex { get; private set; }
         [Reactive] public bool IsMatchPoint { get; set; } 
+        [Reactive] public BallState State { get; private set; }
 
 
         public BingoBallViewModel(int number)
         {
             Number = number;
+            Text = number.ToString();
+            State = BallState.Normal;
         }
 
         public async Task Fill()
@@ -33,8 +35,22 @@ namespace Slingo.Bingo
             ShowPartlyFilledIndex = 4;
             await Task.Delay(100);
             ShowPartlyFilledIndex = 0;
-            IsFilled = true;
+            State = BallState.Filled;
             await Task.Delay(100);
         }
+
+        public void SetWinState(string letter)
+        {
+            State = BallState.Won;
+            Text = letter;
+        }
+    }
+
+    public enum BallState
+    {
+        NotSet,
+        Normal,
+        Filled,
+        Won
     }
 }

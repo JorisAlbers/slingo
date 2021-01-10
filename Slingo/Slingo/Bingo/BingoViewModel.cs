@@ -51,15 +51,16 @@ namespace Slingo.Bingo
 
             foreach (BingoBallViewModel[] line in Lines(Matrix))
             {
-                int filled = line.Count(x => x.IsFilled);
+                int filled = line.Count(x => x.State == BallState.Filled);
                 if (filled == 5)
                 {
+                    await ShowWin(line);
                     return true;
                 }
 
                 if (filled == 4)
                 {
-                    foreach (BingoBallViewModel bingoBallViewModel in line.Where(x=>!x.IsFilled))
+                    foreach (BingoBallViewModel bingoBallViewModel in line.Where(x=>x.State != BallState.Filled))
                     {
                         bingoBallViewModel.IsMatchPoint = true;
                     }
@@ -68,7 +69,19 @@ namespace Slingo.Bingo
             
             return false;
         }
-        
+
+        private async Task ShowWin(BingoBallViewModel[] line)
+        {
+            line[0].SetWinState("SL");
+            line[1].SetWinState("I");
+            line[2].SetWinState("N");
+            line[3].SetWinState("G");
+            line[4].SetWinState("O");
+            await Task.Delay(100);
+            
+            // TODO flash white, down (also light up balls around active flashing one), down, up
+        }
+
         private BingoBallViewModel[][] SetupMatrix(Random random, int[] numbers, int[] filledNumbers)
         {
             BingoBallViewModel[][] matrix;
