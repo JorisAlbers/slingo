@@ -58,7 +58,10 @@ namespace Slingo.Bingo
 
                 if (filled == 4)
                 {
-                    // TODO Add rectangles on machpoint ball
+                    foreach (BingoBallViewModel bingoBallViewModel in line.Where(x=>!x.IsFilled))
+                    {
+                        bingoBallViewModel.IsMatchPoint = true;
+                    }
                 }
             }
             

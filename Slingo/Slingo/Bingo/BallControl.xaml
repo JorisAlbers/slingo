@@ -7,17 +7,37 @@
                                 xmlns:reactiveUi="http://reactiveui.net"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="100" d:DesignWidth="100">
-    <Grid>
-        <Ellipse>
-            <Ellipse.Fill>
-                <LinearGradientBrush EndPoint="0.128,0.166" StartPoint="0.908,0.752">
-                    <GradientStop x:Name="SecondaryColorGradientStop" Offset="0.055" Color="Black"/>
-                    <GradientStop x:Name="PrimaryColorGradientStop" Offset="1" Color="#FF3C56AD"/>
-                </LinearGradientBrush>
-            </Ellipse.Fill>
-        </Ellipse>
+    <Viewbox Stretch="Fill">
+        <Grid>
+            <Ellipse VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Ellipse.Fill>
+                    <LinearGradientBrush EndPoint="0.128,0.166" StartPoint="0.908,0.752">
+                        <GradientStop x:Name="SecondaryColorGradientStop" Offset="0.055" Color="Black"/>
+                        <GradientStop x:Name="PrimaryColorGradientStop" Offset="1" Color="#FF3C56AD"/>
+                    </LinearGradientBrush>
+                </Ellipse.Fill>
+            </Ellipse>
 
-        <Ellipse x:Name="Fill1">
+
+            <Polygon x:Name="TopMatchpointRectangle" 
+                 Points="3,3 7.5,5, 12,3" 
+                 Stroke="Red" 
+                 Fill="Red" 
+                 VerticalAlignment="Top"
+                 HorizontalAlignment="Center"
+                 Margin="0,1,0,0"
+                 />
+
+            <Polygon x:Name="BottomMatchpointRectangle" 
+                     Points="3,5 7.5,3, 12,5" 
+                     Stroke="Red"
+                     Fill="Red" 
+                     VerticalAlignment="Bottom"
+                     HorizontalAlignment="Center"
+                     Margin="0,0,0,3.5"
+            />
+
+            <Ellipse x:Name="Fill1">
             <Ellipse.Fill>
                 <LinearGradientBrush EndPoint="0.292,0.891" StartPoint="0.744,0.027">
                     <GradientStop Offset="0.314" Color="#d1e045"/>
@@ -53,12 +73,18 @@
             </Ellipse.Fill>
         </Ellipse>
 
-        <Viewbox>
-            <TextBlock x:Name="NumberTextBlock" 
-                       HorizontalAlignment="Stretch"
-                       Foreground="White" 
+            <DockPanel Height="18"
+                       Width="13"
                        Margin="5">
-            </TextBlock>
-        </Viewbox>
-    </Grid>
+                <TextBlock x:Name="NumberTextBlock" 
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="White">
+                </TextBlock>
+            </DockPanel>
+
+            
+        </Grid>
+    </Viewbox>
+   
 </reactiveUi:ReactiveUserControl>

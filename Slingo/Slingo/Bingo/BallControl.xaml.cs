@@ -100,6 +100,18 @@ namespace Slingo.Bingo
                         (index) => index == 4 ? Visibility.Visible : Visibility.Collapsed)
                     .DisposeWith(dispose);
 
+                this.OneWayBind(ViewModel,
+                        vm => vm.IsMatchPoint,
+                        view => view.TopMatchpointRectangle.Visibility,
+                        (isMatchPoint) => isMatchPoint? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.IsMatchPoint,
+                        view => view.BottomMatchpointRectangle.Visibility,
+                        (isMatchPoint) => isMatchPoint ? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
             });
         }
     }
