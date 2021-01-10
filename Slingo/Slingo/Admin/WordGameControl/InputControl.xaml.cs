@@ -77,6 +77,11 @@ namespace Slingo.Admin.WordGameControl
                         vm => vm.TimeOut,
                         view => view.ForceTimeOutButton)
                     .DisposeWith(dispose);
+
+                this.Bind(ViewModel,
+                        vm => vm.BingoInputViewModel,
+                        view => view.BingoInputControl.ViewModel)
+                    .DisposeWith(dispose);
             });
         }
     }

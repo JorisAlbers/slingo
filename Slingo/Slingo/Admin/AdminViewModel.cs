@@ -39,6 +39,8 @@ namespace Slingo.Admin
                 inputViewModel.AddRowAndSwitchTeam.Subscribe(onNext => _gameWindowViewModel.AddRowAndSwitchTeam());
                 inputViewModel.AddBonusLetter.Subscribe(onNext => _gameWindowViewModel.AddBonusLetter());
 
+                inputViewModel.BingoInputViewModel.BallSubmitted.Subscribe(x => _gameWindowViewModel.SubmitBall(x));
+
                 _gameWindowViewModel.CountDownStarted.Subscribe(onNext => inputViewModel.StartCountDown());
 
                 SelectedViewModel = inputViewModel;

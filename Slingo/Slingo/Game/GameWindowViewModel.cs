@@ -24,6 +24,7 @@ namespace Slingo.Game
         private Settings _settings;
         private CachedSound _newLetterAppearsSound;
         private Team _team1,_team2;
+        private BingoViewModel _bingoViewModel;
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
 
         public ReactiveCommand<Unit,Unit> CountDownStarted { get; } // TODO move to model class
@@ -42,9 +43,9 @@ namespace Slingo.Game
             _team2 = new Team(settings.Team2);
 
             //BingoViewModel bingoViewModel = new BingoViewModel(true, settings.ExcludedBallNumbersEven, new Random());
-            BingoViewModel bingoViewModel = new BingoViewModel(false, settings.ExcludedBallNumbersOdd, new Random());
-            SelectedViewModel = bingoViewModel;
-            bingoViewModel.FillInitialBalls();
+            _bingoViewModel = new BingoViewModel(false, settings.ExcludedBallNumbersOdd, new Random());
+            SelectedViewModel = _bingoViewModel;
+            _bingoViewModel.FillInitialBalls();
             
             //SelectedViewModel = new BingoViewModel(false, new Random(), new int[]{1,3,5,7,9});
 
@@ -103,6 +104,11 @@ namespace Slingo.Game
             {
                 await CountDownStarted.Execute();
             }
+        }
+
+        public async void SubmitBall(int i)
+        {
+            await _bingoViewModel.FillBall(i);
         }
     }
 }

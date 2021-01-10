@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Slingo.Admin.Bingo;
 using SlingoLib;
 using SlingoLib.Serialization;
 
@@ -16,13 +17,15 @@ namespace Slingo.Admin.WordGameControl
         private readonly Settings _settings;
         private readonly Random _random;
         private readonly List<string> _words;
+        
+        public BingoInputViewModel BingoInputViewModel { get;  }
 
         [Reactive] public string WordInputtedByUser { get; set; }
         [Reactive] public string CandidateWord { get; private set; }
         [Reactive] public string CurrentWord { get; private set; }
         [Reactive] public int TimeLeftBeforeTimeOut { get; set; } 
         [Reactive] public bool AutoTimeOut { get; set; }
-
+        
         public ReactiveCommand<Unit,Unit> Accept { get; }
         public ReactiveCommand<Unit,Unit> Reject { get; }
         public ReactiveCommand<Unit, Unit> GenerateWord { get; }
@@ -38,6 +41,9 @@ namespace Slingo.Admin.WordGameControl
             _settings = settings;
             _words = _wordRepository.Deserialize(settings.WordSize);
             _random = new Random();
+
+            BingoInputViewModel = new BingoInputViewModel();
+            
             CandidateWord = GetRandomWord();
 
             var canAccept = this.WhenAnyValue(
