@@ -81,7 +81,7 @@ namespace Slingo.Bingo
                             return Visibility.Visible;
                         }
                     }).DisposeWith(dispose);
-
+                
                 this.OneWayBind(ViewModel,
                         vm => vm.ShowPartlyFilledIndex,
                         view => view.Fill1.Visibility,
@@ -118,6 +118,11 @@ namespace Slingo.Bingo
                         (isMatchPoint) => isMatchPoint ? Visibility.Visible : Visibility.Collapsed)
                     .DisposeWith(dispose);
 
+                this.OneWayBind(ViewModel,
+                    vm => vm.ShouldFlash,
+                    view => view.FlashEllipse.IsEnabled,
+                    (flash) => !flash)
+                    .DisposeWith(dispose);
             });
         }
     }

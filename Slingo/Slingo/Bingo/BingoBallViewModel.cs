@@ -14,6 +14,7 @@ namespace Slingo.Bingo
         [Reactive] public int ShowPartlyFilledIndex { get; private set; }
         [Reactive] public bool IsMatchPoint { get; set; } 
         [Reactive] public BallState State { get; private set; }
+        [Reactive] public bool ShouldFlash { get; private set; }
 
 
         public BingoBallViewModel(int number)
@@ -26,6 +27,7 @@ namespace Slingo.Bingo
         public async Task Fill()
         {
             IsMatchPoint = false;
+            await Flash();
             ShowPartlyFilledIndex = 1;
             await Task.Delay(100);
             ShowPartlyFilledIndex = 2;
@@ -43,6 +45,13 @@ namespace Slingo.Bingo
         {
             State = BallState.Won;
             Text = letter;
+        }
+
+        public async Task Flash()
+        {
+            ShouldFlash = true;
+            await Task.Delay(100);
+            ShouldFlash = false;
         }
     }
 

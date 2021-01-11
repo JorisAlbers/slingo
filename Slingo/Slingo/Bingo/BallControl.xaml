@@ -7,7 +7,7 @@
                                 xmlns:reactiveUi="http://reactiveui.net"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="100" d:DesignWidth="100">
-    <Viewbox Stretch="Fill">
+   <Viewbox Stretch="Fill">
         <Grid>
             <Ellipse VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <Ellipse.Fill>
@@ -83,7 +83,38 @@
                 </TextBlock>
             </DockPanel>
 
-            
+            <Ellipse x:Name="FlashEllipse" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsEnabled="False">
+                <Ellipse.Fill>
+                    <SolidColorBrush x:Name="Brushy" Color="Transparent"></SolidColorBrush>
+                </Ellipse.Fill>
+
+                <Ellipse.Style>
+                    <Style TargetType="{x:Type Ellipse}">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Name="FlashStoryboard">
+                                        <Storyboard>
+                                            <ColorAnimation 
+                                                Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                From="Transparent" 
+                                                To="White"
+                                                Duration="0:0:0:0.2"
+                                                AutoReverse="True"/>
+
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="FlashStoryboard"></StopStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Ellipse.Style>
+
+            </Ellipse>
         </Grid>
     </Viewbox>
    
