@@ -76,10 +76,37 @@ namespace Slingo.Bingo
             line[1].SetWinState("I");
             line[2].SetWinState("N");
             line[3].SetWinState("G");
-            line[4].SetWinState("O");
+            await line[4].SetWinState("O");
+            await Task.Delay(150);
+            foreach (BingoBallViewModel ball in line)
+            {
+                ball.Flash();
+                await Task.Delay(150);
+            }
+
+            await Task.Delay(100);
+
+            for (int i = 0; i < line.Length; i++)
+            {
+                line[i].Flash();
+                await Task.Delay(75);
+            }
+            
+            await Task.Delay(100);
+
+            for (int i = 0; i < line.Length; i++)
+            {
+                line[line.Length -1 - i].Flash();
+                await Task.Delay(75);
+            }
+
             await Task.Delay(100);
             
-            // TODO flash white, down (also light up balls around active flashing one), down, up
+            for (int i = 0; i < line.Length; i++)
+            {
+                line[i].Flash();
+                await Task.Delay(75);
+            }
         }
 
         private BingoBallViewModel[][] SetupMatrix(Random random, int[] numbers, int[] filledNumbers)

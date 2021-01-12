@@ -41,10 +41,11 @@ namespace Slingo.Bingo
             await Task.Delay(100);
         }
 
-        public void SetWinState(string letter)
+        public async Task SetWinState(string letter)
         {
             State = BallState.Won;
             Text = letter;
+            await Flash();
         }
 
         public async Task Flash()
