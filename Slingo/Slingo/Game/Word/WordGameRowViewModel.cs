@@ -3,10 +3,9 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using DynamicData;
 using ReactiveUI;
-using SlingoLib.Logic;
 using SlingoLib.Logic.Word;
 
-namespace Slingo.WordGame
+namespace Slingo.Game.Word
 {
     public class WordGameRowViewModel : ReactiveObject
     {

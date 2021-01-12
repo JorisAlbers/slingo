@@ -4,10 +4,9 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Slingo.Sound;
 using SlingoLib;
-using SlingoLib.Logic;
 using SlingoLib.Logic.Word;
 
-namespace Slingo.WordGame
+namespace Slingo.Game.Word
 {
     public class WordGameViewModel : ReactiveObject
     {

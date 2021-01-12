@@ -1,17 +1,15 @@
-﻿<reactiveUi:ReactiveUserControl x:TypeArguments="local:WordGameRowViewModel" x:Class="Slingo.WordGame.WordGameRowControl"
+﻿<reactiveUi:ReactiveUserControl x:TypeArguments="local:BoardViewModel" x:Class="Slingo.Game.Word.BoardControl"
                                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                                xmlns:local="clr-namespace:Slingo.WordGame"
+                                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                                 xmlns:reactiveUi="http://reactiveui.net"
+                                xmlns:local="clr-namespace:Slingo.Game.Word"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="450" d:DesignWidth="800">
-    <ListView x:Name="RowListView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderThickness="0" Padding="-2"
-              Background="Gray"
+    <ListView x:Name="ListView" Background="Gray"
               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-              ScrollViewer.VerticalScrollBarVisibility="Disabled"
-              >
+              ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <ListView.ItemContainerStyle>
             <Style TargetType="ListViewItem">
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -21,8 +19,9 @@
 
         <ListView.ItemsPanel>
             <ItemsPanelTemplate>
-                <UniformGrid Rows="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                <UniformGrid Columns="1"/>
             </ItemsPanelTemplate>
         </ListView.ItemsPanel>
+
     </ListView>
 </reactiveUi:ReactiveUserControl>

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ReactiveUI;
-using SlingoLib.Logic;
+﻿using ReactiveUI;
 using SlingoLib.Logic.Word;
 
-namespace Slingo.WordGame
+namespace Slingo.Game.Word
 {
     public class LetterViewModel: ReactiveObject
     {
