@@ -7,7 +7,7 @@ using System.Windows.Automation;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Slingo.Admin;
-using Slingo.Bingo;
+using Slingo.Game.Bingo;
 using Slingo.Sound;
 using Slingo.WordGame;
 using SlingoLib;

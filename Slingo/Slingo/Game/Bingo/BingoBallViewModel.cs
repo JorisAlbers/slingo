@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace Slingo.Bingo
+namespace Slingo.Game.Bingo
 {
     [DebuggerDisplay("{Number}")]
     public class BingoBallViewModel : ReactiveObject
