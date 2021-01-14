@@ -2,6 +2,7 @@
 using System.Windows;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Slingo.Game.Score;
 using Slingo.Sound;
 using SlingoLib;
 using SlingoLib.Logic.Word;

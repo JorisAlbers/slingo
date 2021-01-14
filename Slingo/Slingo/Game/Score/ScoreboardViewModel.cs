@@ -2,7 +2,7 @@
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace Slingo
+namespace Slingo.Game.Score
 {
     public class ScoreboardViewModel : ReactiveObject
     {
