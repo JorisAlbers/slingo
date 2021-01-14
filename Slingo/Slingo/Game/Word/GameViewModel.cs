@@ -9,7 +9,7 @@ using SlingoLib.Logic.Word;
 
 namespace Slingo.Game.Word
 {
-    public class WordGameViewModel : ReactiveObject
+    public class GameViewModel : ReactiveObject
     {
         private readonly Settings _settings;
         private readonly AudioPlaybackEngine _audioPlaybackEngine;
@@ -24,7 +24,7 @@ namespace Slingo.Game.Word
         [Reactive] public object ActiveTeamName { get; private set; }
 
 
-        public WordGameViewModel(Settings settings, Team team1, Team team2, string word, AudioPlaybackEngine audioPlaybackEngine)
+        public GameViewModel(Settings settings, Team team1, Team team2, string word, AudioPlaybackEngine audioPlaybackEngine)
         {
             _settings = settings;
             _wordGame = new SlingoLib.Logic.Word.WordGame(new WordPuzzle(word), settings.StartingTeamIndex);

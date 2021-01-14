@@ -21,7 +21,7 @@ namespace Slingo.Game
     public class GameWindowViewModel : ReactiveObject
     {
         private readonly AudioPlaybackEngine _audioPlaybackEngine;
-        private WordGameViewModel _wordGameViewModel;
+        private GameViewModel _gameViewModel;
         private Settings _settings;
         private CachedSound _newLetterAppearsSound;
         private Team _team1,_team2;
@@ -65,7 +65,7 @@ namespace Slingo.Game
             _team1 = new Team(settings.Team1);
             _team2 = new Team(settings.Team2);
 
-            SelectedViewModel = new WordGameViewModel(settings, _team1, _team2, word, _audioPlaybackEngine);
+            SelectedViewModel = new GameViewModel(settings, _team1, _team2, word, _audioPlaybackEngine);
             
             _audioPlaybackEngine.PlaySound(_newLetterAppearsSound);
             if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
@@ -76,7 +76,7 @@ namespace Slingo.Game
         
         public async void AcceptWord()
         {
-            await _wordGameViewModel.AcceptWord();
+            await _gameViewModel.AcceptWord();
             if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
             {
                 await CountDownStarted.Execute();
@@ -84,7 +84,7 @@ namespace Slingo.Game
         }
         public async void RejectWord()
         {
-            await _wordGameViewModel.RejectWord();
+            await _gameViewModel.RejectWord();
             if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
             {
                 await CountDownStarted.Execute();
@@ -92,12 +92,12 @@ namespace Slingo.Game
         }
         public void SetWord(string word)
         {
-            _wordGameViewModel.SetWord(word);
+            _gameViewModel.SetWord(word);
         }
 
         public async void TimeOut()
         {
-            await _wordGameViewModel.TimeOut();
+            await _gameViewModel.TimeOut();
             if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
             {
                 await CountDownStarted.Execute();
@@ -106,7 +106,7 @@ namespace Slingo.Game
 
         public async void AddRowAndSwitchTeam()
         {
-            await _wordGameViewModel.AddRowAndSwitchTeam();
+            await _gameViewModel.AddRowAndSwitchTeam();
             if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
             {
                 await CountDownStarted.Execute();
@@ -115,7 +115,7 @@ namespace Slingo.Game
 
         public async void AddBonusLetter()
         {
-            await _wordGameViewModel.AddBonusLetter();
+            await _gameViewModel.AddBonusLetter();
             if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
             {
                 await CountDownStarted.Execute();

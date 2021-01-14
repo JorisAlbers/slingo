@@ -6,9 +6,9 @@ namespace Slingo.Game.Word
     /// <summary>
     /// Interaction logic for WordGameControl.xaml
     /// </summary>
-    public partial class WordGameControl : ReactiveUserControl<WordGameViewModel>
+    public partial class GameControl : ReactiveUserControl<GameViewModel>
     {
-        public WordGameControl()
+        public GameControl()
         {
             InitializeComponent();
 
