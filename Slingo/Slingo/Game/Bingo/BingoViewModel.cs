@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
+using Slingo.Admin.Bingo;
 
 namespace Slingo.Game.Bingo
 {
     public class BingoViewModel : ReactiveObject
     {
-        private readonly int[] _alreadyFilledNumbers;
+        private readonly BingoCardSettings _settings;
         private BingoBallViewModel[][] Matrix { get; set; }
 
         public BingoBallViewModel[] FlattendMatrix => Matrix.SelectMany(x=>x).ToArray();
         
         
-        public BingoViewModel(bool evenNumbers,int[] alreadyFilledNumbers, Random random)
+        public BingoViewModel(BingoCardSettings settings, Random random)
         {
-            _alreadyFilledNumbers = alreadyFilledNumbers;
-            int[] numbers = Enumerable.Range(1, 50).Where(x => evenNumbers ? ( x % 2 == 0 ) : (x % 2 != 0)).ToArray();
-            Matrix = SetupMatrix(random, numbers, alreadyFilledNumbers);
+            _settings = settings;
+            int[] numbers = Enumerable.Range(1, 50).Where(x => settings.EvenNumber ? ( x % 2 == 0 ) : (x % 2 != 0)).ToArray();
+            Matrix = SetupMatrix(random, numbers, settings.FilledBalls);
         }
         
         public async Task FillInitialBalls()
@@ -27,7 +28,7 @@ namespace Slingo.Game.Bingo
             {
                 foreach (BingoBallViewModel viewModel in bingoBallViewModels)
                 {
-                    if (_alreadyFilledNumbers.Contains(viewModel.Number))
+                    if (_settings.FilledBalls.Contains(viewModel.Number))
                     {
                         viewModel.Fill();
                         await Task.Delay(100);

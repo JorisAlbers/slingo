@@ -18,7 +18,7 @@ namespace Slingo.Admin.WordGameControl
         private readonly Random _random;
         private readonly List<string> _words;
         
-        public BingoInputViewModel BingoInputViewModel { get;  }
+        public BingoAdminPanelViewModel BingoAdminPanelViewModel { get;  }
 
         [Reactive] public string WordInputtedByUser { get; set; }
         [Reactive] public string CandidateWord { get; private set; }
@@ -42,7 +42,9 @@ namespace Slingo.Admin.WordGameControl
             _words = _wordRepository.Deserialize(settings.WordSize);
             _random = new Random();
 
-            BingoInputViewModel = new BingoInputViewModel();
+            BingoAdminPanelViewModel = new BingoAdminPanelViewModel(
+                new BingoCardSettings(true, settings.ExcludedBallNumbersEven),
+                new BingoCardSettings(false, settings.ExcludedBallNumbersOdd));
             
             CandidateWord = GetRandomWord();
 

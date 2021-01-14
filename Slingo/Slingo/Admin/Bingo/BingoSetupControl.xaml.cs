@@ -16,26 +16,25 @@ using ReactiveUI;
 namespace Slingo.Admin.Bingo
 {
     /// <summary>
-    /// Interaction logic for BingoAdminPanel.xaml
+    /// Interaction logic for BingoSetupControl.xaml
     /// </summary>
-    public partial class BingoInputControl : ReactiveUserControl<BingoInputViewModel>
+    public partial class BingoSetupControl : ReactiveUserControl<BingoSetupViewModel>
     {
-        public BingoInputControl()
+        public BingoSetupControl()
         {
             InitializeComponent();
 
-           this.WhenActivated((dispose) =>
+            this.WhenActivated((dispose) =>
             {
-                this.Bind(ViewModel,
-                        vm => vm.NumberString,
-                        view => view.BallNumberTextBox.Text)
+                this.OneWayBind(ViewModel,
+                    vm => vm.TeamIndex,
+                    view => view.TeamIndexTextBlock.Text)
                     .DisposeWith(dispose);
 
                 this.BindCommand(ViewModel,
-                        vm => vm.BallSubmitted,
-                        view => view.SubmitBallButton)
+                        vm => vm.Initialize,
+                        view => view.InitializeButton)
                     .DisposeWith(dispose);
-
             });
         }
     }

@@ -48,7 +48,7 @@
 
         </UniformGrid>
 
-        <bingo:BingoInputControl x:Name="BingoInputControl" Height="40" Margin="0,10,0,0" />
+        <bingo:BingoAdminPanel x:Name="BingoAdminPanel" Margin="0,10,0,0" />
 
 
 

@@ -18,22 +18,17 @@ namespace Slingo.Admin.Bingo
     /// <summary>
     /// Interaction logic for BingoAdminPanel.xaml
     /// </summary>
-    public partial class BingoInputControl : ReactiveUserControl<BingoInputViewModel>
+    public partial class BingoAdminPanel : ReactiveUserControl<BingoAdminPanelViewModel>
     {
-        public BingoInputControl()
+        public BingoAdminPanel()
         {
             InitializeComponent();
 
-           this.WhenActivated((dispose) =>
+            this.WhenActivated((dispose) =>
             {
                 this.Bind(ViewModel,
-                        vm => vm.NumberString,
-                        view => view.BallNumberTextBox.Text)
-                    .DisposeWith(dispose);
-
-                this.BindCommand(ViewModel,
-                        vm => vm.BallSubmitted,
-                        view => view.SubmitBallButton)
+                        vm => vm.SelectedViewModel,
+                        view => view.ViewModelViewHost.ViewModel)
                     .DisposeWith(dispose);
 
             });

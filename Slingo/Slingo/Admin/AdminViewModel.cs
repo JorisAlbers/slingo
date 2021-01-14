@@ -30,6 +30,7 @@ namespace Slingo.Admin
 ;            _setupViewModel = new SetupViewModel();
             _setupViewModel.Start.Subscribe(settings =>
             {
+                // Word input
                 InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings);
                 inputViewModel.StartGame.Subscribe(word=>  _gameWindowViewModel.StartGame(settings, word));
                 inputViewModel.WhenAnyValue(x => x.WordInputtedByUser).Where(x=>!string.IsNullOrWhiteSpace(x)).Subscribe(onNext => _gameWindowViewModel.SetWord(WordFormatter.Format(onNext)));
@@ -39,7 +40,12 @@ namespace Slingo.Admin
                 inputViewModel.AddRowAndSwitchTeam.Subscribe(onNext => _gameWindowViewModel.AddRowAndSwitchTeam());
                 inputViewModel.AddBonusLetter.Subscribe(onNext => _gameWindowViewModel.AddBonusLetter());
 
-                inputViewModel.BingoInputViewModel.BallSubmitted.Subscribe(x => _gameWindowViewModel.SubmitBall(x));
+                // Bingo input
+                inputViewModel.BingoAdminPanelViewModel.SetupViewModelTeam1.Initialize.Subscribe(x =>
+                    _gameWindowViewModel.InitializeBingoCard(0, x));
+                inputViewModel.BingoAdminPanelViewModel.SetupViewModelTeam2.Initialize.Subscribe(x =>
+                    _gameWindowViewModel.InitializeBingoCard(1, x));
+                inputViewModel.BingoAdminPanelViewModel.BingoInputViewModel.BallSubmitted.Subscribe(x => _gameWindowViewModel.SubmitBall(x));
 
                 _gameWindowViewModel.CountDownStarted.Subscribe(onNext => inputViewModel.StartCountDown());
 
