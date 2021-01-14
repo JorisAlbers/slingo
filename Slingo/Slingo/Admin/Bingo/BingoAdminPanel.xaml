@@ -8,10 +8,24 @@
                                 mc:Ignorable="d" 
                                 d:DesignHeight="450" d:DesignWidth="800">
 
-    <reactiveUi:ViewModelViewHost x:Name="ViewModelViewHost"
-                                  HorizontalAlignment="Stretch" 
-                                  VerticalAlignment="Stretch"
-                                  VerticalContentAlignment="Stretch"
-                                  HorizontalContentAlignment="Stretch"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
+        <Button Grid.Column="0" x:Name="BackwardsButton" Content="&lt;" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+        <reactiveUi:ViewModelViewHost x:Name="ViewModelViewHost"
+                                      HorizontalAlignment="Stretch" 
+                                      VerticalAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      HorizontalContentAlignment="Stretch"
+                                      Grid.Column="1"/>
+
+        <Button Grid.Column="2" x:Name="ForwardsButton" Content="&gt;" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+    </Grid>
+
+    
 </reactiveUi:ReactiveUserControl>
