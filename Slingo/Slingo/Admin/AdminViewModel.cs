@@ -8,8 +8,10 @@ using ReactiveUI.Fody.Helpers;
 using Slingo.Admin.Setup;
 using Slingo.Admin.WordGameControl;
 using Slingo.Game;
+using Slingo.Game.Word;
 using Slingo.Sound;
 using SlingoLib;
+using SlingoLib.Logic.Word;
 using SlingoLib.Serialization;
 using Splat;
 
@@ -30,31 +32,43 @@ namespace Slingo.Admin
 ;            _setupViewModel = new SetupViewModel();
             _setupViewModel.Start.Subscribe(settings =>
             {
-                // Word input
+                Team team1 = new Team(settings.Team1);
+                Team team2 = new Team(settings.Team2);
+
+                _gameWindowViewModel.StartGame(new GameViewModel(settings, team1, team2, _audioPlaybackEngine));
+                
                 InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings);
-                inputViewModel.StartGame.Subscribe(word=>  _gameWindowViewModel.StartGame(settings, word));
-                inputViewModel.WhenAnyValue(x => x.WordInputtedByUser).Where(x=>!string.IsNullOrWhiteSpace(x)).Subscribe(onNext => _gameWindowViewModel.SetWord(WordFormatter.Format(onNext)));
-                inputViewModel.Accept.Subscribe(onNext => _gameWindowViewModel.AcceptWord());
-                inputViewModel.Reject.Subscribe(onNext => _gameWindowViewModel.RejectWord());
-                inputViewModel.TimeOut.Subscribe(onNext => _gameWindowViewModel.TimeOut());
-                inputViewModel.AddRowAndSwitchTeam.Subscribe(onNext => _gameWindowViewModel.AddRowAndSwitchTeam());
-                inputViewModel.AddBonusLetter.Subscribe(onNext => _gameWindowViewModel.AddBonusLetter());
+                inputViewModel.StartGame.Subscribe(async word =>
+                {
+                    _gameWindowViewModel.GameViewModel.CountDownStarted.Subscribe(onNext =>
+                        inputViewModel.StartCountDown());
+                    await _gameWindowViewModel.GameViewModel.StartWordGame(word);
+                });
+                
+                inputViewModel.WhenAnyValue(x => x.WordInputtedByUser)
+                    .Where(x=>!string.IsNullOrWhiteSpace(x))
+                    .Subscribe(onNext => _gameWindowViewModel.GameViewModel.SetWord(WordFormatter.Format(onNext)));
+                
+                inputViewModel.Accept.Subscribe(onNext => _gameWindowViewModel.GameViewModel.AcceptWord());
+                inputViewModel.Reject.Subscribe(onNext => _gameWindowViewModel.GameViewModel.RejectWord());
+                inputViewModel.TimeOut.Subscribe(onNext => _gameWindowViewModel.GameViewModel.TimeOut());
+                inputViewModel.AddRowAndSwitchTeam.Subscribe(onNext => _gameWindowViewModel.GameViewModel.AddRowAndSwitchTeam());
+                inputViewModel.AddBonusLetter.Subscribe(onNext => _gameWindowViewModel.GameViewModel.AddBonusLetter());
 
                 // Bingo input
                 inputViewModel.BingoAdminPanelViewModel.SetupViewModelTeam1.Initialize.Subscribe(x =>
-                    _gameWindowViewModel.InitializeBingoCard(0, x));
+                    _gameWindowViewModel.GameViewModel.InitializeBingoCard(0, x));
                 inputViewModel.BingoAdminPanelViewModel.SetupViewModelTeam2.Initialize.Subscribe(x =>
-                    _gameWindowViewModel.InitializeBingoCard(1, x));
-                inputViewModel.BingoAdminPanelViewModel.BingoInputViewModel.BallSubmitted.Subscribe(x => _gameWindowViewModel.SubmitBall(x));
+                    _gameWindowViewModel.GameViewModel.InitializeBingoCard(1, x));
+                inputViewModel.BingoAdminPanelViewModel.BingoInputViewModel.BallSubmitted.Subscribe(x => _gameWindowViewModel.GameViewModel.SubmitBall(x));
 
-                _gameWindowViewModel.CountDownStarted.Subscribe(onNext => inputViewModel.StartCountDown());
 
                 SelectedViewModel = inputViewModel;
             });
 
             SelectedViewModel = _setupViewModel;
 
-            _gameWindowViewModel = new GameWindowViewModel(_audioPlaybackEngine);
+            _gameWindowViewModel = new GameWindowViewModel();
             var view = Locator.Current.GetService<IViewFor<GameWindowViewModel>>();
             var window = view as ReactiveWindow<GameWindowViewModel>;
             window.ViewModel = _gameWindowViewModel;

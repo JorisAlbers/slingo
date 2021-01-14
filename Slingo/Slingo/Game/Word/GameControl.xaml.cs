@@ -15,8 +15,8 @@ namespace Slingo.Game.Word
             this.WhenActivated((dispose) =>
             {
                 this.OneWayBind(ViewModel,
-                        vm => vm.BoardViewModel,
-                        view => view.BoardGameViewModelHost.ViewModel)
+                        vm => vm.SelectedViewModel,
+                        view => view.ViewModelHost.ViewModel)
                     .DisposeWith(dispose);
 
                 this.OneWayBind(ViewModel,

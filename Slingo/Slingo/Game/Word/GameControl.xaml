@@ -57,7 +57,7 @@
                                   VerticalContentAlignment="Top"
                                   HorizontalContentAlignment="Stretch"/>
 
-        <reactiveUi:ViewModelViewHost x:Name="BoardGameViewModelHost"
+        <reactiveUi:ViewModelViewHost x:Name="ViewModelHost"
                                       Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"
                                       HorizontalAlignment="Stretch" 
                                       VerticalAlignment="Stretch"

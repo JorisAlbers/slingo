@@ -1,7 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Slingo.Admin.Bingo;
+using Slingo.Game.Bingo;
 using Slingo.Game.Score;
 using Slingo.Sound;
 using SlingoLib;
@@ -14,32 +19,55 @@ namespace Slingo.Game.Word
         private readonly Settings _settings;
         private readonly AudioPlaybackEngine _audioPlaybackEngine;
         private string _activeWord;
-        private CachedSound _timeOutSound, _winSound, _rejectSound;
+        private CachedSound _timeOutSound, _winSound, _rejectSound, _newLetterAppearsSound;
         private SlingoLib.Logic.Word.WordGame _wordGame;
+        private Random _random;
 
-        public BoardViewModel BoardViewModel { get; }
-        
         public ScoreboardViewModel ScoreBoardTeam1 { get; }
         public ScoreboardViewModel ScoreBoardTeam2 { get; }
+        [Reactive] public ReactiveObject SelectedViewModel { get; set; }
+        [Reactive] public BoardViewModel BoardViewModel { get; private set; }
+        [Reactive] public BingoViewModel BingoCardTeam1 { get; private set; }
+        [Reactive] public BingoViewModel BingoCardTeam2 { get; private set; }
+
         [Reactive] public object ActiveTeamName { get; private set; }
+        
+        public ReactiveCommand<Unit,Unit> CountDownStarted { get; } // TODO move to model class
+        
 
-
-        public GameViewModel(Settings settings, Team team1, Team team2, string word, AudioPlaybackEngine audioPlaybackEngine)
+        public GameViewModel(Settings settings, Team team1, Team team2,  AudioPlaybackEngine audioPlaybackEngine)
         {
+            _random = new Random();
             _settings = settings;
-            _wordGame = new SlingoLib.Logic.Word.WordGame(new WordPuzzle(word), settings.StartingTeamIndex);
 
             _audioPlaybackEngine = audioPlaybackEngine;
             _timeOutSound = new CachedSound(@"Resources\Sounds\WordGame\timeout.wav");
             _winSound = new CachedSound(@"Resources\Sounds\WordGame\win.wav");
             _rejectSound = new CachedSound(@"Resources\Sounds\WordGame\rejected.wav");
-
+            _newLetterAppearsSound = new CachedSound(@"Resources\Sounds\WordGame\first_letter_appears.wav");
+            
             ScoreBoardTeam1 = new ScoreboardViewModel(team1.Settings.Name, team1.Score, HorizontalAlignment.Left);
             ScoreBoardTeam2 = new ScoreboardViewModel(team2.Settings.Name, team2.Score, HorizontalAlignment.Right);
             SetActiveTeam(settings.StartingTeamIndex);
 
-            BoardViewModel = new BoardViewModel(settings.WordSize, audioPlaybackEngine);
+           
+
+            CountDownStarted = ReactiveCommand.Create(() => new Unit());
+        }
+
+        public async Task StartWordGame(string word)
+        {
+            int activeTeamIndex = 0;
+            _wordGame = new WordGame(new WordPuzzle(word), activeTeamIndex);
+            BoardViewModel = new BoardViewModel(_settings.WordSize, _audioPlaybackEngine);
+            SelectedViewModel = BoardViewModel;
+            _audioPlaybackEngine.PlaySound(_newLetterAppearsSound);
             BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
+            
+            if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
+            {
+                await CountDownStarted.Execute();
+            }
         }
 
         public void SetWord(string word)
@@ -87,6 +115,11 @@ namespace Slingo.Game.Word
                 await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             }
 
+            if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
+            {
+                await CountDownStarted.Execute();
+            }
+
             return WordGameState.Ongoing;
         }
 
@@ -105,12 +138,22 @@ namespace Slingo.Game.Word
                 await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             }
 
+            if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
+            {
+                await CountDownStarted.Execute();
+            }
+
         }
 
         public async Task TimeOut()
         {
             _audioPlaybackEngine.PlaySound(_timeOutSound);
             await RejectWord();
+            
+            if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
+            {
+                await CountDownStarted.Execute();
+            }
         }
         
         private void SetActiveTeam(int index)
@@ -135,6 +178,11 @@ namespace Slingo.Game.Word
             SetActiveTeam(_wordGame.ActiveTeamIndex);
             await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             // TODO add bonus letter sound
+
+            if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
+            {
+                await CountDownStarted.Execute();
+            }
         }
 
         public async Task AddBonusLetter()
@@ -142,6 +190,34 @@ namespace Slingo.Game.Word
             // TODO: Play bonus letter appears sound
             char letter = _wordGame.AddBonusLetter(out int index);
             await BoardViewModel.AddBonusLetter(letter, index);
+
+            if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
+            {
+                await CountDownStarted.Execute();
+            }
+        }
+
+        public async Task InitializeBingoCard(int teamIndex, BingoCardSettings settings)
+        {
+            BingoViewModel viewmodel = new BingoViewModel(settings, _random);
+            SetActiveTeam(teamIndex);
+            if (teamIndex == 0)
+            {
+                BingoCardTeam1 = viewmodel;
+            }
+            else
+            {
+                BingoCardTeam2 = viewmodel;
+            }
+
+            SelectedViewModel = viewmodel;
+
+            await viewmodel.FillInitialBalls();
+        }
+
+        public async Task SubmitBall(int i)
+        {
+            await ((BingoViewModel)SelectedViewModel).FillBall(i);
         }
     }
 }

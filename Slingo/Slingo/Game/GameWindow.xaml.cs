@@ -15,7 +15,7 @@ namespace Slingo.Game
             this.WhenActivated((dispose) =>
             {
                 this.Bind(ViewModel,
-                    vm => vm.SelectedViewModel,
+                    vm => vm.GameViewModel,
                     view => view.ViewModelViewHost.ViewModel)
                     .DisposeWith(dispose);
             });
