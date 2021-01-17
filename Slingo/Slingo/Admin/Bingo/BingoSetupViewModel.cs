@@ -1,4 +1,5 @@
 using System.Reactive;
+using System.Windows.Input;
 using ReactiveUI;
 
 namespace Slingo.Admin.Bingo
@@ -8,6 +9,7 @@ namespace Slingo.Admin.Bingo
         private readonly BingoCardSettings _settings;
         public int TeamIndex { get; }
 
+        public ReactiveCommand<Unit, BingoCardSettings> ShowPanel { get;}
         public ReactiveCommand<Unit, BingoCardSettings> Initialize { get;}
 
         public BingoSetupViewModel(int teamIndex, BingoCardSettings settings)
@@ -16,6 +18,7 @@ namespace Slingo.Admin.Bingo
             TeamIndex = teamIndex + 1;
 
             Initialize = ReactiveCommand.Create(() => _settings);
+            ShowPanel = ReactiveCommand.Create(() => _settings);
         }
     }
 

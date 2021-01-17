@@ -32,6 +32,11 @@ namespace Slingo.Admin.Bingo
                     .DisposeWith(dispose);
 
                 this.BindCommand(ViewModel,
+                        vm => vm.ShowPanel,
+                        view => view.ShowPanelButton)
+                    .DisposeWith(dispose);
+
+                this.BindCommand(ViewModel,
                         vm => vm.Initialize,
                         view => view.InitializeButton)
                     .DisposeWith(dispose);

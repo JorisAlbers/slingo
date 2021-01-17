@@ -211,7 +211,12 @@ namespace Slingo.Game.Word
             }
 
             SelectedViewModel = viewmodel;
+        }
 
+        public async Task AddBallsToBingoCard(int teamIndex, BingoCardSettings settings)
+        {
+            BingoViewModel viewmodel = teamIndex == 0 ? BingoCardTeam1 : BingoCardTeam2;
+            SelectedViewModel = viewmodel;
             await viewmodel.FillInitialBalls();
         }
 

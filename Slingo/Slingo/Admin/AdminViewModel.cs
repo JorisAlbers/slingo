@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using System.Text;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Slingo.Admin.Bingo;
 using Slingo.Admin.Setup;
 using Slingo.Admin.Word;
 using Slingo.Game;
@@ -42,11 +43,7 @@ namespace Slingo.Admin
                 inputViewModel.WhenAnyValue(x => x.WordInputViewModel).Where(x=>x!=null).Subscribe(SubscribeToWordInput);
 
                 // Bingo input
-                inputViewModel.BingoAdminPanelViewModel.SetupViewModelTeam1.Initialize.Subscribe(x =>
-                    _gameWindowViewModel.GameViewModel.InitializeBingoCard(0, x));
-                inputViewModel.BingoAdminPanelViewModel.SetupViewModelTeam2.Initialize.Subscribe(x =>
-                    _gameWindowViewModel.GameViewModel.InitializeBingoCard(1, x));
-                inputViewModel.BingoAdminPanelViewModel.BingoInputViewModel.BallSubmitted.Subscribe(x => _gameWindowViewModel.GameViewModel.SubmitBall(x));
+                SubscribeToBingoInput(inputViewModel.BingoAdminPanelViewModel);
                 
                 SelectedViewModel = inputViewModel;
             });
@@ -58,6 +55,23 @@ namespace Slingo.Admin
             var window = view as ReactiveWindow<GameWindowViewModel>;
             window.ViewModel = _gameWindowViewModel;
             window.Show();
+        }
+
+        private void SubscribeToBingoInput(BingoAdminPanelViewModel viewmodel)
+        {
+            viewmodel.SetupViewModelTeam1.ShowPanel.Subscribe(x =>
+                _gameWindowViewModel.GameViewModel.InitializeBingoCard(0, x));
+            
+            viewmodel.SetupViewModelTeam1.Initialize.Subscribe(x =>
+                  _gameWindowViewModel.GameViewModel.AddBallsToBingoCard(0, x));
+            
+            viewmodel.SetupViewModelTeam2.ShowPanel.Subscribe(x =>
+                _gameWindowViewModel.GameViewModel.InitializeBingoCard(1, x));
+
+            viewmodel.SetupViewModelTeam2.Initialize.Subscribe(x =>
+                _gameWindowViewModel.GameViewModel.AddBallsToBingoCard(1, x));
+
+            viewmodel.BingoInputViewModel.BallSubmitted.Subscribe(x => _gameWindowViewModel.GameViewModel.SubmitBall(x));
         }
 
         private void SubscribeToWordInput(WordInputViewModel viewmodel)

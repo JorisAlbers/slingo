@@ -23,7 +23,9 @@
                 <TextBlock x:Name="TeamIndexTextBlock"/>
             </StackPanel>
 
-            <Button  x:Name="InitializeButton" Content="Initialize"  Height="50" Width="100"/>
+            <Button  x:Name="ShowPanelButton" Content="show panel"  Height="50" Width="100"/>
+
+            <Button  x:Name="InitializeButton" Content="add balls"  Height="50" Width="100"/>
         </UniformGrid>
         
             
