@@ -8,18 +8,25 @@
                                 xmlns:slingo="clr-namespace:Slingo"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel>
-        <UniformGrid Rows="1">
-            <TextBlock Text="Bingo card setup"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Horizontal">
+        <UniformGrid Grid.Column="1" Columns="1">
+            <TextBlock Text="Bingo card setup" FontSize="30"/>
+
+            <StackPanel Orientation="Horizontal" >
                 <TextBlock Text="For team: "/>
                 <TextBlock x:Name="TeamIndexTextBlock"/>
             </StackPanel>
 
-            <Button x:Name="InitializeButton" Content="Initialize"/>
-            
+            <Button  x:Name="InitializeButton" Content="Initialize"  Height="50" Width="100"/>
         </UniformGrid>
+        
             
-    </DockPanel>
+            
+    </Grid>
 </reactiveUi:ReactiveUserControl>
