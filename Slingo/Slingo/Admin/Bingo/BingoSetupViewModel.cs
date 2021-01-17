@@ -13,7 +13,7 @@ namespace Slingo.Admin.Bingo
         public BingoSetupViewModel(int teamIndex, BingoCardSettings settings)
         {
             _settings = settings;
-            TeamIndex = teamIndex;
+            TeamIndex = teamIndex + 1;
 
             Initialize = ReactiveCommand.Create(() => _settings);
         }
