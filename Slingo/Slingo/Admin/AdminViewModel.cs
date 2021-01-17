@@ -6,7 +6,7 @@ using System.Text;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Slingo.Admin.Setup;
-using Slingo.Admin.WordGameControl;
+using Slingo.Admin.Word;
 using Slingo.Game;
 using Slingo.Game.Word;
 using Slingo.Sound;

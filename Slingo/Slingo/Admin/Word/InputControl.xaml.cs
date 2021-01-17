@@ -2,7 +2,7 @@
 using System.Windows;
 using ReactiveUI;
 
-namespace Slingo.Admin.WordGameControl
+namespace Slingo.Admin.Word
 {
     /// <summary>
     /// Interaction logic for InputControl.xaml

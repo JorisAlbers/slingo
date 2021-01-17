@@ -9,7 +9,7 @@ using Slingo.Admin.Bingo;
 using SlingoLib;
 using SlingoLib.Serialization;
 
-namespace Slingo.Admin.WordGameControl
+namespace Slingo.Admin.Word
 {
     public class InputViewModel : ReactiveObject
     {
