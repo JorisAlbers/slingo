@@ -38,22 +38,8 @@ namespace Slingo.Admin
                 _gameWindowViewModel.StartGame(new GameViewModel(settings, team1, team2, _audioPlaybackEngine));
                 
                 InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings);
-                inputViewModel.StartGame.Subscribe(async word =>
-                {
-                    _gameWindowViewModel.GameViewModel.CountDownStarted.Subscribe(onNext =>
-                        inputViewModel.StartCountDown());
-                    await _gameWindowViewModel.GameViewModel.StartWordGame(word);
-                });
-                
-                inputViewModel.WhenAnyValue(x => x.WordInputtedByUser)
-                    .Where(x=>!string.IsNullOrWhiteSpace(x))
-                    .Subscribe(onNext => _gameWindowViewModel.GameViewModel.SetWord(WordFormatter.Format(onNext)));
-                
-                inputViewModel.Accept.Subscribe(onNext => _gameWindowViewModel.GameViewModel.AcceptWord());
-                inputViewModel.Reject.Subscribe(onNext => _gameWindowViewModel.GameViewModel.RejectWord());
-                inputViewModel.TimeOut.Subscribe(onNext => _gameWindowViewModel.GameViewModel.TimeOut());
-                inputViewModel.AddRowAndSwitchTeam.Subscribe(onNext => _gameWindowViewModel.GameViewModel.AddRowAndSwitchTeam());
-                inputViewModel.AddBonusLetter.Subscribe(onNext => _gameWindowViewModel.GameViewModel.AddBonusLetter());
+                // Word input
+                inputViewModel.WhenAnyValue(x => x.WordInputViewModel).Where(x=>x!=null).Subscribe(SubscribeToWordInput);
 
                 // Bingo input
                 inputViewModel.BingoAdminPanelViewModel.SetupViewModelTeam1.Initialize.Subscribe(x =>
@@ -61,8 +47,7 @@ namespace Slingo.Admin
                 inputViewModel.BingoAdminPanelViewModel.SetupViewModelTeam2.Initialize.Subscribe(x =>
                     _gameWindowViewModel.GameViewModel.InitializeBingoCard(1, x));
                 inputViewModel.BingoAdminPanelViewModel.BingoInputViewModel.BallSubmitted.Subscribe(x => _gameWindowViewModel.GameViewModel.SubmitBall(x));
-
-
+                
                 SelectedViewModel = inputViewModel;
             });
 
@@ -74,6 +59,25 @@ namespace Slingo.Admin
             window.ViewModel = _gameWindowViewModel;
             window.Show();
         }
-        
+
+        private void SubscribeToWordInput(WordInputViewModel viewmodel)
+        {
+            viewmodel.StartGame.Subscribe(async word =>
+            {
+                _gameWindowViewModel.GameViewModel.CountDownStarted.Subscribe(onNext =>
+                    viewmodel.StartCountDown());
+                await _gameWindowViewModel.GameViewModel.StartWordGame(word);
+            });
+
+            viewmodel.WhenAnyValue(x => x.WordInputtedByUser)
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Subscribe(onNext => _gameWindowViewModel.GameViewModel.SetWord(WordFormatter.Format(onNext)));
+
+            viewmodel.Accept.Subscribe(onNext => _gameWindowViewModel.GameViewModel.AcceptWord());
+            viewmodel.Reject.Subscribe(onNext => _gameWindowViewModel.GameViewModel.RejectWord());
+            viewmodel.TimeOut.Subscribe(onNext => _gameWindowViewModel.GameViewModel.TimeOut());
+            viewmodel.AddRowAndSwitchTeam.Subscribe(onNext => _gameWindowViewModel.GameViewModel.AddRowAndSwitchTeam());
+            viewmodel.AddBonusLetter.Subscribe(onNext => _gameWindowViewModel.GameViewModel.AddBonusLetter());
+        }
     }
 }
