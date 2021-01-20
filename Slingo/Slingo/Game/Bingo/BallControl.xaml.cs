@@ -22,6 +22,10 @@ namespace Slingo.Game.Bingo
                         view => view.TextTextBlock.Text)
                     .DisposeWith(dispose);
 
+                this.WhenAnyValue(x => x.ActualWidth).Subscribe(x => ViewModel.Width = x);
+                this.WhenAnyValue(x => x.ActualHeight).Subscribe(x => ViewModel.Height = x);
+
+
                 this.OneWayBind(ViewModel,
                     vm => vm.State,
                     view => view.PrimaryColorGradientStop.Color,

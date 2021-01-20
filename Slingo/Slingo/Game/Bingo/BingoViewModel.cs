@@ -1,9 +1,10 @@
-﻿using System;
+﻿using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
+using Slingo.Admin.Bingo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ReactiveUI;
-using Slingo.Admin.Bingo;
 
 namespace Slingo.Game.Bingo
 {
@@ -11,19 +12,32 @@ namespace Slingo.Game.Bingo
     {
         private readonly BingoCardSettings _settings;
         private BingoBallViewModel[][] Matrix { get; set; }
+        private BingoBallViewModel[][] MatrixForAnimation { get; set; }
 
         public BingoBallViewModel[] FlattendMatrix => Matrix.SelectMany(x=>x).ToArray();
+        [Reactive] public BingoBallViewModel[] FlattendMatrixForAnimation { get; private set; }
+
+        public bool IsAnimating { get; set; }
+        public bool IsDroppingBalls { get; set; }
         
+        public double HeightOfMatrix { get; set; }
         
+
         public BingoViewModel(BingoCardSettings settings, Random random)
         {
             _settings = settings;
             int[] numbers = Enumerable.Range(1, 50).Where(x => settings.EvenNumber ? ( x % 2 == 0 ) : (x % 2 != 0)).ToArray();
             Matrix = SetupMatrix(random, numbers, settings.FilledBalls);
+            MatrixForAnimation = CopyMatrix(Matrix);
+            
+            IsAnimating = true;
         }
-        
+
         public async Task FillInitialBalls()
         {
+            await DropBalls();
+            await Task.Delay(100);
+            
             foreach (BingoBallViewModel[] bingoBallViewModels in Matrix)
             {
                 foreach (BingoBallViewModel viewModel in bingoBallViewModels)
@@ -35,6 +49,68 @@ namespace Slingo.Game.Bingo
                     }
                 }
             }
+        }
+
+        private async Task DropBalls()
+        {
+            FlattendMatrixForAnimation =  MatrixForAnimation.SelectMany(x => x).ToArray();
+
+            // get width from uniform grid
+            double height = MatrixForAnimation[0][0].Height;
+            double width = MatrixForAnimation[0][0].Width;
+
+            // Get the columns
+            BingoBallViewModel[][] columns = new BingoBallViewModel[MatrixForAnimation.Length][];
+            for (int i = 0; i < MatrixForAnimation.Length; i++)
+            {
+                columns[i] = new BingoBallViewModel[MatrixForAnimation.Length];
+                for (int j = 0; j < MatrixForAnimation[i].Length; j++)
+                {
+                    // Go down colum
+                    columns[i][j] = MatrixForAnimation[j][i];
+                    columns[i][j].X = i * width;
+                    columns[i][j].Y = -height;
+                }
+            }
+
+            
+            
+            
+            // Drop a single ball
+            int stepcounter = 0;
+            int columnIndex = 0;
+            int rowIndex = columns[0].Length -1;
+            List<AnimatedBall> balls = new List<AnimatedBall>();
+            while (true)
+            {
+                if (rowIndex > -1 && stepcounter++ > 10)
+                {
+                    stepcounter = 0;
+
+                    double maxY = HeightOfMatrix - height * (columns[0].Length - rowIndex);
+                    balls.Add(new AnimatedBall(columns[columnIndex++][rowIndex], maxY));
+
+                    if (columnIndex > columns.Length - 1)
+                    {
+                        columnIndex = 0;
+                        rowIndex--;
+                    }
+                }
+
+                foreach (AnimatedBall animatedBall in balls)
+                {
+                    animatedBall.Step();
+                }
+                
+                await Task.Delay(10);
+            }
+            
+            
+
+            IsDroppingBalls = true;
+            await Task.Delay(2000);
+            IsDroppingBalls = false;
+            IsAnimating = false;
         }
 
         public async Task<bool> FillBall(int number)
@@ -126,6 +202,21 @@ namespace Slingo.Game.Bingo
             } while (Lines(matrix).Any(x=>x.Count(x=> filledNumbers.Contains(x.Number)) > 3));
 
             return matrix;
+        }
+
+        private BingoBallViewModel[][] CopyMatrix(BingoBallViewModel[][] matrix)
+        {
+            BingoBallViewModel[][] newMatrix = new BingoBallViewModel[matrix.Length][];
+            for (var index = 0; index < matrix.Length; index++)
+            {
+                newMatrix[index] = new BingoBallViewModel[matrix[0].Length];
+                for (int j = 0; j < matrix[index].Length; j++)
+                {
+                    newMatrix[index][j] = new BingoBallViewModel(matrix[index][j]);
+                }
+            }
+
+            return newMatrix;
         }
 
         private IEnumerable<BingoBallViewModel[]> Lines(BingoBallViewModel[][] matrix)
