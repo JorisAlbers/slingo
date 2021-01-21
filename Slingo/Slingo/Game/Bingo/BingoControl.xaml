@@ -27,7 +27,7 @@
 
         </ListView>
 
-        <ItemsControl x:Name="Canvas">
+        <ItemsControl x:Name="Canvas" ClipToBounds="True">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas/>
