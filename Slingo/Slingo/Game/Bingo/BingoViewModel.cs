@@ -17,12 +17,10 @@ namespace Slingo.Game.Bingo
         public BingoBallViewModel[] FlattendMatrix => Matrix.SelectMany(x=>x).ToArray();
         [Reactive] public BingoBallViewModel[] FlattendMatrixForAnimation { get; private set; }
 
-        public bool IsAnimating { get; set; }
-        public bool IsDroppingBalls { get; set; }
-        
+        [Reactive] public bool IsAnimating { get; set; }
         public double HeightOfMatrix { get; set; }
+        public double WidthOfMatix { get; set; }
         
-
         public BingoViewModel(BingoCardSettings settings, Random random)
         {
             _settings = settings;
@@ -59,6 +57,10 @@ namespace Slingo.Game.Bingo
             double height = MatrixForAnimation[0][0].Height;
             double width = MatrixForAnimation[0][0].Width;
 
+
+            double horizontalMargin = (WidthOfMatix - width * MatrixForAnimation.Length) / (MatrixForAnimation.Length +1);
+            double verticalMargin = (HeightOfMatrix - height * MatrixForAnimation[0].Length) / (MatrixForAnimation[0].Length + 1);
+            
             // Get the columns
             BingoBallViewModel[][] columns = new BingoBallViewModel[MatrixForAnimation.Length][];
             for (int i = 0; i < MatrixForAnimation.Length; i++)
@@ -68,48 +70,53 @@ namespace Slingo.Game.Bingo
                 {
                     // Go down colum
                     columns[i][j] = MatrixForAnimation[j][i];
-                    columns[i][j].X = i * width;
+
+                    double leftSideMargin = i == 0 ? horizontalMargin / 2 : horizontalMargin;
+                    
+                    columns[i][j].X = leftSideMargin +   i * (width + leftSideMargin);
                     columns[i][j].Y = -height;
                 }
             }
-
-            
-            
             
             // Drop a single ball
             int stepcounter = 0;
             int columnIndex = 0;
             int rowIndex = columns[0].Length -1;
             List<AnimatedBall> balls = new List<AnimatedBall>();
+            double maxY = HeightOfMatrix - (height + verticalMargin / 2);
+            
+            
             while (true)
             {
                 if (rowIndex > -1 && stepcounter++ > 10)
                 {
                     stepcounter = 0;
-
-                    double maxY = HeightOfMatrix - height * (columns[0].Length - rowIndex);
                     balls.Add(new AnimatedBall(columns[columnIndex++][rowIndex], maxY));
 
                     if (columnIndex > columns.Length - 1)
                     {
                         columnIndex = 0;
                         rowIndex--;
+                        maxY -= height + verticalMargin;
                     }
                 }
-
+                
                 foreach (AnimatedBall animatedBall in balls)
                 {
                     animatedBall.Step();
                 }
-                
+
+                if (balls.Count == FlattendMatrixForAnimation.Length)
+                {
+                    if (balls.Last().Finished)
+                    {
+                        break;
+                    }
+                }
+
                 await Task.Delay(10);
             }
             
-            
-
-            IsDroppingBalls = true;
-            await Task.Delay(2000);
-            IsDroppingBalls = false;
             IsAnimating = false;
         }
 

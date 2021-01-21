@@ -19,6 +19,7 @@ namespace Slingo.Game.Bingo
         }
         
         public double Y { get; set; }
+        public bool Finished { get; set; }
 
         public void Step()
         {
@@ -30,6 +31,8 @@ namespace Slingo.Game.Bingo
                 if (_yVector < _FALL_SPEED_PER_STEP * 3)
                 {
                     // out of momentum
+                    Finished =  true;
+                    _ball.Y = _maxY;
                     return;
                 }
                 
