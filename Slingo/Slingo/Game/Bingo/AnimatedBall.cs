@@ -36,9 +36,13 @@ namespace Slingo.Game.Bingo
                     return;
                 }
                 
-                
                 _yVector -= _FALL_SPEED_PER_STEP * 3;
                 _yVector = -_yVector;
+                Y += _yVector;
+                // surplus
+                Y = _maxY;
+                _ball.Y = Y; 
+                return;
             }
             
             Y += _yVector;
