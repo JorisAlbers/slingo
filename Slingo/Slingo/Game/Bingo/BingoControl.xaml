@@ -11,7 +11,8 @@
     <Grid>
         <ListView x:Name="ListView" Background="Transparent"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  Padding="0">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -21,7 +22,7 @@
 
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="5" Rows="5"/>
+                    <UniformGrid Columns="5" Rows="5" Margin="-1"/>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
 

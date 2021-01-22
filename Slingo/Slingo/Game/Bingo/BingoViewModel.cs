@@ -19,7 +19,7 @@ namespace Slingo.Game.Bingo
 
         [Reactive] public bool IsAnimating { get; set; }
         public double HeightOfMatrix { get; set; }
-        public double WidthOfMatix { get; set; }
+        public double WidthOfMatrix { get; set; }
         
         public BingoViewModel(BingoCardSettings settings, Random random)
         {
@@ -56,24 +56,30 @@ namespace Slingo.Game.Bingo
             // get width from uniform grid
             double height = MatrixForAnimation[0][0].Height;
             double width = MatrixForAnimation[0][0].Width;
-
-
-            double horizontalMargin = (WidthOfMatix - width * MatrixForAnimation.Length) / (MatrixForAnimation.Length +1);
-            double verticalMargin = (HeightOfMatrix - height * MatrixForAnimation[0].Length) / (MatrixForAnimation[0].Length + 1);
+            double horizontalMarginOfMatrix = 6;
+            double verticalMarginOfMatrix = 3;
+            
+            double horizontalMargin = ((WidthOfMatrix  - 2 * horizontalMarginOfMatrix) - width * MatrixForAnimation.Length) / (MatrixForAnimation.Length -1);
+            double verticalMargin   = ((HeightOfMatrix - 2 * verticalMarginOfMatrix)   - height * MatrixForAnimation[0].Length) / (MatrixForAnimation[0].Length -1);
+            horizontalMargin = Math.Ceiling(horizontalMargin);
+            verticalMargin = Math.Ceiling(verticalMargin);
             
             // Get the columns
             BingoBallViewModel[][] columns = new BingoBallViewModel[MatrixForAnimation.Length][];
+            double margin = horizontalMarginOfMatrix;
             for (int i = 0; i < MatrixForAnimation.Length; i++)
             {
                 columns[i] = new BingoBallViewModel[MatrixForAnimation.Length];
+                if (i > 0)
+                {
+                    margin += horizontalMargin;
+                }
+                
                 for (int j = 0; j < MatrixForAnimation[i].Length; j++)
                 {
                     // Go down colum
                     columns[i][j] = MatrixForAnimation[j][i];
-
-                    double leftSideMargin = i == 0 ? horizontalMargin / 2 : horizontalMargin;
-                    
-                    columns[i][j].X = leftSideMargin +   i * (width + leftSideMargin);
+                    columns[i][j].X = margin + width * i;
                     columns[i][j].Y = -height;
                 }
             }
@@ -83,8 +89,7 @@ namespace Slingo.Game.Bingo
             int columnIndex = 0;
             int rowIndex = columns[0].Length -1;
             List<AnimatedBall> balls = new List<AnimatedBall>();
-            double maxY = HeightOfMatrix - (height + verticalMargin / 2);
-            
+            double maxY = (HeightOfMatrix - verticalMarginOfMatrix) - height;
             
             while (true)
             {

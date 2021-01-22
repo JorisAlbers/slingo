@@ -27,7 +27,7 @@ namespace Slingo.Game.Bingo
                     .DisposeWith(dispose);
 
                 this.WhenAnyValue(x => x.ListView.ActualHeight).Subscribe(x => ViewModel.HeightOfMatrix = x);
-                this.WhenAnyValue(x => x.ListView.ActualWidth).Subscribe(x => ViewModel.WidthOfMatix = x);
+                this.WhenAnyValue(x => x.ListView.ActualWidth).Subscribe(x => ViewModel.WidthOfMatrix = x);
 
                 this.OneWayBind(ViewModel,
                     vm => vm.IsAnimating,
