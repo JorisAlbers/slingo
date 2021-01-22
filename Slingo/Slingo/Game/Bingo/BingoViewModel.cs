@@ -93,7 +93,7 @@ namespace Slingo.Game.Bingo
             
             while (true)
             {
-                if (rowIndex > -1 && stepcounter++ > 10)
+                if (rowIndex > -1 && stepcounter++ > 7)
                 {
                     stepcounter = 0;
                     balls.Add(new AnimatedBall(columns[columnIndex++][rowIndex], maxY));
