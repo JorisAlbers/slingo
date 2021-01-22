@@ -10,20 +10,20 @@ namespace Slingo.Game.Bingo
         private readonly BingoBallViewModel _ball;
         private readonly double _maxY;
         private double _yVector = _FALL_SPEED_PER_STEP;
+        private double _y;
 
         public AnimatedBall(BingoBallViewModel ball, double maxY)
         {
             _ball = ball;
             _maxY = maxY;
-            Y = _ball.Y;
+            _y = _ball.Y;
         }
-        
-        public double Y { get; set; }
+
         public bool Finished { get; set; }
 
         public void Step()
         {
-            double yNew = Y += _yVector;
+            double yNew = _y += _yVector;
 
             // When the bottom is reached
             if (yNew >= _maxY)
@@ -36,17 +36,17 @@ namespace Slingo.Game.Bingo
                     return;
                 }
                 
-                _yVector -= _FALL_SPEED_PER_STEP * 3;
+                _yVector -= _FALL_SPEED_PER_STEP * 5;
                 _yVector = -_yVector;
-                Y += _yVector;
+                _y += _yVector;
                 // surplus
-                Y = _maxY;
-                _ball.Y = Y; 
+                _y = _maxY;
+                _ball.Y = _y; 
                 return;
             }
             
-            Y += _yVector;
-            _ball.Y = Y;
+            _y += _yVector;
+            _ball.Y = _y;
 
 
             _yVector += _FALL_SPEED_PER_STEP;
