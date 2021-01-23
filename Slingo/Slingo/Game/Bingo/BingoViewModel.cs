@@ -33,7 +33,7 @@ namespace Slingo.Game.Bingo
 
         public async Task FillInitialBalls()
         {
-            await DropBalls();
+            await DropBallsFromTop();
             await Task.Delay(100);
             
             foreach (BingoBallViewModel[] bingoBallViewModels in Matrix)
@@ -49,7 +49,7 @@ namespace Slingo.Game.Bingo
             }
         }
 
-        private async Task DropBalls()
+        private async Task DropBallsFromTop()
         {
             double height = MatrixForAnimation[0][0].Height;
             double width = MatrixForAnimation[0][0].Width;
