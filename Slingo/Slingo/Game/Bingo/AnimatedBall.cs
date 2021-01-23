@@ -6,16 +6,20 @@ namespace Slingo.Game.Bingo
 {
     public class AnimatedBall
     {
-        private const double _FALL_SPEED_PER_STEP = 2.5;
         private readonly BingoBallViewModel _ball;
         private readonly double _maxY;
-        private double _yVector = _FALL_SPEED_PER_STEP;
+        private readonly bool _shouldBounce;
+        private readonly double _fallSpeedPerStep;
+        private double _yVector;
         private double _y;
 
-        public AnimatedBall(BingoBallViewModel ball, double maxY)
+        public AnimatedBall(BingoBallViewModel ball, double maxY, bool shouldBounce, double fallSpeedPerStep)
         {
             _ball = ball;
             _maxY = maxY;
+            _shouldBounce = shouldBounce;
+            _fallSpeedPerStep = fallSpeedPerStep;
+            _yVector = _fallSpeedPerStep;
             _y = _ball.Y;
         }
 
@@ -28,7 +32,7 @@ namespace Slingo.Game.Bingo
             // When the bottom is reached
             if (yNew >= _maxY)
             {
-                if (_yVector < _FALL_SPEED_PER_STEP * 3)
+                if (!_shouldBounce || _yVector < _fallSpeedPerStep * 3)
                 {
                     // out of momentum
                     Finished =  true;
@@ -36,7 +40,7 @@ namespace Slingo.Game.Bingo
                     return;
                 }
                 
-                _yVector -= _FALL_SPEED_PER_STEP * 5;
+                _yVector -= _fallSpeedPerStep * 5;
                 _yVector = -_yVector;
                 _y += _yVector;
                 // surplus
@@ -49,7 +53,7 @@ namespace Slingo.Game.Bingo
             _ball.Y = _y;
 
 
-            _yVector += _FALL_SPEED_PER_STEP;
+            _yVector += _fallSpeedPerStep;
         }
     }
 }

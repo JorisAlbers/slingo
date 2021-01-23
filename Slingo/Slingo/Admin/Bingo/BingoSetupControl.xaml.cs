@@ -40,6 +40,11 @@ namespace Slingo.Admin.Bingo
                         vm => vm.Initialize,
                         view => view.InitializeButton)
                     .DisposeWith(dispose);
+
+                this.BindCommand(ViewModel,
+                        vm => vm.ClearBalls,
+                        view => view.ClearBallsButton)
+                    .DisposeWith(dispose);
             });
         }
     }

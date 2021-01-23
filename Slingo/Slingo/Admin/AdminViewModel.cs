@@ -64,12 +64,19 @@ namespace Slingo.Admin
             
             viewmodel.SetupViewModelTeam1.Initialize.Subscribe(x =>
                   _gameWindowViewModel.GameViewModel.AddBallsToBingoCard(0, x));
-            
+
+            viewmodel.SetupViewModelTeam1.ClearBalls.Subscribe(x =>
+                _gameWindowViewModel.GameViewModel.ClearBallsOfBingoCard(0));
+
             viewmodel.SetupViewModelTeam2.ShowPanel.Subscribe(x =>
                 _gameWindowViewModel.GameViewModel.InitializeBingoCard(1, x));
 
             viewmodel.SetupViewModelTeam2.Initialize.Subscribe(x =>
                 _gameWindowViewModel.GameViewModel.AddBallsToBingoCard(1, x));
+
+            viewmodel.SetupViewModelTeam2.ClearBalls.Subscribe(x =>
+                _gameWindowViewModel.GameViewModel.ClearBallsOfBingoCard(1));
+
 
             viewmodel.BingoInputViewModel.BallSubmitted.Subscribe(x => _gameWindowViewModel.GameViewModel.SubmitBall(x));
         }

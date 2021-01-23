@@ -49,6 +49,82 @@ namespace Slingo.Game.Bingo
             }
         }
 
+        public async Task ClearBalls()
+        {
+            double height = MatrixForAnimation[0][0].Height;
+            double width = MatrixForAnimation[0][0].Width;
+            double horizontalMarginOfMatrix = 6;
+            double verticalMarginOfMatrix = 3;
+
+            double horizontalMargin = ((WidthOfMatrix - 2 * horizontalMarginOfMatrix) - width * MatrixForAnimation.Length) / (MatrixForAnimation.Length - 1);
+            double verticalMargin = ((HeightOfMatrix - 2 * verticalMarginOfMatrix) - height * MatrixForAnimation[0].Length) / (MatrixForAnimation[0].Length - 1);
+            horizontalMargin = Math.Ceiling(horizontalMargin);
+            verticalMargin = Math.Ceiling(verticalMargin);
+
+            // Get the columns
+            BingoBallViewModel[][] columns = new BingoBallViewModel[MatrixForAnimation.Length][];
+            double hMargin = horizontalMarginOfMatrix;
+            for (int i = 0; i < MatrixForAnimation.Length; i++)
+            {
+                columns[i] = new BingoBallViewModel[MatrixForAnimation.Length];
+                if (i > 0)
+                {
+                    hMargin += horizontalMargin;
+                }
+                
+                double vMargin = verticalMarginOfMatrix;
+                for (int j = 0; j < MatrixForAnimation[i].Length; j++)
+                {
+                    // Go down colum
+                    columns[i][j] = MatrixForAnimation[j][i];
+                    columns[i][j].X = hMargin + width * i;
+                    columns[i][j].Y = vMargin + height * j;
+                    vMargin += verticalMargin;
+                }
+            }
+
+            FlattendMatrixForAnimation = MatrixForAnimation.SelectMany(x => x).ToArray();
+            IsAnimating = true;
+            await Task.Delay(10);
+            
+            // Drop balls
+            int stepCounter = 0;
+            int columnIndex = 0;
+            int rowIndex = columns[0].Length - 1;
+            List<AnimatedBall> balls = new List<AnimatedBall>();
+            double maxY = HeightOfMatrix + height;
+
+            while (true)
+            {
+                if (rowIndex > -1 && stepCounter++ > 2)
+                {
+                    stepCounter = 0;
+                    balls.Add(new AnimatedBall(columns[columnIndex++][rowIndex], maxY, false, 1));
+
+                    if (columnIndex > columns.Length - 1)
+                    {
+                        columnIndex = 0;
+                        rowIndex--;
+                    }
+                }
+
+                foreach (AnimatedBall animatedBall in balls)
+                {
+                    animatedBall.Step();
+                }
+
+                if (balls.Count == FlattendMatrixForAnimation.Length)
+                {
+                    if (balls.Last().Finished)
+                    {
+                        break;
+                    }
+                }
+
+                await Task.Delay(10);
+            }
+        }
+
         private async Task DropBallsFromTop()
         {
             double height = MatrixForAnimation[0][0].Height;
@@ -95,7 +171,7 @@ namespace Slingo.Game.Bingo
                 if (rowIndex > -1 && stepCounter++ > 7)
                 {
                     stepCounter = 0;
-                    balls.Add(new AnimatedBall(columns[columnIndex++][rowIndex], maxY));
+                    balls.Add(new AnimatedBall(columns[columnIndex++][rowIndex], maxY, true, 2.5));
 
                     if (columnIndex > columns.Length - 1)
                     {
@@ -123,6 +199,8 @@ namespace Slingo.Game.Bingo
             
             IsAnimating = false;
         }
+        
+        
 
         public async Task<bool> FillBall(int number)
         {

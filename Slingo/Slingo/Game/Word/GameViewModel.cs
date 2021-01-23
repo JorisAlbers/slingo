@@ -220,6 +220,13 @@ namespace Slingo.Game.Word
             await viewmodel.FillInitialBalls();
         }
 
+        public async Task ClearBallsOfBingoCard(int teamIndex)
+        {
+            BingoViewModel viewmodel = teamIndex == 0 ? BingoCardTeam1 : BingoCardTeam2;
+            SelectedViewModel = viewmodel;
+            await viewmodel.ClearBalls();
+        }
+
         public async Task SubmitBall(int i)
         {
             await ((BingoViewModel)SelectedViewModel).FillBall(i);

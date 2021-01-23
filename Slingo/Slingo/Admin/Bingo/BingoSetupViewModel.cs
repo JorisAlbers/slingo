@@ -11,6 +11,7 @@ namespace Slingo.Admin.Bingo
 
         public ReactiveCommand<Unit, BingoCardSettings> ShowPanel { get;}
         public ReactiveCommand<Unit, BingoCardSettings> Initialize { get;}
+        public ReactiveCommand<Unit, Unit> ClearBalls { get;}
 
         public BingoSetupViewModel(int teamIndex, BingoCardSettings settings)
         {
@@ -19,6 +20,7 @@ namespace Slingo.Admin.Bingo
 
             Initialize = ReactiveCommand.Create(() => _settings);
             ShowPanel = ReactiveCommand.Create(() => _settings);
+            ClearBalls = ReactiveCommand.Create(() => Unit.Default);
         }
     }
 
