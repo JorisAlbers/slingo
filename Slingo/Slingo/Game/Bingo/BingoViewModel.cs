@@ -51,9 +51,6 @@ namespace Slingo.Game.Bingo
 
         private async Task DropBalls()
         {
-            FlattendMatrixForAnimation =  MatrixForAnimation.SelectMany(x => x).ToArray();
-
-            // get width from uniform grid
             double height = MatrixForAnimation[0][0].Height;
             double width = MatrixForAnimation[0][0].Width;
             double horizontalMarginOfMatrix = 6;
@@ -84,8 +81,10 @@ namespace Slingo.Game.Bingo
                 }
             }
             
+            FlattendMatrixForAnimation =  MatrixForAnimation.SelectMany(x => x).ToArray();
+            
             // Drop a single ball
-            int stepcounter = 0;
+            int stepCounter = 0;
             int columnIndex = 0;
             int rowIndex = columns[0].Length -1;
             List<AnimatedBall> balls = new List<AnimatedBall>();
@@ -93,9 +92,9 @@ namespace Slingo.Game.Bingo
             
             while (true)
             {
-                if (rowIndex > -1 && stepcounter++ > 7)
+                if (rowIndex > -1 && stepCounter++ > 7)
                 {
-                    stepcounter = 0;
+                    stepCounter = 0;
                     balls.Add(new AnimatedBall(columns[columnIndex++][rowIndex], maxY));
 
                     if (columnIndex > columns.Length - 1)
