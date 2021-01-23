@@ -46,11 +46,9 @@ namespace Slingo.Game.Bingo
             this.WhenAnyValue(x => x._internalBall.Height).Where(x => x > 0).Subscribe(x => 
                 Height = x);
 
-            ball.WhenAnyValue(x => x.IsMatchPoint, (b) => IsMatchPoint = b);
-            ball.WhenAnyValue(x => x.Text, (t) => Text =t);
-            ball.WhenAnyValue(x => x.State, (s) => State =s);
-            ball.WhenAnyValue(x => x.IsMatchPoint, (m) => IsMatchPoint =m);
-          
+            this.WhenAnyValue(x => x._internalBall.IsMatchPoint).Subscribe(x=>IsMatchPoint = x);
+            this.WhenAnyValue(x => x._internalBall.Text).Subscribe(x=>Text = x);
+            this.WhenAnyValue(x => x._internalBall.State).Subscribe(x=> State =x);
         }
 
         public async Task Fill()
