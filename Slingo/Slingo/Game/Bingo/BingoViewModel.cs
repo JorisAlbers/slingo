@@ -219,7 +219,7 @@ namespace Slingo.Game.Bingo
                 if(viewmodel.Number == number)
                 {
                     _audioEngine.PlaySound(_fillBallLongSound);
-                    viewmodel.Fill();
+                    viewmodel.FillLong();
                     await Task.Delay(1084);
                     break;
                 }

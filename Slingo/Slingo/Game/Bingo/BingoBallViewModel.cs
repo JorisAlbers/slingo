@@ -68,6 +68,52 @@ namespace Slingo.Game.Bingo
             await Task.Delay(100);
         }
 
+        public async Task FillLong()
+        {
+            IsMatchPoint = false;
+            await Flash();
+
+            // down
+            ShowPartlyFilledIndex = 1;
+            await Task.Delay(25);
+            ShowPartlyFilledIndex = 2;
+            await Task.Delay(25);
+            ShowPartlyFilledIndex = 3;
+            await Task.Delay(25);
+            // up
+            ShowPartlyFilledIndex = 2;
+            await Task.Delay(25);
+            ShowPartlyFilledIndex = 1;
+            await Task.Delay(25);
+            ShowPartlyFilledIndex = 0;
+            await Task.Delay(25);
+            // down
+            ShowPartlyFilledIndex = 1;
+            await Task.Delay(25);
+            ShowPartlyFilledIndex = 2;
+            await Task.Delay(25);
+            ShowPartlyFilledIndex = 3;
+            await Task.Delay(25);
+            // up
+            ShowPartlyFilledIndex = 2;
+            await Task.Delay(25);
+            ShowPartlyFilledIndex = 1;
+            await Task.Delay(25);
+            ShowPartlyFilledIndex = 0;
+            await Task.Delay(25);
+            // down
+            ShowPartlyFilledIndex = 1;
+            await Task.Delay(50);
+            ShowPartlyFilledIndex = 2;
+            await Task.Delay(50);
+            ShowPartlyFilledIndex = 3;
+            await Task.Delay(50);
+            // end
+            ShowPartlyFilledIndex = 0;
+            State = BallState.Filled;
+            await Task.Delay(100);
+        }
+
         public async Task SetWinState(string letter)
         {
             State = BallState.Won;
