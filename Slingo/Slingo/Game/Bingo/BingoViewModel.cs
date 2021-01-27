@@ -44,16 +44,16 @@ namespace Slingo.Game.Bingo
         {
             await DropBallsFromTop();
             await Task.Delay(100);
-            
+
             foreach (BingoBallViewModel[] bingoBallViewModels in Matrix)
             {
                 foreach (BingoBallViewModel viewModel in bingoBallViewModels)
                 {
                     if (_settings.FilledBalls.Contains(viewModel.Number))
                     {
-                        viewModel.Fill();
                         _audioEngine.PlaySound(_fillBallShortSound);
-                        await Task.Delay(100);
+                        viewModel.Fill();
+                        await Task.Delay(125);
                     }
                 }
             }
