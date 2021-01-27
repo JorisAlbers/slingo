@@ -5,12 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Slingo.Sound;
 
 namespace Slingo.Game.Bingo
 {
     public class BingoViewModel : ReactiveObject
     {
         private readonly BingoCardSettings _settings;
+        private readonly AudioPlaybackEngine _audioEngine;
+        private CachedSound _winSound;
+        private CachedSound _fillBallShortSound;
+        private CachedSound _fillBallLongSound;
         private BingoBallViewModel[][] Matrix { get; set; }
         private BingoBallViewModel[][] MatrixForAnimation { get; set; }
 
@@ -21,9 +26,13 @@ namespace Slingo.Game.Bingo
         public double HeightOfMatrix { get; set; }
         public double WidthOfMatrix { get; set; }
         
-        public BingoViewModel(BingoCardSettings settings, Random random)
+        public BingoViewModel(BingoCardSettings settings, Random random, AudioPlaybackEngine audioEngine)
         {
             _settings = settings;
+            _audioEngine = audioEngine;
+            _winSound = new CachedSound(@"Resources\Sounds\Bingo\slingo_win.wav");
+            _fillBallShortSound = new CachedSound(@"Resources\Sounds\Bingo\ball_fill_short.wav");
+            _fillBallLongSound = new CachedSound(@"Resources\Sounds\Bingo\ball_fill_long.wav");
             int[] numbers = Enumerable.Range(1, 50).Where(x => settings.EvenNumber ? ( x % 2 == 0 ) : (x % 2 != 0)).ToArray();
             Matrix = SetupMatrix(random, numbers, settings.FilledBalls);
             MatrixForAnimation = CopyMatrix(Matrix);
@@ -43,6 +52,7 @@ namespace Slingo.Game.Bingo
                     if (_settings.FilledBalls.Contains(viewModel.Number))
                     {
                         viewModel.Fill();
+                        _audioEngine.PlaySound(_fillBallShortSound);
                         await Task.Delay(100);
                     }
                 }
@@ -208,6 +218,7 @@ namespace Slingo.Game.Bingo
             {
                 if(viewmodel.Number == number)
                 {
+                    _audioEngine.PlaySound(_fillBallLongSound);
                     await viewmodel.Fill();
                     break;
                 }
@@ -236,6 +247,7 @@ namespace Slingo.Game.Bingo
 
         private async Task ShowWin(BingoBallViewModel[] line)
         {
+            _audioEngine.PlaySound(_winSound);
             line[0].SetWinState("SL");
             line[1].SetWinState("I");
             line[2].SetWinState("N");

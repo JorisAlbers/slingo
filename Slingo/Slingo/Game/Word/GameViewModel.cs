@@ -199,7 +199,7 @@ namespace Slingo.Game.Word
 
         public async Task InitializeBingoCard(int teamIndex, BingoCardSettings settings)
         {
-            BingoViewModel viewmodel = new BingoViewModel(settings, _random);
+            BingoViewModel viewmodel = new BingoViewModel(settings, _random, _audioPlaybackEngine);
             SetActiveTeam(teamIndex);
             if (teamIndex == 0)
             {
