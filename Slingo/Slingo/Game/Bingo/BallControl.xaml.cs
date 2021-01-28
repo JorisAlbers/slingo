@@ -102,6 +102,25 @@ namespace Slingo.Game.Bingo
                     .DisposeWith(dispose);
 
                 this.OneWayBind(ViewModel,
+                        vm => vm.ShowPartlyFilledIndex,
+                        view => view.Fill5.Visibility,
+                        (index) => index == 5 ? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.ShowPartlyFilledIndex,
+                        view => view.Fill6.Visibility,
+                        (index) => index == 6 ? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.ShowPartlyFilledIndex,
+                        view => view.Fill7.Visibility,
+                        (index) => index == 7 ? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
+
+                this.OneWayBind(ViewModel,
                         vm => vm.IsMatchPoint,
                         view => view.TopMatchpointRectangle.Visibility,
                         (isMatchPoint) => isMatchPoint? Visibility.Visible : Visibility.Collapsed)

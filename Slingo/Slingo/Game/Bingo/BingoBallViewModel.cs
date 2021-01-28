@@ -55,14 +55,7 @@ namespace Slingo.Game.Bingo
         {
             IsMatchPoint = false;
             await Flash();
-            ShowPartlyFilledIndex = 1;
-            await Task.Delay(100);
-            ShowPartlyFilledIndex = 2;
-            await Task.Delay(100);
-            ShowPartlyFilledIndex = 3;
-            await Task.Delay(100);
-            ShowPartlyFilledIndex = 4;
-            await Task.Delay(100);
+            await Down();
             ShowPartlyFilledIndex = 0;
             State = BallState.Filled;
             await Task.Delay(100);
@@ -74,44 +67,51 @@ namespace Slingo.Game.Bingo
             await Flash();
 
             // down
-            ShowPartlyFilledIndex = 1;
-            await Task.Delay(25);
-            ShowPartlyFilledIndex = 2;
-            await Task.Delay(25);
-            ShowPartlyFilledIndex = 3;
-            await Task.Delay(25);
-            // up
-            ShowPartlyFilledIndex = 2;
-            await Task.Delay(25);
-            ShowPartlyFilledIndex = 1;
-            await Task.Delay(25);
-            ShowPartlyFilledIndex = 0;
-            await Task.Delay(25);
-            // down
-            ShowPartlyFilledIndex = 1;
-            await Task.Delay(25);
-            ShowPartlyFilledIndex = 2;
-            await Task.Delay(25);
-            ShowPartlyFilledIndex = 3;
-            await Task.Delay(25);
-            // up
-            ShowPartlyFilledIndex = 2;
-            await Task.Delay(25);
-            ShowPartlyFilledIndex = 1;
-            await Task.Delay(25);
-            ShowPartlyFilledIndex = 0;
-            await Task.Delay(25);
-            // down
-            ShowPartlyFilledIndex = 1;
-            await Task.Delay(50);
-            ShowPartlyFilledIndex = 2;
-            await Task.Delay(50);
-            ShowPartlyFilledIndex = 3;
-            await Task.Delay(50);
+            await Down();
+            await Up();
+            await Down();
+            await Up();
+            await Down();
             // end
             ShowPartlyFilledIndex = 0;
             State = BallState.Filled;
             await Task.Delay(100);
+        }
+
+        private async Task Down()
+        {
+            ShowPartlyFilledIndex = 1;
+            await Task.Delay(10);
+            ShowPartlyFilledIndex = 2;
+            await Task.Delay(10);
+            ShowPartlyFilledIndex = 3;
+            await Task.Delay(10);
+            ShowPartlyFilledIndex = 4;
+            await Task.Delay(10);
+            ShowPartlyFilledIndex = 5;
+            await Task.Delay(10);
+            ShowPartlyFilledIndex = 6;
+            await Task.Delay(10);
+            ShowPartlyFilledIndex = 7;
+            await Task.Delay(20);
+        }
+
+        private async Task Up()
+        {
+            ShowPartlyFilledIndex = 6;
+            await Task.Delay(10);
+            ShowPartlyFilledIndex = 5;
+            await Task.Delay(10);
+            ShowPartlyFilledIndex = 4;
+            await Task.Delay(10);
+            ShowPartlyFilledIndex = 3;
+            await Task.Delay(10);
+            ShowPartlyFilledIndex = 2;
+            await Task.Delay(10);
+            ShowPartlyFilledIndex = 1;
+            await Task.Delay(10);
+            ShowPartlyFilledIndex = 0;
+            await Task.Delay(20);
         }
 
         public async Task SetWinState(string letter)
