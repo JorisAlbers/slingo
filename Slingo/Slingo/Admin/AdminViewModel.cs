@@ -39,6 +39,9 @@ namespace Slingo.Admin
                 _gameWindowViewModel.StartGame(new GameViewModel(settings, team1, team2, _audioPlaybackEngine));
                 
                 InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings);
+                inputViewModel.FocusTeam1.Subscribe(x => _gameWindowViewModel.GameViewModel.FocusTeam(0));
+                inputViewModel.FocusTeam2.Subscribe(x => _gameWindowViewModel.GameViewModel.FocusTeam(1));
+                
                 // Word input
                 inputViewModel.WhenAnyValue(x => x.WordInputViewModel).Where(x=>x!=null).Subscribe(SubscribeToWordInput);
 

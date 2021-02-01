@@ -23,7 +23,9 @@ namespace Slingo.Admin.Word
         [Reactive] public WordInputViewModel WordInputViewModel { get; private set; }
         [Reactive] public ReactiveObject SelectedViewModel { get; private set; }
 
-       
+        public ReactiveCommand<Unit, Unit> FocusTeam1 { get; }
+        public ReactiveCommand<Unit, Unit> FocusTeam2 { get; }
+
         public InputViewModel(WordRepository wordRepository, Settings settings)
         {
             _wordRepository = wordRepository;
@@ -33,6 +35,12 @@ namespace Slingo.Admin.Word
 
             BingoAdminPanelViewModel1 = new BingoAdminPanelViewModel(0);
             BingoAdminPanelViewModel2 = new BingoAdminPanelViewModel(1);
+
+            FocusTeam1 = ReactiveCommand.Create(() => Unit.Default);
+            FocusTeam2 = ReactiveCommand.Create(() => Unit.Default);
+
+            FocusTeam1.Subscribe(x => SelectedViewModel = BingoAdminPanelViewModel1);
+            FocusTeam2.Subscribe(x => SelectedViewModel = BingoAdminPanelViewModel2);
             
             SelectedViewModel = BingoAdminPanelViewModel1;
         }

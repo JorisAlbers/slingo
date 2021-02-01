@@ -199,9 +199,9 @@ namespace Slingo.Game.Word
             }
         }
 
-        public async Task SubmitBall(int i)
+        public void FocusTeam(int i)
         {
-            await ((BingoViewModel)SelectedViewModel).FillBall(i);
+            SelectedViewModel = i == 0 ? Team1ViewModel : Team2ViewModel;
         }
     }
 }

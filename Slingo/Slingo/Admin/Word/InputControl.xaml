@@ -8,10 +8,26 @@
                                 xmlns:input="clr-namespace:Slingo.Admin.Word"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="450" d:DesignWidth="800">
-    <reactiveUi:ViewModelViewHost x:Name="ViewModelViewHost"
-                                  HorizontalAlignment="Stretch" 
-                                  VerticalAlignment="Stretch"
-                                  VerticalContentAlignment="Stretch"
-                                  HorizontalContentAlignment="Stretch"/>
 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <ToggleButton x:Name="FocusTeam1Button" Content="Focus team 1" Grid.Column="0"/>
+
+        <reactiveUi:ViewModelViewHost x:Name="ViewModelViewHost"
+                                      Grid.Column="1"
+                                      HorizontalAlignment="Stretch" 
+                                      VerticalAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      HorizontalContentAlignment="Stretch"/>
+
+        <ToggleButton x:Name="FocusTeam2Button" Content="Focus team 2" Grid.Column="2"/>
+
+
+    </Grid>
+    
 </reactiveUi:ReactiveUserControl>

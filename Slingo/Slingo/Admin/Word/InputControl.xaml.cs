@@ -19,6 +19,17 @@ namespace Slingo.Admin.Word
                         vm => vm.SelectedViewModel,
                         view => view.ViewModelViewHost.ViewModel)
                     .DisposeWith(dispose);
+
+                this.BindCommand(ViewModel,
+                        vm => vm.FocusTeam1,
+                        view => view.FocusTeam1Button)
+                    .DisposeWith(dispose);
+
+                this.BindCommand(ViewModel,
+                        vm => vm.FocusTeam2,
+                        view => view.FocusTeam2Button)
+                    .DisposeWith(dispose);
+
             });
         }
     }
