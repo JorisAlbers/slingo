@@ -11,23 +11,17 @@ namespace Slingo.Admin.Bingo
     public class BingoAdminPanelViewModel : ReactiveObject
     {
         [Reactive] public ReactiveObject SelectedViewModel { get; private set; }
-        public BingoSetupViewModel SetupViewModelTeam1 { get; }
-        public BingoSetupViewModel SetupViewModelTeam2 { get; }
+        public BingoSetupViewModel SetupViewModel { get; }
         public BingoInputViewModel BingoInputViewModel { get; }
 
-        public BingoAdminPanelViewModel(BingoCardSettings settingsTeam1, BingoCardSettings settingsTeam2)
+        public BingoAdminPanelViewModel(int teamIndex)
         {
             BingoInputViewModel = new BingoInputViewModel();
-            SetupViewModelTeam1 = new BingoSetupViewModel(0, settingsTeam1);
-            SetupViewModelTeam2 = new BingoSetupViewModel(1, settingsTeam2);
+            SetupViewModel = new BingoSetupViewModel(teamIndex);
 
-            this.SetupViewModelTeam1.Initialize.Subscribe(x =>
-                SelectedViewModel = SetupViewModelTeam2);
-            this.SetupViewModelTeam2.Initialize.Subscribe(x =>
-                SelectedViewModel = BingoInputViewModel);
-
-            SelectedViewModel = SetupViewModelTeam1;
-            
+            SelectedViewModel = SetupViewModel;
         }
+        
+        
     }
 }

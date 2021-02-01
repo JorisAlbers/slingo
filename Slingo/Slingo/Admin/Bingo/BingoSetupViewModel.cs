@@ -6,20 +6,15 @@ namespace Slingo.Admin.Bingo
 {
     public class BingoSetupViewModel : ReactiveObject
     {
-        private readonly BingoCardSettings _settings;
         public int TeamIndex { get; }
-
-        public ReactiveCommand<Unit, BingoCardSettings> ShowPanel { get;}
-        public ReactiveCommand<Unit, BingoCardSettings> Initialize { get;}
+        public ReactiveCommand<Unit, Unit> Initialize { get;}
         public ReactiveCommand<Unit, Unit> ClearBalls { get;}
 
-        public BingoSetupViewModel(int teamIndex, BingoCardSettings settings)
+        public BingoSetupViewModel(int teamIndex)
         {
-            _settings = settings;
             TeamIndex = teamIndex + 1;
 
-            Initialize = ReactiveCommand.Create(() => _settings);
-            ShowPanel = ReactiveCommand.Create(() => _settings);
+            Initialize = ReactiveCommand.Create(() => Unit.Default);
             ClearBalls = ReactiveCommand.Create(() => Unit.Default);
         }
     }

@@ -43,7 +43,7 @@ namespace Slingo.Admin
                 inputViewModel.WhenAnyValue(x => x.WordInputViewModel).Where(x=>x!=null).Subscribe(SubscribeToWordInput);
 
                 // Bingo input
-                SubscribeToBingoInput(inputViewModel.BingoAdminPanelViewModel);
+                SubscribeToBingoInput(inputViewModel);
                 
                 SelectedViewModel = inputViewModel;
             });
@@ -57,28 +57,28 @@ namespace Slingo.Admin
             window.Show();
         }
 
-        private void SubscribeToBingoInput(BingoAdminPanelViewModel viewmodel)
+        private void SubscribeToBingoInput(InputViewModel viewmodel)
         {
-            /*viewmodel.SetupViewModelTeam1.ShowPanel.Subscribe(x =>
-                _gameWindowViewModel.GameViewModel.InitializeBingoCard(0, x));
-            
-            viewmodel.SetupViewModelTeam1.Initialize.Subscribe(x =>
-                  _gameWindowViewModel.GameViewModel.AddBallsToBingoCard(0, x));
+            // Team 1
+            viewmodel.BingoAdminPanelViewModel1.SetupViewModel.Initialize.Subscribe(x =>
+                _gameWindowViewModel.GameViewModel.Team1ViewModel.BingoViewModel.FillInitialBalls());
 
-            viewmodel.SetupViewModelTeam1.ClearBalls.Subscribe(x =>
-                _gameWindowViewModel.GameViewModel.ClearBallsOfBingoCard(0));
+            viewmodel.BingoAdminPanelViewModel1.SetupViewModel.ClearBalls.Subscribe(x =>
+                _gameWindowViewModel.GameViewModel.Team1ViewModel.BingoViewModel.ClearBalls());
 
-            viewmodel.SetupViewModelTeam2.ShowPanel.Subscribe(x =>
-                _gameWindowViewModel.GameViewModel.InitializeBingoCard(1, x));
+            viewmodel.BingoAdminPanelViewModel1.BingoInputViewModel.BallSubmitted.Subscribe(x =>
+                _gameWindowViewModel.GameViewModel.Team1ViewModel.BingoViewModel.FillBall(x));
 
-            viewmodel.SetupViewModelTeam2.Initialize.Subscribe(x =>
-                _gameWindowViewModel.GameViewModel.AddBallsToBingoCard(1, x));
+            // Team 2
+            viewmodel.BingoAdminPanelViewModel2.SetupViewModel.Initialize.Subscribe(x =>
+                _gameWindowViewModel.GameViewModel.Team2ViewModel.BingoViewModel.FillInitialBalls());
 
-            viewmodel.SetupViewModelTeam2.ClearBalls.Subscribe(x =>
-                _gameWindowViewModel.GameViewModel.ClearBallsOfBingoCard(1));*/
+            viewmodel.BingoAdminPanelViewModel2.SetupViewModel.ClearBalls.Subscribe(x =>
+                _gameWindowViewModel.GameViewModel.Team2ViewModel.BingoViewModel.ClearBalls());
 
+            viewmodel.BingoAdminPanelViewModel2.BingoInputViewModel.BallSubmitted.Subscribe(x =>
+                _gameWindowViewModel.GameViewModel.Team2ViewModel.BingoViewModel.FillBall(x));
 
-            viewmodel.BingoInputViewModel.BallSubmitted.Subscribe(x => _gameWindowViewModel.GameViewModel.SubmitBall(x));
         }
 
         private void SubscribeToWordInput(WordInputViewModel viewmodel)

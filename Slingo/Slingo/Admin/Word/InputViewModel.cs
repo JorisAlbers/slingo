@@ -18,7 +18,8 @@ namespace Slingo.Admin.Word
         private readonly Random _random;
         private readonly List<string> _words;
         
-        public BingoAdminPanelViewModel BingoAdminPanelViewModel { get;  }
+        public BingoAdminPanelViewModel BingoAdminPanelViewModel1 { get;  }
+        public BingoAdminPanelViewModel BingoAdminPanelViewModel2 { get;  }
         [Reactive] public WordInputViewModel WordInputViewModel { get; private set; }
         [Reactive] public ReactiveObject SelectedViewModel { get; private set; }
 
@@ -30,11 +31,10 @@ namespace Slingo.Admin.Word
             _words = _wordRepository.Deserialize(settings.WordSize);
             _random = new Random();
 
-            BingoAdminPanelViewModel = new BingoAdminPanelViewModel(
-                new BingoCardSettings(true, settings.ExcludedBallNumbersEven),
-                new BingoCardSettings(false, settings.ExcludedBallNumbersOdd));
+            BingoAdminPanelViewModel1 = new BingoAdminPanelViewModel(0);
+            BingoAdminPanelViewModel2 = new BingoAdminPanelViewModel(1);
             
-            SelectedViewModel = BingoAdminPanelViewModel;
+            SelectedViewModel = BingoAdminPanelViewModel1;
         }
     }
 }

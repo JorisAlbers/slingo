@@ -52,12 +52,15 @@
                                   VerticalContentAlignment="Top"
                                   HorizontalContentAlignment="Stretch"/>
 
-        <reactiveUi:ViewModelViewHost x:Name="ViewModelHost"
-                                      Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"
-                                      HorizontalAlignment="Stretch" 
-                                      VerticalAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch"
-                                      HorizontalContentAlignment="Stretch"/>
+        <Grid Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Background="Gray">
+            <reactiveUi:ViewModelViewHost x:Name="ViewModelHost"
+                                          HorizontalAlignment="Stretch" 
+                                          VerticalAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch"
+                                          HorizontalContentAlignment="Stretch"/>
+        </Grid>
+
+        
 
     </Grid>
 </reactiveUi:ReactiveUserControl>
