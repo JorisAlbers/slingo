@@ -14,26 +14,17 @@ namespace Slingo.Game.Word
 
             this.WhenActivated((dispose) =>
             {
-                this.OneWayBind(ViewModel,
-                        vm => vm.SelectedViewModel,
-                        view => view.ViewModelHost.ViewModel)
+                this.Bind(ViewModel,
+                        vm => vm.Team1ViewModel,
+                        view => view.Team1Control.ViewModel)
                     .DisposeWith(dispose);
 
-                this.OneWayBind(ViewModel,
-                        vm => vm.ScoreBoardTeam1,
-                        view => view.Team1ScoreBoard.ViewModel)
-                    .DisposeWith(dispose);
-
-                this.OneWayBind(ViewModel,
-                        vm => vm.ScoreBoardTeam2,
-                        view => view.Team2ScoreBoard.ViewModel)
-                    .DisposeWith(dispose);
-
-                this.OneWayBind(ViewModel,
-                        vm => vm.ActiveTeamName,
-                        view => view.TeamNameTextBlock.Text)
+                this.Bind(ViewModel,
+                        vm => vm.Team2ViewModel,
+                        view => view.Team2Control.ViewModel)
                     .DisposeWith(dispose);
             });
+
         }
     }
 }

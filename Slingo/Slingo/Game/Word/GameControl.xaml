@@ -7,62 +7,13 @@
                                 xmlns:slingo="clr-namespace:Slingo"
                                 xmlns:local="clr-namespace:Slingo.Game.Word"
                                 xmlns:score="clr-namespace:Slingo.Game.Score"
+                                xmlns:game="clr-namespace:Slingo.Game"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20*"/>
-            <ColumnDefinition Width="60*"/>
-            <ColumnDefinition Width="20*"/>
-        </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="80*"/>
-        </Grid.RowDefinitions>
-
-        <Viewbox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Grid>
-                <Border>
-                    <TextBlock x:Name="TeamNameTextBlock" 
-                               Background="DarkBlue" 
-                               Foreground="Yellow" 
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Bottom"
-                               Padding="10,0"/>
-                </Border>
-                <Border 
-                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="1" 
-                    Background="Transparent" BorderBrush="Black">
-                </Border>
-            </Grid>
-        </Viewbox>
-
-       
-
-
-
-        <score:ScoreBoardControl x:Name="Team1ScoreBoard"
-                                      Grid.Column="0" Grid.Row="1"
-                                      HorizontalAlignment="Stretch" 
-                                      VerticalAlignment="Top"
-                                      VerticalContentAlignment="Top"
-                                      HorizontalContentAlignment="Stretch"/>
-
-        <score:ScoreBoardControl x:Name="Team2ScoreBoard"
-                                  Grid.Column="2" Grid.Row="1"
-                                  HorizontalAlignment="Stretch" 
-                                  VerticalAlignment="Stretch"
-                                  VerticalContentAlignment="Top"
-                                  HorizontalContentAlignment="Stretch"/>
-
-        <reactiveUi:ViewModelViewHost x:Name="ViewModelHost"
-                                      Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"
-                                      HorizontalAlignment="Stretch" 
-                                      VerticalAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch"
-                                      HorizontalContentAlignment="Stretch"/>
-
-    </Grid>
+    <UniformGrid>
+        <game:TeamControl x:Name="Team1Control"/>
+        <game:TeamControl x:Name="Team2Control"/>
+    </UniformGrid>
+    
 </reactiveUi:ReactiveUserControl>

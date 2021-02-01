@@ -27,11 +27,9 @@ namespace Slingo.Game.Word
         public ScoreboardViewModel ScoreBoardTeam2 { get; }
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
         [Reactive] public BoardViewModel BoardViewModel { get; private set; }
-        [Reactive] public BingoViewModel BingoCardTeam1 { get; private set; }
-        [Reactive] public BingoViewModel BingoCardTeam2 { get; private set; }
+        [Reactive] public TeamViewModel Team1ViewModel { get; private set; }
+        [Reactive] public TeamViewModel Team2ViewModel { get; private set; }
 
-        [Reactive] public object ActiveTeamName { get; private set; }
-        
         public ReactiveCommand<Unit,Unit> CountDownStarted { get; } // TODO move to model class
         
 
@@ -48,10 +46,15 @@ namespace Slingo.Game.Word
             
             ScoreBoardTeam1 = new ScoreboardViewModel(team1.Settings.Name, team1.Score, HorizontalAlignment.Left);
             ScoreBoardTeam2 = new ScoreboardViewModel(team2.Settings.Name, team2.Score, HorizontalAlignment.Right);
+
+            BingoViewModel bingoViewModel1 = new BingoViewModel(new BingoCardSettings(true, settings.ExcludedBallNumbersEven),_random,_audioPlaybackEngine);
+            BingoViewModel bingoViewModel2 = new BingoViewModel(new BingoCardSettings(false, settings.ExcludedBallNumbersOdd),_random,_audioPlaybackEngine);
+            
+            Team1ViewModel = new TeamViewModel(0, ScoreBoardTeam1, ScoreBoardTeam2, bingoViewModel1);
+            Team2ViewModel = new TeamViewModel(1, ScoreBoardTeam1, ScoreBoardTeam2, bingoViewModel2);
+            
             SetActiveTeam(settings.StartingTeamIndex);
-
-           
-
+            
             CountDownStarted = ReactiveCommand.Create(() => new Unit());
         }
 
@@ -158,7 +161,6 @@ namespace Slingo.Game.Word
         
         private void SetActiveTeam(int index)
         {
-            ActiveTeamName = $"TEAM {index + 1}";
             if (index == 0)
             {
                 ScoreBoardTeam1.IsActiveTeam = true;
@@ -195,36 +197,6 @@ namespace Slingo.Game.Word
             {
                 await CountDownStarted.Execute();
             }
-        }
-
-        public async Task InitializeBingoCard(int teamIndex, BingoCardSettings settings)
-        {
-            BingoViewModel viewmodel = new BingoViewModel(settings, _random, _audioPlaybackEngine);
-            SetActiveTeam(teamIndex);
-            if (teamIndex == 0)
-            {
-                BingoCardTeam1 = viewmodel;
-            }
-            else
-            {
-                BingoCardTeam2 = viewmodel;
-            }
-
-            SelectedViewModel = viewmodel;
-        }
-
-        public async Task AddBallsToBingoCard(int teamIndex, BingoCardSettings settings)
-        {
-            BingoViewModel viewmodel = teamIndex == 0 ? BingoCardTeam1 : BingoCardTeam2;
-            SelectedViewModel = viewmodel;
-            await viewmodel.FillInitialBalls();
-        }
-
-        public async Task ClearBallsOfBingoCard(int teamIndex)
-        {
-            BingoViewModel viewmodel = teamIndex == 0 ? BingoCardTeam1 : BingoCardTeam2;
-            SelectedViewModel = viewmodel;
-            await viewmodel.ClearBalls();
         }
 
         public async Task SubmitBall(int i)

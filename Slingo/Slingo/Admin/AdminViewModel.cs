@@ -59,7 +59,7 @@ namespace Slingo.Admin
 
         private void SubscribeToBingoInput(BingoAdminPanelViewModel viewmodel)
         {
-            viewmodel.SetupViewModelTeam1.ShowPanel.Subscribe(x =>
+            /*viewmodel.SetupViewModelTeam1.ShowPanel.Subscribe(x =>
                 _gameWindowViewModel.GameViewModel.InitializeBingoCard(0, x));
             
             viewmodel.SetupViewModelTeam1.Initialize.Subscribe(x =>
@@ -75,7 +75,7 @@ namespace Slingo.Admin
                 _gameWindowViewModel.GameViewModel.AddBallsToBingoCard(1, x));
 
             viewmodel.SetupViewModelTeam2.ClearBalls.Subscribe(x =>
-                _gameWindowViewModel.GameViewModel.ClearBallsOfBingoCard(1));
+                _gameWindowViewModel.GameViewModel.ClearBallsOfBingoCard(1));*/
 
 
             viewmodel.BingoInputViewModel.BallSubmitted.Subscribe(x => _gameWindowViewModel.GameViewModel.SubmitBall(x));
