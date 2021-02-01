@@ -29,6 +29,8 @@ namespace Slingo.Game
             Scoreboard1 = scoreboard1;
             Scoreboard2 = scoreboard2;
             BingoViewModel = bingoViewModel;
+            SelectedViewModel = BingoViewModel;
         }
+
     }
 }
