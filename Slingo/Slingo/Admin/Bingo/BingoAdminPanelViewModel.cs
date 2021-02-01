@@ -14,10 +14,7 @@ namespace Slingo.Admin.Bingo
         public BingoSetupViewModel SetupViewModelTeam1 { get; }
         public BingoSetupViewModel SetupViewModelTeam2 { get; }
         public BingoInputViewModel BingoInputViewModel { get; }
-        
-        public ReactiveCommand<Unit,Unit> Forwards { get; }
-        public ReactiveCommand<Unit,Unit> Backwards { get; }
-        
+
         public BingoAdminPanelViewModel(BingoCardSettings settingsTeam1, BingoCardSettings settingsTeam2)
         {
             BingoInputViewModel = new BingoInputViewModel();
@@ -30,40 +27,7 @@ namespace Slingo.Admin.Bingo
                 SelectedViewModel = BingoInputViewModel);
 
             SelectedViewModel = SetupViewModelTeam1;
-
-            Forwards = ReactiveCommand.Create(() => { },  this.WhenAnyValue(x=> x.SelectedViewModel, (vm)=> vm != BingoInputViewModel));
-            Backwards = ReactiveCommand.Create(() => { }, this.WhenAnyValue(x=> x.SelectedViewModel, (vm)=> vm != SetupViewModelTeam1));
             
-            Forwards.Subscribe(x =>
-            {
-                if (SelectedViewModel == SetupViewModelTeam1)
-                {
-                    SelectedViewModel = SetupViewModelTeam2;
-                    return;
-                }
-
-                if (SelectedViewModel == SetupViewModelTeam2)
-                {
-                    SelectedViewModel = BingoInputViewModel;
-                    return;
-                }
-            });
-
-            Backwards.Subscribe(x =>
-            {
-                if (SelectedViewModel == BingoInputViewModel)
-                {
-                    SelectedViewModel = SetupViewModelTeam2;
-                    return;
-                }
-
-                if (SelectedViewModel == SetupViewModelTeam2)
-                {
-                    SelectedViewModel = SetupViewModelTeam1;
-                    return;
-                }
-            });
-
         }
     }
 }

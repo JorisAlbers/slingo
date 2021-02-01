@@ -30,17 +30,7 @@ namespace Slingo.Admin.Bingo
                         vm => vm.SelectedViewModel,
                         view => view.ViewModelViewHost.ViewModel)
                     .DisposeWith(dispose);
-
-                this.BindCommand(ViewModel,
-                        vm => vm.Forwards,
-                        view => view.ForwardsButton)
-                    .DisposeWith(dispose);
-
-                this.BindCommand(ViewModel,
-                        vm => vm.Backwards,
-                        view => view.BackwardsButton)
-                    .DisposeWith(dispose);
-
+                
             });
         }
     }
