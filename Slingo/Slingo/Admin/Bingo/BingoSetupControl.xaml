@@ -23,6 +23,13 @@
                 <TextBlock x:Name="TeamIndexTextBlock"/>
             </StackPanel>
 
+            <UniformGrid Rows="1">
+                <TextBlock Text="Enter ball number:"/>
+                <TextBox x:Name="BallNumberTextBox"/>
+                <Button x:Name="SubmitBallButton" Content="Submit"/>
+            </UniformGrid>
+
+
             <Button  x:Name="InitializeButton" Content="add balls"  Height="50" Width="100"/>
             <Button  x:Name="ClearBallsButton" Content="clear balls"  Height="50" Width="100"/>
         </UniformGrid>

@@ -63,23 +63,23 @@ namespace Slingo.Admin
         private void SubscribeToBingoInput(InputViewModel viewmodel)
         {
             // Team 1
-            viewmodel.BingoAdminPanelViewModel1.SetupViewModel.Initialize.Subscribe(x =>
+            viewmodel.BingoSetupViewModel1.Initialize.Subscribe(x =>
                 _gameWindowViewModel.GameViewModel.Team1ViewModel.BingoViewModel.FillInitialBalls());
 
-            viewmodel.BingoAdminPanelViewModel1.SetupViewModel.ClearBalls.Subscribe(x =>
+            viewmodel.BingoSetupViewModel1.ClearBalls.Subscribe(x =>
                 _gameWindowViewModel.GameViewModel.Team1ViewModel.BingoViewModel.ClearBalls());
 
-            viewmodel.BingoAdminPanelViewModel1.BingoInputViewModel.BallSubmitted.Subscribe(x =>
+            viewmodel.BingoSetupViewModel1.BallSubmitted.Subscribe(x =>
                 _gameWindowViewModel.GameViewModel.Team1ViewModel.BingoViewModel.FillBall(x));
 
             // Team 2
-            viewmodel.BingoAdminPanelViewModel2.SetupViewModel.Initialize.Subscribe(x =>
+            viewmodel.BingoSetupViewModel2.Initialize.Subscribe(x =>
                 _gameWindowViewModel.GameViewModel.Team2ViewModel.BingoViewModel.FillInitialBalls());
 
-            viewmodel.BingoAdminPanelViewModel2.SetupViewModel.ClearBalls.Subscribe(x =>
+            viewmodel.BingoSetupViewModel2.ClearBalls.Subscribe(x =>
                 _gameWindowViewModel.GameViewModel.Team2ViewModel.BingoViewModel.ClearBalls());
 
-            viewmodel.BingoAdminPanelViewModel2.BingoInputViewModel.BallSubmitted.Subscribe(x =>
+            viewmodel.BingoSetupViewModel2.BallSubmitted.Subscribe(x =>
                 _gameWindowViewModel.GameViewModel.Team2ViewModel.BingoViewModel.FillBall(x));
 
         }

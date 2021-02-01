@@ -18,8 +18,8 @@ namespace Slingo.Admin.Word
         private readonly Random _random;
         private readonly List<string> _words;
         
-        public BingoAdminPanelViewModel BingoAdminPanelViewModel1 { get;  }
-        public BingoAdminPanelViewModel BingoAdminPanelViewModel2 { get;  }
+        public BingoSetupViewModel BingoSetupViewModel1 { get;  }
+        public BingoSetupViewModel BingoSetupViewModel2 { get;  }
         [Reactive] public WordInputViewModel WordInputViewModel { get; private set; }
         [Reactive] public ReactiveObject SelectedViewModel { get; private set; }
 
@@ -33,16 +33,16 @@ namespace Slingo.Admin.Word
             _words = _wordRepository.Deserialize(settings.WordSize);
             _random = new Random();
 
-            BingoAdminPanelViewModel1 = new BingoAdminPanelViewModel(0);
-            BingoAdminPanelViewModel2 = new BingoAdminPanelViewModel(1);
+            BingoSetupViewModel1 = new BingoSetupViewModel(0);
+            BingoSetupViewModel2 = new BingoSetupViewModel(1);
 
             FocusTeam1 = ReactiveCommand.Create(() => Unit.Default);
             FocusTeam2 = ReactiveCommand.Create(() => Unit.Default);
 
-            FocusTeam1.Subscribe(x => SelectedViewModel = BingoAdminPanelViewModel1);
-            FocusTeam2.Subscribe(x => SelectedViewModel = BingoAdminPanelViewModel2);
+            FocusTeam1.Subscribe(x => SelectedViewModel = BingoSetupViewModel1);
+            FocusTeam2.Subscribe(x => SelectedViewModel = BingoSetupViewModel2);
             
-            SelectedViewModel = BingoAdminPanelViewModel1;
+            SelectedViewModel = BingoSetupViewModel1;
         }
     }
 }
