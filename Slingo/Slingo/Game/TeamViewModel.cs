@@ -43,6 +43,7 @@ namespace Slingo.Game
         public void CreateNewBingoCard()
         {
             BingoViewModel = new BingoViewModel(_bingoCardSettings, _random, _audioPlaybackEngine);
+            SelectedViewModel = BingoViewModel;
         }
 
     }

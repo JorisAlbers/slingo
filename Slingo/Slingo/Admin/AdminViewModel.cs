@@ -9,6 +9,7 @@ using Slingo.Admin.Bingo;
 using Slingo.Admin.Setup;
 using Slingo.Admin.Word;
 using Slingo.Game;
+using Slingo.Game.Bingo;
 using Slingo.Game.Word;
 using Slingo.Sound;
 using SlingoLib;
@@ -63,24 +64,48 @@ namespace Slingo.Admin
         private void SubscribeToBingoInput(InputViewModel viewmodel)
         {
             // Team 1
-            viewmodel.BingoSetupViewModel1.Initialize.Subscribe(x =>
-                _gameWindowViewModel.GameViewModel.Team1ViewModel.BingoViewModel.FillInitialBalls());
+            viewmodel.BingoSetupViewModel1.Initialize.Subscribe(async x =>
+            {
+                await _gameWindowViewModel.GameViewModel.Team1ViewModel.BingoViewModel.FillInitialBalls();
+                viewmodel.BingoSetupViewModel1.State = BingoCardState.Filled;
+            });
 
-            viewmodel.BingoSetupViewModel1.ClearBalls.Subscribe(x =>
-                _gameWindowViewModel.GameViewModel.Team1ViewModel.BingoViewModel.ClearBalls());
+            viewmodel.BingoSetupViewModel1.ClearBalls.Subscribe(async x =>
+            {
+                await _gameWindowViewModel.GameViewModel.Team1ViewModel.BingoViewModel.ClearBalls();
+                _gameWindowViewModel.GameViewModel.Team1ViewModel.CreateNewBingoCard();
+                viewmodel.BingoSetupViewModel1.State = BingoCardState.Empty;
+            });
 
-            viewmodel.BingoSetupViewModel1.BallSubmitted.Subscribe(x =>
-                _gameWindowViewModel.GameViewModel.Team1ViewModel.BingoViewModel.FillBall(x));
+            viewmodel.BingoSetupViewModel1.BallSubmitted.Subscribe(async x =>
+            {
+                if (await _gameWindowViewModel.GameViewModel.Team1ViewModel.BingoViewModel.FillBall(x))
+                {
+                    viewmodel.BingoSetupViewModel1.State = BingoCardState.Won;
+                }
+            });
 
             // Team 2
-            viewmodel.BingoSetupViewModel2.Initialize.Subscribe(x =>
-                _gameWindowViewModel.GameViewModel.Team2ViewModel.BingoViewModel.FillInitialBalls());
+            viewmodel.BingoSetupViewModel2.Initialize.Subscribe(async x =>
+            {
+                await _gameWindowViewModel.GameViewModel.Team2ViewModel.BingoViewModel.FillInitialBalls();
+                viewmodel.BingoSetupViewModel2.State = BingoCardState.Filled;
+            });
 
-            viewmodel.BingoSetupViewModel2.ClearBalls.Subscribe(x =>
-                _gameWindowViewModel.GameViewModel.Team2ViewModel.BingoViewModel.ClearBalls());
+            viewmodel.BingoSetupViewModel2.ClearBalls.Subscribe(async x =>
+            {
+                await _gameWindowViewModel.GameViewModel.Team2ViewModel.BingoViewModel.ClearBalls();
+                _gameWindowViewModel.GameViewModel.Team2ViewModel.CreateNewBingoCard();
+                viewmodel.BingoSetupViewModel2.State = BingoCardState.Empty;
+            });
 
-            viewmodel.BingoSetupViewModel2.BallSubmitted.Subscribe(x =>
-                _gameWindowViewModel.GameViewModel.Team2ViewModel.BingoViewModel.FillBall(x));
+            viewmodel.BingoSetupViewModel2.BallSubmitted.Subscribe(async x =>
+            {
+                if (await _gameWindowViewModel.GameViewModel.Team2ViewModel.BingoViewModel.FillBall(x))
+                {
+                    viewmodel.BingoSetupViewModel2.State = BingoCardState.Won;
+                }
+            });
 
         }
 

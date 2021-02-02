@@ -25,7 +25,7 @@ namespace Slingo.Admin.Word
 
         public ReactiveCommand<Unit, Unit> FocusTeam1 { get; }
         public ReactiveCommand<Unit, Unit> FocusTeam2 { get; }
-
+        
         public InputViewModel(WordRepository wordRepository, Settings settings)
         {
             _wordRepository = wordRepository;

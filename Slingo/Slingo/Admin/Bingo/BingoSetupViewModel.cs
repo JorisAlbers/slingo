@@ -1,7 +1,9 @@
+using System;
 using System.Reactive;
 using System.Windows.Input;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Slingo.Admin.Word;
 
 namespace Slingo.Admin.Bingo
 {
@@ -15,17 +17,24 @@ namespace Slingo.Admin.Bingo
 
         [Reactive] public string NumberString { get; set; }
 
+        [Reactive] public BingoCardState State { get; set; }
+
 
         public BingoSetupViewModel(int teamIndex)
         {
             TeamIndex = teamIndex + 1;
 
-            Initialize = ReactiveCommand.Create(() => Unit.Default);
-            ClearBalls = ReactiveCommand.Create(() => Unit.Default);
+            Initialize = ReactiveCommand.Create(() => Unit.Default, this.WhenAnyValue(x=> x.State, (state) => state == BingoCardState.Empty));
+            ClearBalls = ReactiveCommand.Create(() => Unit.Default, this.WhenAnyValue(x=> x.State, (state) => state == BingoCardState.Won));
 
-            var canSubmitBall = this.WhenAnyValue(x => x.NumberString,
-                (number) =>
+            var canSubmitBall = this.WhenAnyValue(x => x.NumberString, x=> x.State,
+                (number, state) =>
                 {
+                    if (state != BingoCardState.Filled)
+                    {
+                        return false;
+                    }
+                    
                     if (int.TryParse(number, out int i))
                     {
                         if (i > 0 && i < 51)
@@ -50,5 +59,12 @@ namespace Slingo.Admin.Bingo
             EvenNumber = evenNumber;
             FilledBalls = filledBalls;
         }
+    }
+
+    public enum BingoCardState
+    {
+        Empty,
+        Filled,
+        Won
     }
 }
