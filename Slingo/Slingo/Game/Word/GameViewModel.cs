@@ -47,11 +47,11 @@ namespace Slingo.Game.Word
             ScoreBoardTeam1 = new ScoreboardViewModel(team1.Settings.Name, team1.Score, HorizontalAlignment.Left);
             ScoreBoardTeam2 = new ScoreboardViewModel(team2.Settings.Name, team2.Score, HorizontalAlignment.Right);
 
-            BingoViewModel bingoViewModel1 = new BingoViewModel(new BingoCardSettings(true, settings.ExcludedBallNumbersEven),_random,_audioPlaybackEngine);
-            BingoViewModel bingoViewModel2 = new BingoViewModel(new BingoCardSettings(false, settings.ExcludedBallNumbersOdd),_random,_audioPlaybackEngine);
-            
-            Team1ViewModel = new TeamViewModel(0, ScoreBoardTeam1, ScoreBoardTeam2, bingoViewModel1);
-            Team2ViewModel = new TeamViewModel(1, ScoreBoardTeam1, ScoreBoardTeam2, bingoViewModel2);
+            var bingoCardSettingsTeam1 = new BingoCardSettings(true, settings.ExcludedBallNumbersEven);
+            var bingoCardSettingsTeam2 = new BingoCardSettings(false, settings.ExcludedBallNumbersOdd);
+
+            Team1ViewModel = new TeamViewModel(0, ScoreBoardTeam1, ScoreBoardTeam2, bingoCardSettingsTeam1, _random, _audioPlaybackEngine);
+            Team2ViewModel = new TeamViewModel(1, ScoreBoardTeam1, ScoreBoardTeam2, bingoCardSettingsTeam2, _random, _audioPlaybackEngine);
             
             SetActiveTeam(settings.StartingTeamIndex);
             
