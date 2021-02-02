@@ -26,11 +26,6 @@ namespace Slingo.Admin.Bingo
 
             this.WhenActivated((dispose) =>
             {
-                this.OneWayBind(ViewModel,
-                    vm => vm.TeamIndex,
-                    view => view.TeamIndexTextBlock.Text)
-                    .DisposeWith(dispose);
-                
                 this.BindCommand(ViewModel,
                         vm => vm.Initialize,
                         view => view.InitializeButton)

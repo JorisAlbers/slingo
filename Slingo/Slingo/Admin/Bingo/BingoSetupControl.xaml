@@ -18,11 +18,6 @@
         <UniformGrid Grid.Column="1" Columns="1">
             <TextBlock Text="Bingo card setup" FontSize="30"/>
 
-            <StackPanel Orientation="Horizontal" >
-                <TextBlock Text="For team: "/>
-                <TextBlock x:Name="TeamIndexTextBlock"/>
-            </StackPanel>
-
             <UniformGrid Rows="1">
                 <TextBlock Text="Enter ball number:"/>
                 <TextBox x:Name="BallNumberTextBox"/>

@@ -25,6 +25,8 @@ namespace Slingo.Admin.Word
 
         public ReactiveCommand<Unit, Unit> FocusTeam1 { get; }
         public ReactiveCommand<Unit, Unit> FocusTeam2 { get; }
+
+        [Reactive] public int TeamWithFocus { get; private set; } = 1;
         
         public InputViewModel(WordRepository wordRepository, Settings settings)
         {
@@ -33,16 +35,26 @@ namespace Slingo.Admin.Word
             _words = _wordRepository.Deserialize(settings.WordSize);
             _random = new Random();
 
-            BingoSetupViewModel1 = new BingoSetupViewModel(0);
-            BingoSetupViewModel2 = new BingoSetupViewModel(1);
+            BingoSetupViewModel1 = new BingoSetupViewModel();
+            BingoSetupViewModel2 = new BingoSetupViewModel();
 
             FocusTeam1 = ReactiveCommand.Create(() => Unit.Default);
             FocusTeam2 = ReactiveCommand.Create(() => Unit.Default);
 
-            FocusTeam1.Subscribe(x => SelectedViewModel = BingoSetupViewModel1);
-            FocusTeam2.Subscribe(x => SelectedViewModel = BingoSetupViewModel2);
+            FocusTeam1.Subscribe(x =>
+            {
+                TeamWithFocus = 1;
+                SelectedViewModel = BingoSetupViewModel1;
+            });
+            
+            FocusTeam2.Subscribe(x =>
+            {
+                TeamWithFocus = 2;
+                SelectedViewModel = BingoSetupViewModel2;
+            });
             
             SelectedViewModel = BingoSetupViewModel1;
         }
+        
     }
 }

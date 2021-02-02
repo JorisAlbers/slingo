@@ -16,18 +16,30 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ToggleButton x:Name="FocusTeam1Button" Content="Focus team 1" Grid.Column="0"/>
+        
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
-        <reactiveUi:ViewModelViewHost x:Name="ViewModelViewHost"
-                                      Grid.Column="1"
-                                      HorizontalAlignment="Stretch" 
-                                      VerticalAlignment="Stretch"
-                                      VerticalContentAlignment="Stretch"
-                                      HorizontalContentAlignment="Stretch"/>
+            <UniformGrid Grid.Row="0" Rows="1">
+                <Button x:Name="FocusTeam1Button" Content="Focus team 1"/>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Team with focus:"/>
+                    <TextBlock x:Name="TeamWithFocusTextBlock"/>
+                </TextBlock>
+                <Button x:Name="FocusTeam2Button" Content="Focus team 2" />
+            </UniformGrid>
+           
+            <reactiveUi:ViewModelViewHost x:Name="ViewModelViewHost"
+                                          Grid.Row="1" 
+                                          HorizontalAlignment="Stretch" 
+                                          VerticalAlignment="Stretch"
+                                          VerticalContentAlignment="Stretch"
+                                          HorizontalContentAlignment="Stretch"/>
 
-        <ToggleButton x:Name="FocusTeam2Button" Content="Focus team 2" Grid.Column="2"/>
-
-
+        </Grid>
     </Grid>
     
 </reactiveUi:ReactiveUserControl>

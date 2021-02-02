@@ -19,6 +19,11 @@ namespace Slingo.Admin.Word
                         vm => vm.SelectedViewModel,
                         view => view.ViewModelViewHost.ViewModel)
                     .DisposeWith(dispose);
+                
+                this.OneWayBind(ViewModel,
+                        vm => vm.TeamWithFocus,
+                        view => view.TeamWithFocusTextBlock.Text)
+                    .DisposeWith(dispose);
 
                 this.BindCommand(ViewModel,
                         vm => vm.FocusTeam1,
