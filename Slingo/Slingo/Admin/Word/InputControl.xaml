@@ -20,6 +20,7 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
@@ -31,9 +32,19 @@
                 </TextBlock>
                 <Button x:Name="FocusTeam2Button" Content="Focus team 2" />
             </UniformGrid>
-           
+
+
+            <UniformGrid Grid.Row="1" Rows="1">
+                <Button x:Name="FocusBingoCardButton" Content="Focus bingo card"/>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="Focus on:"/>
+                    <TextBlock x:Name="GameModeFocusTextBlock"/>
+                </TextBlock>
+                <Button x:Name="FocusWordGameButton" Content="Focus word game" />
+            </UniformGrid>
+
             <reactiveUi:ViewModelViewHost x:Name="ViewModelViewHost"
-                                          Grid.Row="1" 
+                                          Grid.Row="2" 
                                           HorizontalAlignment="Stretch" 
                                           VerticalAlignment="Stretch"
                                           VerticalContentAlignment="Stretch"

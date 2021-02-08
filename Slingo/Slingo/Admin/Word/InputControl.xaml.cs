@@ -35,6 +35,21 @@ namespace Slingo.Admin.Word
                         view => view.FocusTeam2Button)
                     .DisposeWith(dispose);
 
+                this.BindCommand(ViewModel,
+                        vm => vm.FocusBingoCard,
+                        view => view.FocusBingoCardButton)
+                    .DisposeWith(dispose);
+
+                this.BindCommand(ViewModel,
+                        vm => vm.FocusWordGame,
+                        view => view.FocusWordGameButton)
+                    .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.TeamWithFocus,
+                        view => view.TeamWithFocusTextBlock.Text)
+                    .DisposeWith(dispose);
+
             });
         }
     }
