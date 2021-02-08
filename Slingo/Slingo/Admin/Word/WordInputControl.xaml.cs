@@ -52,7 +52,7 @@ namespace Slingo.Admin.Word
                     .DisposeWith(dispose);
 
                 this.BindCommand(ViewModel,
-                        vm => vm.StartGame,
+                        vm => vm.NewGame,
                         view => view.StartNewGameButton)
                     .DisposeWith(dispose);
 

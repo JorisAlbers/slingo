@@ -26,7 +26,7 @@ namespace Slingo.Game.Word
         public ScoreboardViewModel ScoreBoardTeam1 { get; }
         public ScoreboardViewModel ScoreBoardTeam2 { get; }
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
-        [Reactive] public BoardViewModel BoardViewModel { get; private set; }
+        [Reactive] public BoardViewModel BoardViewModel { get; set; }
         [Reactive] public TeamViewModel Team1ViewModel { get; private set; }
         [Reactive] public TeamViewModel Team2ViewModel { get; private set; }
 
@@ -56,6 +56,12 @@ namespace Slingo.Game.Word
             SetActiveTeam(settings.StartingTeamIndex);
             
             CountDownStarted = ReactiveCommand.Create(() => new Unit());
+
+            this.WhenAnyValue(x => x.BoardViewModel).Subscribe(x =>
+            {
+                Team1ViewModel.BoardViewModel = x;
+                Team2ViewModel.BoardViewModel = x;
+            });
         }
 
         public async Task StartWordGame(string word)

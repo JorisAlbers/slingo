@@ -39,7 +39,7 @@ namespace Slingo.Admin
 
                 _gameWindowViewModel.StartGame(new GameViewModel(settings, team1, team2, _audioPlaybackEngine));
                 
-                InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings);
+                InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings, _audioPlaybackEngine);
                 inputViewModel.FocusTeam1.Subscribe(x => _gameWindowViewModel.GameViewModel.FocusTeam(0));
                 inputViewModel.FocusTeam2.Subscribe(x => _gameWindowViewModel.GameViewModel.FocusTeam(1));
                 inputViewModel.FocusBingoCard.Subscribe(x => _gameWindowViewModel.GameViewModel.Team1ViewModel.FocusBingoCard());
@@ -115,11 +115,10 @@ namespace Slingo.Admin
 
         private void SubscribeToWordInput(WordInputViewModel viewmodel)
         {
-            viewmodel.StartGame.Subscribe(async word =>
+            viewmodel.NewGame.Subscribe(async boardViewModel =>
             {
-                _gameWindowViewModel.GameViewModel.CountDownStarted.Subscribe(onNext =>
-                    viewmodel.StartCountDown());
-                await _gameWindowViewModel.GameViewModel.StartWordGame(word);
+                _gameWindowViewModel.GameViewModel.CountDownStarted.Subscribe(onNext => viewmodel.StartCountDown());
+                _gameWindowViewModel.GameViewModel.BoardViewModel = boardViewModel;
             });
 
             viewmodel.WhenAnyValue(x => x.WordInputtedByUser)

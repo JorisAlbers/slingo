@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Slingo.Game.Word;
+using Slingo.Sound;
 using SlingoLib;
 using SlingoLib.Serialization;
 
@@ -16,6 +18,7 @@ namespace Slingo.Admin.Word
         private readonly List<string> _words;
         private Settings _settings;
         private readonly Random _random;
+        private BoardViewModel _boardViewModel;
 
         [Reactive] public string WordInputtedByUser { get; set; }
         [Reactive] public string CandidateWord { get; private set; }
@@ -26,12 +29,12 @@ namespace Slingo.Admin.Word
         public ReactiveCommand<Unit, Unit> Accept { get; }
         public ReactiveCommand<Unit, Unit> Reject { get; }
         public ReactiveCommand<Unit, Unit> GenerateWord { get; }
-        public ReactiveCommand<Unit, string> StartGame { get; }
+        public ReactiveCommand<Unit, BoardViewModel> NewGame { get; }
         public ReactiveCommand<Unit, Unit> TimeOut { get; }
         public ReactiveCommand<Unit, Unit> AddRowAndSwitchTeam { get; }
         public ReactiveCommand<Unit, Unit> AddBonusLetter { get; }
 
-        public WordInputViewModel(List<string> words, Settings settings, Random random)
+        public WordInputViewModel(List<string> words, Settings settings, Random random, AudioPlaybackEngine audioPlaybackEngine)
         {
             _words = words;
             _settings = settings;
@@ -42,7 +45,7 @@ namespace Slingo.Admin.Word
             var canAccept = this.WhenAnyValue(
                 x => x.WordInputtedByUser, (word) =>
                     !string.IsNullOrEmpty(word) && WordFormatter.Format(word).Length == settings.WordSize);
-
+           
             Accept = ReactiveCommand.Create(() => new Unit(), canAccept);
             Reject = ReactiveCommand.Create(() => new Unit());
             TimeOut = ReactiveCommand.Create(() => new Unit());
@@ -54,12 +57,13 @@ namespace Slingo.Admin.Word
                 CandidateWord = GetRandomWord();
                 return new Unit();
             });
-
-            StartGame = ReactiveCommand.Create(() =>
+            
+            NewGame = ReactiveCommand.Create(() =>
             {
                 CurrentWord = CandidateWord;
                 CandidateWord = GetRandomWord();
-                return CurrentWord;
+                _boardViewModel = new BoardViewModel(_settings.WordSize, audioPlaybackEngine);
+                return _boardViewModel;
             });
         }
 
