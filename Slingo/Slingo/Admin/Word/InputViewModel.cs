@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Slingo.Admin.Bingo;
+using Slingo.Game.Word;
 using Slingo.Sound;
 using SlingoLib;
 using SlingoLib.Serialization;
@@ -31,7 +32,7 @@ namespace Slingo.Admin.Word
 
         [Reactive] public int TeamWithFocus { get; private set; } = 1;
         
-        public InputViewModel(WordRepository wordRepository, Settings settings, AudioPlaybackEngine audioPlaybackEngine)
+        public InputViewModel(WordRepository wordRepository, Settings settings,  WordGameViewModel wordGameViewModel)
         {
             _wordRepository = wordRepository;
             _settings = settings;
@@ -40,7 +41,7 @@ namespace Slingo.Admin.Word
 
             BingoSetupViewModel1 = new BingoSetupViewModel();
             BingoSetupViewModel2 = new BingoSetupViewModel();
-            WordInputViewModel = new WordInputViewModel(_words, settings, _random, audioPlaybackEngine);
+            WordInputViewModel = new WordInputViewModel(_words, settings, _random, wordGameViewModel);
 
             FocusTeam1 = ReactiveCommand.Create(() => Unit.Default);
             FocusTeam2 = ReactiveCommand.Create(() => Unit.Default);

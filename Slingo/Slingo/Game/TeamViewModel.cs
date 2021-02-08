@@ -22,13 +22,13 @@ namespace Slingo.Game
         public ScoreboardViewModel Scoreboard1 { get; }
         public ScoreboardViewModel Scoreboard2 { get; }
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
-        [Reactive] public BoardViewModel BoardViewModel { get; set; }
+        public WordGameViewModel WordGameViewModel { get; }
         [Reactive] public BingoViewModel BingoViewModel { get; private set; }
 
         public string TeamName => $"TEAM {_teamIndex +1}";
 
         public TeamViewModel(int teamIndex, ScoreboardViewModel scoreboard1, ScoreboardViewModel scoreboard2,
-            BingoCardSettings bingoCardSettings, Random random,
+            WordGameViewModel wordGameViewModel,BingoCardSettings bingoCardSettings, Random random,
             AudioPlaybackEngine audioPlaybackEngine)
         {
             _teamIndex = teamIndex;
@@ -37,6 +37,7 @@ namespace Slingo.Game
             _audioPlaybackEngine = audioPlaybackEngine;
             Scoreboard1 = scoreboard1;
             Scoreboard2 = scoreboard2;
+            WordGameViewModel = wordGameViewModel;
             CreateNewBingoCard();
         }
 
@@ -53,7 +54,7 @@ namespace Slingo.Game
 
         public void FocusWordGame()
         {
-            SelectedViewModel = BoardViewModel;
+            SelectedViewModel = WordGameViewModel;
         }
     }
 }

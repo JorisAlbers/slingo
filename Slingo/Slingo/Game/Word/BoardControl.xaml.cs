@@ -6,7 +6,7 @@ namespace Slingo.Game.Word
     /// <summary>
     /// Interaction logic for BoardControl.xaml
     /// </summary>
-    public partial class BoardControl : ReactiveUserControl<BoardViewModel>
+    public partial class BoardControl : ReactiveUserControl<WordGameViewModel>
     {
         public BoardControl()
         {
@@ -15,7 +15,7 @@ namespace Slingo.Game.Word
             this.WhenActivated((dispose) =>
             {
                 this.OneWayBind(ViewModel,
-                        vm => vm.Rows,
+                        vm => vm.BoardViewModel.Rows,
                         view => view.ListView.ItemsSource)
                     .DisposeWith(dispose);
             });

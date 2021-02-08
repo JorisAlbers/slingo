@@ -18,8 +18,6 @@ namespace Slingo.Admin.Word
         private readonly List<string> _words;
         private Settings _settings;
         private readonly Random _random;
-        private BoardViewModel _boardViewModel;
-
         [Reactive] public string WordInputtedByUser { get; set; }
         [Reactive] public string CandidateWord { get; private set; }
         [Reactive] public string CurrentWord { get; private set; }
@@ -29,12 +27,12 @@ namespace Slingo.Admin.Word
         public ReactiveCommand<Unit, Unit> Accept { get; }
         public ReactiveCommand<Unit, Unit> Reject { get; }
         public ReactiveCommand<Unit, Unit> GenerateWord { get; }
-        public ReactiveCommand<Unit, BoardViewModel> NewGame { get; }
+        public ReactiveCommand<Unit, Unit> NewGame { get; }
         public ReactiveCommand<Unit, Unit> TimeOut { get; }
         public ReactiveCommand<Unit, Unit> AddRowAndSwitchTeam { get; }
         public ReactiveCommand<Unit, Unit> AddBonusLetter { get; }
 
-        public WordInputViewModel(List<string> words, Settings settings, Random random, AudioPlaybackEngine audioPlaybackEngine)
+        public WordInputViewModel(List<string> words, Settings settings, Random random,  WordGameViewModel wordGameViewModel)
         {
             _words = words;
             _settings = settings;
@@ -62,9 +60,19 @@ namespace Slingo.Admin.Word
             {
                 CurrentWord = CandidateWord;
                 CandidateWord = GetRandomWord();
-                _boardViewModel = new BoardViewModel(_settings.WordSize, audioPlaybackEngine);
-                return _boardViewModel;
+                wordGameViewModel.StartWordGame(CurrentWord);
+                return Unit.Default;
             });
+            
+            this.WhenAnyValue(x => x.WordInputtedByUser)
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Subscribe(onNext => wordGameViewModel.SetWord(WordFormatter.Format(onNext)));
+            
+            this.Accept.Subscribe(onNext => wordGameViewModel.AcceptWord());
+            this.Reject.Subscribe(onNext => wordGameViewModel.RejectWord());
+            this.TimeOut.Subscribe(onNext => wordGameViewModel.TimeOut());
+            this.AddRowAndSwitchTeam.Subscribe(onNext => wordGameViewModel.AddRowAndSwitchTeam());
+            this.AddBonusLetter.Subscribe(onNext => wordGameViewModel.AddBonusLetter());
         }
 
         public void StartCountDown()

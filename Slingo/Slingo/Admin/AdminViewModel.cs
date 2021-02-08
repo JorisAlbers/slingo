@@ -39,7 +39,8 @@ namespace Slingo.Admin
 
                 _gameWindowViewModel.StartGame(new GameViewModel(settings, team1, team2, _audioPlaybackEngine));
                 
-                InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings, _audioPlaybackEngine);
+                InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings,
+                    _gameWindowViewModel.GameViewModel.WordGameViewModel);
                 inputViewModel.FocusTeam1.Subscribe(x => _gameWindowViewModel.GameViewModel.FocusTeam(0));
                 inputViewModel.FocusTeam2.Subscribe(x => _gameWindowViewModel.GameViewModel.FocusTeam(1));
                 inputViewModel.FocusBingoCard.Subscribe(x => _gameWindowViewModel.GameViewModel.Team1ViewModel.FocusBingoCard());
@@ -47,9 +48,6 @@ namespace Slingo.Admin
                 inputViewModel.FocusWordGame.Subscribe(x => _gameWindowViewModel.GameViewModel.Team1ViewModel.FocusWordGame());
                 inputViewModel.FocusWordGame.Subscribe(x => _gameWindowViewModel.GameViewModel.Team2ViewModel.FocusWordGame());
                 
-                // Word input
-                inputViewModel.WhenAnyValue(x => x.WordInputViewModel).Where(x=>x!=null).Subscribe(SubscribeToWordInput);
-
                 // Bingo input
                 SubscribeToBingoInput(inputViewModel);
                 
@@ -111,25 +109,6 @@ namespace Slingo.Admin
                 }
             });
 
-        }
-
-        private void SubscribeToWordInput(WordInputViewModel viewmodel)
-        {
-            viewmodel.NewGame.Subscribe(async boardViewModel =>
-            {
-                _gameWindowViewModel.GameViewModel.CountDownStarted.Subscribe(onNext => viewmodel.StartCountDown());
-                _gameWindowViewModel.GameViewModel.BoardViewModel = boardViewModel;
-            });
-
-            viewmodel.WhenAnyValue(x => x.WordInputtedByUser)
-                .Where(x => !string.IsNullOrWhiteSpace(x))
-                .Subscribe(onNext => _gameWindowViewModel.GameViewModel.SetWord(WordFormatter.Format(onNext)));
-
-            viewmodel.Accept.Subscribe(onNext => _gameWindowViewModel.GameViewModel.AcceptWord());
-            viewmodel.Reject.Subscribe(onNext => _gameWindowViewModel.GameViewModel.RejectWord());
-            viewmodel.TimeOut.Subscribe(onNext => _gameWindowViewModel.GameViewModel.TimeOut());
-            viewmodel.AddRowAndSwitchTeam.Subscribe(onNext => _gameWindowViewModel.GameViewModel.AddRowAndSwitchTeam());
-            viewmodel.AddBonusLetter.Subscribe(onNext => _gameWindowViewModel.GameViewModel.AddBonusLetter());
         }
     }
 }
