@@ -63,7 +63,10 @@ namespace Slingo.Game.Word
             int activeTeamIndex = 0;
             _wordGame = new WordGame(new WordPuzzle(word), activeTeamIndex);
             BoardViewModel = new BoardViewModel(_settings.WordSize, _audioPlaybackEngine);
-            SelectedViewModel = BoardViewModel;
+            Team1ViewModel.BoardViewModel = BoardViewModel;
+            Team2ViewModel.BoardViewModel = BoardViewModel;
+            Team1ViewModel.FocusWordGame();
+            Team2ViewModel.FocusWordGame();
             _audioPlaybackEngine.PlaySound(_newLetterAppearsSound);
             BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             
