@@ -56,11 +56,12 @@ namespace Slingo.Admin.Word
                 return new Unit();
             });
             
-            NewGame = ReactiveCommand.Create(() =>
+            NewGame = ReactiveCommand.CreateFromTask(async () =>
             {
                 CurrentWord = CandidateWord;
                 CandidateWord = GetRandomWord();
-                wordGameViewModel.StartWordGame(CurrentWord);
+                await wordGameViewModel.StartWordGame(CurrentWord);
+                StartCountDown();
                 return Unit.Default;
             });
             
@@ -68,24 +69,39 @@ namespace Slingo.Admin.Word
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .Subscribe(onNext => wordGameViewModel.SetWord(WordFormatter.Format(onNext)));
             
-            this.Accept.Subscribe(onNext => wordGameViewModel.AcceptWord());
-            this.Reject.Subscribe(onNext => wordGameViewModel.RejectWord());
-            this.TimeOut.Subscribe(onNext => wordGameViewModel.TimeOut());
-            this.AddRowAndSwitchTeam.Subscribe(onNext => wordGameViewModel.AddRowAndSwitchTeam());
-            this.AddBonusLetter.Subscribe(onNext => wordGameViewModel.AddBonusLetter());
-        }
+            this.Accept.Subscribe(async onNext =>
+            {
+                await wordGameViewModel.AcceptWord();
+                StartCountDown();
 
-        public void StartCountDown()
-        {
-            InternalStartCountDown();
+            });
+            this.Reject.Subscribe(async onNext =>
+            {
+                await wordGameViewModel.RejectWord();
+                StartCountDown();
+            });
+            this.TimeOut.Subscribe(async onNext =>
+            {
+                await wordGameViewModel.TimeOut();
+                StartCountDown();
+            });
+            this.AddRowAndSwitchTeam.Subscribe(async onNext =>
+            {
+                await wordGameViewModel.AddRowAndSwitchTeam();
+                StartCountDown();
+            });
+            this.AddBonusLetter.Subscribe(async onNext =>
+            {
+                await wordGameViewModel.AddBonusLetter();
+                StartCountDown();
+            });
         }
-
         private string GetRandomWord()
         {
             return _words[_random.Next(0, _words.Count - 1)];
         }
 
-        private async Task InternalStartCountDown()
+        private async Task StartCountDown()
         {
             DateTime end = DateTime.Now + TimeSpan.FromSeconds(_settings.Timeout);
             do

@@ -42,12 +42,7 @@ namespace Slingo.Game.Word
             BoardViewModel = new BoardViewModel(word.Length, _audioPlaybackEngine);
            
             _audioPlaybackEngine.PlaySound(_newLetterAppearsSound);
-            BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
-
-            /*if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
-            {
-                await CountDownStarted.Execute();
-            }*/
+            await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
         }
 
         public void SetWord(string word)
@@ -94,13 +89,7 @@ namespace Slingo.Game.Word
             {
                 await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             }
-
-            /*
-            if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
-            {
-                await CountDownStarted.Execute();
-            }*/
-
+            
             return WordGameState.Ongoing;
         }
 
@@ -118,23 +107,12 @@ namespace Slingo.Game.Word
             {
                 await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             }
-
-            /*if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
-            {
-                await CountDownStarted.Execute();
-            }*/
-
         }
 
         public async Task TimeOut()
         {
             _audioPlaybackEngine.PlaySound(_timeOutSound);
             await RejectWord();
-
-            /*if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
-            {
-                await CountDownStarted.Execute();
-            }*/
         }
 
         private void SetActiveTeam(int index)
@@ -158,11 +136,6 @@ namespace Slingo.Game.Word
             SetActiveTeam(_wordGame.ActiveTeamIndex);
             await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             // TODO add bonus letter sound
-
-            /*if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
-            {
-                await CountDownStarted.Execute();
-            }*/
         }
 
         public async Task AddBonusLetter()
@@ -170,11 +143,6 @@ namespace Slingo.Game.Word
             // TODO: Play bonus letter appears sound
             char letter = _wordGame.AddBonusLetter(out int index);
             await BoardViewModel.AddBonusLetter(letter, index);
-
-            /*if (await CountDownStarted.CanExecute.FirstAsync()) // TODO move to model class
-            {
-                await CountDownStarted.Execute();
-            }*/
         }
     }
 }
