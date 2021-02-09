@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -18,6 +19,7 @@ namespace Slingo.Admin.Word
         private readonly List<string> _words;
         private Settings _settings;
         private readonly Random _random;
+        private CancellationTokenSource _countDownCancellationTokenSource = new CancellationTokenSource();
         [Reactive] public string WordInputtedByUser { get; set; }
         [Reactive] public string CandidateWord { get; private set; }
         [Reactive] public string CurrentWord { get; private set; }
@@ -58,10 +60,11 @@ namespace Slingo.Admin.Word
             
             NewGame = ReactiveCommand.CreateFromTask(async () =>
             {
+                var cancel = CancelCountDownAndGetNewToken();
                 CurrentWord = CandidateWord;
                 CandidateWord = GetRandomWord();
                 await wordGameViewModel.StartWordGame(CurrentWord);
-                StartCountDown();
+                StartCountDown(cancel.Token);
                 return Unit.Default;
             });
             
@@ -71,46 +74,71 @@ namespace Slingo.Admin.Word
             
             this.Accept.Subscribe(async onNext =>
             {
+                var cancel = CancelCountDownAndGetNewToken();
                 await wordGameViewModel.AcceptWord();
-                StartCountDown();
+                StartCountDown(cancel.Token);
 
             });
             this.Reject.Subscribe(async onNext =>
             {
+                var cancel = CancelCountDownAndGetNewToken();
                 await wordGameViewModel.RejectWord();
-                StartCountDown();
+                StartCountDown(cancel.Token);
             });
             this.TimeOut.Subscribe(async onNext =>
             {
+                var cancel = CancelCountDownAndGetNewToken();
                 await wordGameViewModel.TimeOut();
-                StartCountDown();
+                StartCountDown(cancel.Token);
             });
             this.AddRowAndSwitchTeam.Subscribe(async onNext =>
             {
+                var cancel = CancelCountDownAndGetNewToken();
                 await wordGameViewModel.AddRowAndSwitchTeam();
-                StartCountDown();
+                StartCountDown(cancel.Token);
             });
             this.AddBonusLetter.Subscribe(async onNext =>
             {
+                var cancel = CancelCountDownAndGetNewToken();
                 await wordGameViewModel.AddBonusLetter();
-                StartCountDown();
+                StartCountDown(cancel.Token);
             });
         }
+
+        private CancellationTokenSource CancelCountDownAndGetNewToken()
+        {
+            lock (_countDownCancellationTokenSource)
+            {
+                _countDownCancellationTokenSource.Cancel();
+                _countDownCancellationTokenSource = new CancellationTokenSource();
+                return _countDownCancellationTokenSource;
+            }
+            
+        }
+
         private string GetRandomWord()
         {
             return _words[_random.Next(0, _words.Count - 1)];
         }
 
-        private async Task StartCountDown()
+        private async Task StartCountDown(CancellationToken cancellationToken)
         {
             DateTime end = DateTime.Now + TimeSpan.FromSeconds(_settings.Timeout);
             do
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    return;
+                }
                 TimeLeftBeforeTimeOut = (end - DateTime.Now).Seconds;
                 if (TimeLeftBeforeTimeOut == 0)
                 {
                     if (AutoTimeOut)
                     {
+                        if (cancellationToken.IsCancellationRequested)
+                        {
+                            return;
+                        }
                         if (await TimeOut.CanExecute.FirstAsync())
                             await TimeOut.Execute();
                     }
