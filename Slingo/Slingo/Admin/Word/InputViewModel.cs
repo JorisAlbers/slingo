@@ -29,9 +29,11 @@ namespace Slingo.Admin.Word
         public ReactiveCommand<Unit, Unit> FocusTeam2 { get; }
         public ReactiveCommand<Unit, Unit> FocusBingoCard { get; }
         public ReactiveCommand<Unit, Unit> FocusWordGame { get; }
-
+        
         [Reactive] public int TeamWithFocus { get; private set; } = 1;
         
+        [Reactive] public GameSection GameSectionWithFocus { get; private set; }
+
         public InputViewModel(WordRepository wordRepository, Settings settings,  WordGameViewModel wordGameViewModel)
         {
             _wordRepository = wordRepository;
@@ -51,17 +53,25 @@ namespace Slingo.Admin.Word
             FocusTeam1.Subscribe(x =>
             {
                 TeamWithFocus = 1;
-                SelectedViewModel = BingoSetupViewModel1;
+                if(GameSectionWithFocus == GameSection.Bingo)
+                {
+                    SelectedViewModel = BingoSetupViewModel1;
+                }
+
             });
             
             FocusTeam2.Subscribe(x =>
             {
                 TeamWithFocus = 2;
-                SelectedViewModel = BingoSetupViewModel2;
+                if (GameSectionWithFocus == GameSection.Bingo)
+                {
+                    SelectedViewModel = BingoSetupViewModel2;
+                }
             });
 
             FocusBingoCard.Subscribe(x =>
             {
+                GameSectionWithFocus = GameSection.Bingo;
                 if (TeamWithFocus == 1)
                 {
                     SelectedViewModel = BingoSetupViewModel1;
@@ -73,11 +83,18 @@ namespace Slingo.Admin.Word
 
             FocusWordGame.Subscribe(x =>
             {
+                GameSectionWithFocus = GameSection.Word;
                 SelectedViewModel = WordInputViewModel;
             });
 
             SelectedViewModel = BingoSetupViewModel1;
         }
         
+    }
+
+    public enum GameSection
+    {
+        Bingo,
+        Word
     }
 }
