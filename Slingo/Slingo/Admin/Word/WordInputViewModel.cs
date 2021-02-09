@@ -10,6 +10,7 @@ using ReactiveUI.Fody.Helpers;
 using Slingo.Game.Word;
 using Slingo.Sound;
 using SlingoLib;
+using SlingoLib.Logic.Word;
 using SlingoLib.Serialization;
 
 namespace Slingo.Admin.Word
@@ -19,6 +20,7 @@ namespace Slingo.Admin.Word
         private readonly List<string> _words;
         private Settings _settings;
         private readonly Random _random;
+        private readonly WordGameViewModel _wordGameViewModel;
         private CancellationTokenSource _countDownCancellationTokenSource = new CancellationTokenSource();
         [Reactive] public string WordInputtedByUser { get; set; }
         [Reactive] public string CandidateWord { get; private set; }
@@ -33,12 +35,14 @@ namespace Slingo.Admin.Word
         public ReactiveCommand<Unit, Unit> TimeOut { get; }
         public ReactiveCommand<Unit, Unit> AddRowAndSwitchTeam { get; }
         public ReactiveCommand<Unit, Unit> AddBonusLetter { get; }
+        [Reactive] public WordGameState State { get; private set; }
 
         public WordInputViewModel(List<string> words, Settings settings, Random random,  WordGameViewModel wordGameViewModel)
         {
             _words = words;
             _settings = settings;
             _random = random;
+            _wordGameViewModel = wordGameViewModel;
 
             CandidateWord = GetRandomWord();
 
@@ -64,6 +68,7 @@ namespace Slingo.Admin.Word
                 CurrentWord = CandidateWord;
                 CandidateWord = GetRandomWord();
                 await wordGameViewModel.StartWordGame(CurrentWord);
+                State = WordGameState.Ongoing;
                 StartCountDown(cancel.Token);
                 return Unit.Default;
             });
@@ -75,9 +80,11 @@ namespace Slingo.Admin.Word
             this.Accept.Subscribe(async onNext =>
             {
                 var cancel = CancelCountDownAndGetNewToken();
-                await wordGameViewModel.AcceptWord();
-                StartCountDown(cancel.Token);
-
+                State = await wordGameViewModel.AcceptWord();
+                if (State == WordGameState.Ongoing)
+                {
+                    StartCountDown(cancel.Token);
+                }
             });
             this.Reject.Subscribe(async onNext =>
             {
@@ -148,6 +155,11 @@ namespace Slingo.Admin.Word
                 await Task.Delay(1000);
 
             } while (TimeLeftBeforeTimeOut > 0);
+        }
+
+        public void Clear()
+        {
+            _wordGameViewModel.Clear();
         }
     }
 }

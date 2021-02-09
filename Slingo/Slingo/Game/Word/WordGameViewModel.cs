@@ -144,5 +144,10 @@ namespace Slingo.Game.Word
             char letter = _wordGame.AddBonusLetter(out int index);
             await BoardViewModel.AddBonusLetter(letter, index);
         }
+
+        public void Clear()
+        {
+            BoardViewModel = null;
+        }
     }
 }

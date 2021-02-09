@@ -9,6 +9,7 @@ using Slingo.Admin.Bingo;
 using Slingo.Game.Word;
 using Slingo.Sound;
 using SlingoLib;
+using SlingoLib.Logic.Word;
 using SlingoLib.Serialization;
 
 namespace Slingo.Admin.Word
@@ -72,6 +73,11 @@ namespace Slingo.Admin.Word
             FocusBingoCard.Subscribe(x =>
             {
                 GameSectionWithFocus = GameSection.Bingo;
+                if (WordInputViewModel.State == WordGameState.Won)
+                {
+                    WordInputViewModel.Clear();
+                }
+
                 if (TeamWithFocus == 1)
                 {
                     SelectedViewModel = BingoSetupViewModel1;
