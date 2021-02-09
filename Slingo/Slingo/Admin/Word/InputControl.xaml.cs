@@ -50,6 +50,12 @@ namespace Slingo.Admin.Word
                         view => view.TeamWithFocusTextBlock.Text)
                     .DisposeWith(dispose);
 
+                this.OneWayBind(ViewModel,
+                        vm => vm.GameSectionWithFocus,
+                        view => view.GameModeFocusTextBlock.Text,
+                        (section)=> section.ToString())
+                    .DisposeWith(dispose);
+
             });
         }
     }
