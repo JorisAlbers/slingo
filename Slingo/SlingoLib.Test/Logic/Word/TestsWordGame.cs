@@ -33,7 +33,7 @@ namespace SlingoLib.Test.Logic.Word
             wordGame.Solve("aaaaa");
             
             Assert.AreEqual(0, wordGame.ActiveTeamIndex);
-            Assert.AreEqual(0, wordGame.AttemptIndex);
+            Assert.AreEqual(1, wordGame.AttemptIndex);
             Assert.AreEqual(WordGameState.Won, wordGame.State);
         }
 
@@ -75,6 +75,29 @@ namespace SlingoLib.Test.Logic.Word
             Assert.AreEqual(1, wordGame.ActiveTeamIndex);
             Assert.AreEqual(5, wordGame.AttemptIndex);
             Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State);
+        }
+
+        [Test()]
+        public void Solve_6IncorrectAnswers_GameIsLostAndOtherTeamIsStillActive()
+        {
+            var puzzleEntry = new WordPuzzleEntry(Enumerable.Repeat(new WordPuzzleLetterEntry('a', LetterState.IncorrectLocation), 5).ToArray());
+
+
+            var wordPuzzleMock = new Mock<WordPuzzle>("aaaa");
+            wordPuzzleMock.Setup(x => x.Solve(It.IsAny<string>())).Returns(puzzleEntry);
+
+
+            WordGame wordGame = new WordGame(wordPuzzleMock.Object, 0);
+            wordGame.Solve("aaaaa");
+            wordGame.Solve("aaaaa");
+            wordGame.Solve("aaaaa");
+            wordGame.Solve("aaaaa");
+            wordGame.Solve("aaaaa");
+            wordGame.Solve("aaaaa");
+
+            Assert.AreEqual(1, wordGame.ActiveTeamIndex);
+            Assert.AreEqual(6, wordGame.AttemptIndex);
+            Assert.AreEqual(WordGameState.Lost, wordGame.State);
         }
 
         [Test()]

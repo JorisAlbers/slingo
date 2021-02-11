@@ -27,10 +27,11 @@ namespace SlingoLib.Logic.Word
 
         public WordPuzzleEntry Solve(string word)
         {
-            if (State == WordGameState.Won)
+            if (State == WordGameState.Won || State == WordGameState.Lost)
             {
                 throw new InvalidOperationException("Game is already over.");
             }
+            AttemptIndex++;
             
             var puzzleEntry = _wordPuzzle.Solve(word);
             if (puzzleEntry.LetterEntries.All(x => x.State == LetterState.CorrectLocation))
@@ -40,8 +41,12 @@ namespace SlingoLib.Logic.Word
             }
             
             UpdateKnownLetters(puzzleEntry);
-
-            if (AttemptIndex++ > 3)
+            
+            if (AttemptIndex == 6)
+            {
+                State = WordGameState.Lost;
+            }
+            else if(AttemptIndex == 5)
             {
                 ActiveTeamIndex = ActiveTeamIndex == 0 ? 1 : 0;
                 State = WordGameState.SwitchTeam;
@@ -73,12 +78,18 @@ namespace SlingoLib.Logic.Word
 
         public void Reject()
         {
-            if (State == WordGameState.Won)
+            if (State == WordGameState.Won || State == WordGameState.Lost)
             {
                 throw new InvalidOperationException("Game is already over.");
             }
 
-            if (AttemptIndex++ > 3)
+            AttemptIndex++;
+
+            if (AttemptIndex == 6)
+            {
+                State = WordGameState.Lost;
+            }
+            else if (AttemptIndex == 5)
             {
                 ActiveTeamIndex = ActiveTeamIndex == 0 ? 1 : 0;
                 State = WordGameState.SwitchTeam;
@@ -112,7 +123,8 @@ namespace SlingoLib.Logic.Word
     {
         Ongoing,
         SwitchTeam,
-        Won
+        Won,
+        Lost
     }
 
     
