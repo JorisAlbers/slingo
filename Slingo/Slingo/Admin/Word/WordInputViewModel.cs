@@ -67,8 +67,7 @@ namespace Slingo.Admin.Word
                 var cancel = CancelCountDownAndGetNewToken();
                 CurrentWord = CandidateWord;
                 CandidateWord = GetRandomWord();
-                int nextTeamToPlay = 0;
-                await wordGameViewModel.StartWordGame(CurrentWord,nextTeamToPlay);
+                await wordGameViewModel.StartWordGame(CurrentWord);
                 State = WordGameState.Ongoing;
                 StartCountDown(cancel.Token);
                 return Unit.Default;

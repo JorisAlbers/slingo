@@ -33,10 +33,10 @@ namespace Slingo.Game.Word
             _newLetterAppearsSound = new CachedSound(@"Resources\Sounds\WordGame\first_letter_appears.wav");
         }
         
-        public async Task StartWordGame(string word, int activeTeamIndex)
+        public async Task StartWordGame(string word)
         {
             _wordSize = word.Length;
-            _wordGame = new WordGame(new WordPuzzle(word), activeTeamIndex);
+            _wordGame = new WordGame(new WordPuzzle(word), _state.Team1.IsActiveTeam ? 0 : 1);
             BoardViewModel = new BoardViewModel(word.Length, _audioPlaybackEngine);
            
             _audioPlaybackEngine.PlaySound(_newLetterAppearsSound);
@@ -131,7 +131,6 @@ namespace Slingo.Game.Word
             // TODO:// Play switch team sound
             await BoardViewModel.AddAdditionalRow();
             await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
-            // TODO add bonus letter sound
         }
 
         public async Task AddBonusLetter()
