@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Slingo.Admin.Bingo;
+using Slingo.Game.Score;
 using Slingo.Game.Word;
 using Slingo.Sound;
 using SlingoLib;

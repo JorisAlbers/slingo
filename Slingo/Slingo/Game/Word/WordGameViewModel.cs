@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Slingo.Admin.Word;
 using Slingo.Game.Score;
 using Slingo.Sound;
 using SlingoLib;
@@ -13,8 +14,7 @@ namespace Slingo.Game.Word
 {
     public class WordGameViewModel : ReactiveObject
     {
-        private readonly ScoreboardViewModel _scoreBoardTeam1;
-        private readonly ScoreboardViewModel _scoreBoardTeam2;
+        private readonly GameState _state;
         private readonly AudioPlaybackEngine _audioPlaybackEngine;
         private WordGame _wordGame;
         private string _activeWord;
@@ -23,10 +23,9 @@ namespace Slingo.Game.Word
 
         [Reactive] public BoardViewModel BoardViewModel { get; private set; }
 
-        public WordGameViewModel(ScoreboardViewModel scoreBoardTeam1, ScoreboardViewModel scoreBoardTeam2, AudioPlaybackEngine audioPlaybackEngine)
+        public WordGameViewModel(GameState state, AudioPlaybackEngine audioPlaybackEngine)
         {
-            _scoreBoardTeam1 = scoreBoardTeam1;
-            _scoreBoardTeam2 = scoreBoardTeam2;
+            _state = state;
             _audioPlaybackEngine = audioPlaybackEngine;
             _timeOutSound = new CachedSound(@"Resources\Sounds\WordGame\timeout.wav");
             _winSound = new CachedSound(@"Resources\Sounds\WordGame\win.wav");
@@ -34,9 +33,8 @@ namespace Slingo.Game.Word
             _newLetterAppearsSound = new CachedSound(@"Resources\Sounds\WordGame\first_letter_appears.wav");
         }
         
-        public async Task StartWordGame(string word)
+        public async Task StartWordGame(string word, int activeTeamIndex)
         {
-            int activeTeamIndex = 0;
             _wordSize = word.Length;
             _wordGame = new WordGame(new WordPuzzle(word), activeTeamIndex);
             BoardViewModel = new BoardViewModel(word.Length, _audioPlaybackEngine);
@@ -76,16 +74,29 @@ namespace Slingo.Game.Word
                 _audioPlaybackEngine.PlaySound(_winSound);
                 if (_wordGame.ActiveTeamIndex == 0)
                 {
-                    _scoreBoardTeam1.Score += 50;
+                    _state.Team1.Score += 50;
                 }
                 else
                 {
-                    _scoreBoardTeam2.Score += 50;
+                    _state.Team2.Score += 50;
                 }
                 return WordGameState.Won;
             }
-
-            if (_wordGame.State == WordGameState.Ongoing)
+            
+            if (_wordGame.State == WordGameState.SwitchTeam)
+            {
+                if (_wordGame.ActiveTeamIndex == 0)
+                {
+                    _state.Team1.IsActiveTeam = true;
+                    _state.Team2.IsActiveTeam = false;
+                }
+                else
+                {
+                    _state.Team1.IsActiveTeam = false;
+                    _state.Team2.IsActiveTeam = true;
+                }
+            }
+            else if (_wordGame.State == WordGameState.Ongoing)
             {
                 await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             }
@@ -114,26 +125,11 @@ namespace Slingo.Game.Word
             _audioPlaybackEngine.PlaySound(_timeOutSound);
             await RejectWord();
         }
-
-        private void SetActiveTeam(int index)
-        {
-            if (index == 0)
-            {
-                _scoreBoardTeam1.IsActiveTeam = true;
-                _scoreBoardTeam2.IsActiveTeam = false;
-            }
-            else
-            {
-                _scoreBoardTeam2.IsActiveTeam = true;
-                _scoreBoardTeam1.IsActiveTeam = false;
-            }
-        }
-
-        public async Task AddRowAndSwitchTeam()
+        
+        public async Task AddRow()
         {
             // TODO:// Play switch team sound
             await BoardViewModel.AddAdditionalRow();
-            SetActiveTeam(_wordGame.ActiveTeamIndex);
             await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             // TODO add bonus letter sound
         }

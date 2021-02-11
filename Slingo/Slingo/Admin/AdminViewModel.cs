@@ -21,6 +21,7 @@ namespace Slingo.Admin
 {
     public class AdminViewModel : ReactiveObject
     {
+        private GameState _state;
         private SetupViewModel _setupViewModel;
         private GameWindowViewModel _gameWindowViewModel;
         private AudioPlaybackEngine _audioPlaybackEngine;
@@ -34,10 +35,11 @@ namespace Slingo.Admin
 ;            _setupViewModel = new SetupViewModel();
             _setupViewModel.Start.Subscribe(settings =>
             {
-                Team team1 = new Team(settings.Team1);
-                Team team2 = new Team(settings.Team2);
 
-                _gameWindowViewModel.StartGame(new GameViewModel(settings, team1, team2, _audioPlaybackEngine));
+                _state = new GameState(new TeamState(settings.StartingTeamIndex == 0), new TeamState(settings.StartingTeamIndex == 1));
+                
+
+                _gameWindowViewModel.StartGame(new GameViewModel(settings, _state, _audioPlaybackEngine));
                 
                 InputViewModel inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings,
                     _gameWindowViewModel.GameViewModel.WordGameViewModel);

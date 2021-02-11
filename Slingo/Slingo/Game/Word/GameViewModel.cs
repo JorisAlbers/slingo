@@ -6,6 +6,7 @@ using System.Windows;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Slingo.Admin.Bingo;
+using Slingo.Admin.Word;
 using Slingo.Game.Bingo;
 using Slingo.Game.Score;
 using Slingo.Sound;
@@ -16,6 +17,8 @@ namespace Slingo.Game.Word
 {
     public class GameViewModel : ReactiveObject
     {
+        private readonly GameState _state;
+        private int _activeTeam;
         public ScoreboardViewModel ScoreBoardTeam1 { get; }
         public ScoreboardViewModel ScoreBoardTeam2 { get; }
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
@@ -26,14 +29,15 @@ namespace Slingo.Game.Word
         public ReactiveCommand<Unit,Unit> CountDownStarted { get; } // TODO move to model class
         
 
-        public GameViewModel(Settings settings, Team team1, Team team2,  AudioPlaybackEngine audioPlaybackEngine)
+        public GameViewModel(Settings settings, GameState state,  AudioPlaybackEngine audioPlaybackEngine)
         {
+            _state = state;
             Random random = new Random();
             var audioPlaybackEngine1 = audioPlaybackEngine;
 
-            ScoreBoardTeam1 = new ScoreboardViewModel(team1.Settings.Name, team1.Score, HorizontalAlignment.Left);
-            ScoreBoardTeam2 = new ScoreboardViewModel(team2.Settings.Name, team2.Score, HorizontalAlignment.Right);
-            WordGameViewModel = new WordGameViewModel(ScoreBoardTeam1, ScoreBoardTeam2, audioPlaybackEngine);
+            ScoreBoardTeam1 = new ScoreboardViewModel(state.Team1,  HorizontalAlignment.Left);
+            ScoreBoardTeam2 = new ScoreboardViewModel(state.Team2,  HorizontalAlignment.Right);
+            WordGameViewModel = new WordGameViewModel(state, audioPlaybackEngine);
 
             var bingoCardSettingsTeam1 = new BingoCardSettings(true, settings.ExcludedBallNumbersEven);
             var bingoCardSettingsTeam2 = new BingoCardSettings(false, settings.ExcludedBallNumbersOdd);

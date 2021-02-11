@@ -1,22 +1,25 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Slingo.Admin.Word;
 
 namespace Slingo.Game.Score
 {
     public class ScoreboardViewModel : ReactiveObject
     {
-        public string TeamName { get; }
-        
-        [Reactive] public int Score { get; set; }
-        [Reactive] public bool IsActiveTeam { get; set; }
+        private readonly TeamState _state;
+        [Reactive] public int Score { get; private set; }
+        [Reactive] public bool IsActiveTeam { get; private set; }
         public HorizontalAlignment HorizontalPosition { get;}
 
-        public ScoreboardViewModel(string teamName,int score, HorizontalAlignment horizontalPosition)
+        public ScoreboardViewModel(TeamState state, HorizontalAlignment horizontalPosition)
         {
-            TeamName = teamName;
+            _state = state;
             HorizontalPosition = horizontalPosition;
-            Score = score;
+
+            this.WhenAnyValue(x => x._state.Score).Subscribe(x => Score = x);
+            this.WhenAnyValue(x => x._state.IsActiveTeam).Subscribe(x => IsActiveTeam = x);
         }
     }
 }
