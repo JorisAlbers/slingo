@@ -85,16 +85,7 @@ namespace Slingo.Game.Word
             
             if (_wordGame.State == WordGameState.SwitchTeam)
             {
-                if (_wordGame.ActiveTeamIndex == 0)
-                {
-                    _state.Team1.IsActiveTeam = true;
-                    _state.Team2.IsActiveTeam = false;
-                }
-                else
-                {
-                    _state.Team1.IsActiveTeam = false;
-                    _state.Team2.IsActiveTeam = true;
-                }
+                SwitchTeam();
             }
             else if (_wordGame.State == WordGameState.Ongoing)
             {
@@ -102,6 +93,20 @@ namespace Slingo.Game.Word
             }
             
             return WordGameState.Ongoing;
+        }
+
+        private void SwitchTeam()
+        {
+            if (_wordGame.ActiveTeamIndex == 0)
+            {
+                _state.Team1.IsActiveTeam = true;
+                _state.Team2.IsActiveTeam = false;
+            }
+            else
+            {
+                _state.Team1.IsActiveTeam = false;
+                _state.Team2.IsActiveTeam = true;
+            }
         }
 
         /// <summary>
@@ -113,6 +118,7 @@ namespace Slingo.Game.Word
             if (_wordGame.State == WordGameState.SwitchTeam)
             {
                 _audioPlaybackEngine.PlaySound(_rejectSound);
+                SwitchTeam();
             }
             else
             {
