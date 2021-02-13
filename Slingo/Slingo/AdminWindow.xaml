@@ -1,18 +1,27 @@
-﻿<reactiveUi:ReactiveWindow x:TypeArguments="game:GameWindowViewModel" 
-                           x:Class="Slingo.Game.GameWindow"
+﻿<reactiveUi:ReactiveWindow x:TypeArguments="slingo:AdminViewModel" x:Class="Slingo.AdminWindow"
                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                           xmlns:local="clr-namespace:Slingo"
+                           xmlns:local="clr-namespace:Slingo.Admin"
                            xmlns:reactiveUi="http://reactiveui.net"
-                           xmlns:game="clr-namespace:Slingo.Game"
+                           xmlns:slingo="clr-namespace:Slingo"
                            mc:Ignorable="d"
-                           Title="GameWindow" Height="450" Width="800"
+                           Title="AdminWindow" Height="450" Width="800"
                            AllowsTransparency="False">
+    <UniformGrid Columns="1" >
+        <reactiveUi:ViewModelViewHost x:Name="GameViewModelHost"
+                                      HorizontalAlignment="Stretch" 
+                                      VerticalAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch"
+                                      HorizontalContentAlignment="Stretch"/>
+
         <reactiveUi:ViewModelViewHost x:Name="ViewModelViewHost"
                                       HorizontalAlignment="Stretch" 
                                       VerticalAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
                                       HorizontalContentAlignment="Stretch"/>
+    </UniformGrid>
+
+    
 </reactiveUi:ReactiveWindow>

@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reactive.Disposables;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Reactive.Disposables;
 using ReactiveUI;
+using Slingo.Admin;
 
-namespace Slingo.Admin
+namespace Slingo
 {
     /// <summary>
     /// Interaction logic for AdminWindow.xaml
@@ -27,8 +17,13 @@ namespace Slingo.Admin
             this.WhenActivated((dispose) =>
             {
                 this.Bind(ViewModel,
-                        vm => vm.SelectedViewModel,
+                        vm => vm.SelectedAdminViewModel,
                         view => view.ViewModelViewHost.ViewModel)
+                    .DisposeWith(dispose);
+
+                this.Bind(ViewModel,
+                        vm => vm.GameViewModel,
+                        view => view.GameViewModelHost.ViewModel)
                     .DisposeWith(dispose);
             });
         }
