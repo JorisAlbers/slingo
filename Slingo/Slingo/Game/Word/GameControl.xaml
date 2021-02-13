@@ -11,9 +11,14 @@
                                 mc:Ignorable="d" 
                                 d:DesignHeight="450" d:DesignWidth="800">
 
-    <UniformGrid Rows="1">
-        <game:TeamControl x:Name="Team1Control"/>
-        <game:TeamControl x:Name="Team2Control"/>
-    </UniformGrid>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <game:TeamControl x:Name="Team1Control" Grid.Column="0"/>
+        <game:TeamControl x:Name="Team2Control" Grid.Column="2"/>
+    </Grid>
     
 </reactiveUi:ReactiveUserControl>
