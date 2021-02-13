@@ -9,7 +9,8 @@
                                 xmlns:score="clr-namespace:Slingo.Game.Score"
                                 xmlns:game="clr-namespace:Slingo.Game"
                                 mc:Ignorable="d" 
-                                d:DesignHeight="450" d:DesignWidth="800">
+                                d:DesignHeight="450" d:DesignWidth="800"
+                                Background="LawnGreen">
 
     <Grid>
         <Grid.ColumnDefinitions>
