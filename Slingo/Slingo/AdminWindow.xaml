@@ -11,7 +11,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition Height="5"/>
+            <RowDefinition Height="15"/>
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -24,7 +24,7 @@
                                       HorizontalContentAlignment="Stretch"/>
 
         <GridSplitter Grid.Row="1" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows"
-                       VerticalAlignment="Center" HorizontalAlignment="Stretch"  Height="5" >
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch"  Height="5" Margin="0,5">
             <GridSplitter.Template>
                 <ControlTemplate>
                     <Border Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
