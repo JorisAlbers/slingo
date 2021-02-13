@@ -8,19 +8,42 @@
                            mc:Ignorable="d"
                            Title="AdminWindow" Height="450" Width="800"
                            AllowsTransparency="False">
-    <UniformGrid Columns="1" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="5"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+
         <reactiveUi:ViewModelViewHost x:Name="GameViewModelHost"
+                                      Grid.Row="0"
                                       HorizontalAlignment="Stretch" 
                                       VerticalAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
                                       HorizontalContentAlignment="Stretch"/>
 
+        <GridSplitter Grid.Row="1" ResizeBehavior="PreviousAndNext" ResizeDirection="Rows"
+                       VerticalAlignment="Center" HorizontalAlignment="Stretch"  Height="5" >
+            <GridSplitter.Template>
+                <ControlTemplate>
+                    <Border Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                        <TextBlock Text="..." HorizontalAlignment="Center" Margin="0,-9,0,0"></TextBlock>
+                    </Border>
+                </ControlTemplate>
+            </GridSplitter.Template>
+
+        </GridSplitter>
+
+
+
         <reactiveUi:ViewModelViewHost x:Name="ViewModelViewHost"
+                                      Grid.Row="2"
                                       HorizontalAlignment="Stretch" 
                                       VerticalAlignment="Stretch"
                                       VerticalContentAlignment="Stretch"
                                       HorizontalContentAlignment="Stretch"/>
-    </UniformGrid>
+    </Grid>
 
     
 </reactiveUi:ReactiveWindow>
