@@ -8,7 +8,7 @@
                                 xmlns:score="clr-namespace:Slingo.Game.Score"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid MinWidth="80" MinHeight="70">
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="Column1"/>
             <ColumnDefinition Width="90*"/>
@@ -17,12 +17,14 @@
         
         <Border Grid.Column="0" Grid.ColumnSpan="3"
                 x:Name="InnerBorder"
-                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="10" 
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="6" 
                 Background="#034360">
         </Border>
  
-        <Viewbox Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" >
-            <TextBlock x:Name="ScoreTextBlock" HorizontalAlignment="Stretch" Foreground="White">
+            <TextBlock  Grid.Column="1"  
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Margin="20" x:Name="ScoreTextBlock" HorizontalAlignment="Center" Foreground="White">
                 <TextBlock.Effect>
                     <DropShadowEffect
                         ShadowDepth="1"
@@ -32,11 +34,10 @@
                         BlurRadius="1"/>
                 </TextBlock.Effect>
             </TextBlock>
-        </Viewbox>
 
         <Border Grid.Column="0" Grid.ColumnSpan="3"
                 x:Name="OuterBorder"
-                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="10" 
+                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="6" 
                 Background="Transparent">
         </Border>
 
