@@ -14,7 +14,7 @@
             <ColumnDefinition Width="90*"/>
             <ColumnDefinition x:Name="Column2"/>
         </Grid.ColumnDefinitions>
-      
+        
         <Border Grid.Column="0" Grid.ColumnSpan="3"
                 x:Name="InnerBorder"
                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="10" 
@@ -38,9 +38,6 @@
                 x:Name="OuterBorder"
                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="10" 
                 Background="Transparent">
-            <Border.Effect>
-                <DropShadowEffect Direction="315" ShadowDepth="10" BlurRadius="10"/>
-            </Border.Effect>
         </Border>
 
 
