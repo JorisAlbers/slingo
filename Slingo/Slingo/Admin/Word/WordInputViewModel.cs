@@ -97,7 +97,10 @@ namespace Slingo.Admin.Word
             {
                 var cancel = CancelCountDownAndGetNewToken();
                 State = await wordGameViewModel.RejectWord();
-                StartCountDown(cancel.Token);
+                if (State == WordGameState.Ongoing)
+                {
+                    StartCountDown(cancel.Token);
+                }
             });
             this.TimeOut.Subscribe(async onNext =>
             {
