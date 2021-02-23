@@ -112,7 +112,7 @@ namespace Slingo.Game.Word
         /// <summary>
         /// Reject the word that was previously set
         /// </summary>
-        public async Task RejectWord()
+        public async Task<WordGameState> RejectWord()
         {
             _wordGame.Reject();
             if (_wordGame.State == WordGameState.SwitchTeam)
@@ -124,12 +124,14 @@ namespace Slingo.Game.Word
             {
                 await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             }
+
+            return _wordGame.State;
         }
 
-        public async Task TimeOut()
+        public async Task<WordGameState> TimeOut()
         {
             _audioPlaybackEngine.PlaySound(_timeOutSound);
-            await RejectWord();
+            return await RejectWord();
         }
         
         public async Task AddRow()

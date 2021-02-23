@@ -121,6 +121,7 @@ namespace SlingoLib.Logic.Word
 
     public enum WordGameState
     {
+        NotStarted,
         Ongoing,
         SwitchTeam,
         Won,

@@ -37,6 +37,7 @@ namespace Slingo.Admin.Word
         public ReactiveCommand<Unit, Unit> AddBonusLetter { get; }
         [Reactive] public WordGameState State { get; private set; }
 
+
         public WordInputViewModel(List<string> words, Settings settings, Random random,  WordGameViewModel wordGameViewModel)
         {
             _words = words;
@@ -46,15 +47,21 @@ namespace Slingo.Admin.Word
 
             CandidateWord = GetRandomWord();
 
+            var gameIsOngoing = this.WhenAnyValue(
+                x => x.State, (state) => state == WordGameState.Ongoing || state == WordGameState.SwitchTeam);
+
             var canAccept = this.WhenAnyValue(
-                x => x.WordInputtedByUser, (word) =>
-                    !string.IsNullOrEmpty(word) && WordFormatter.Format(word).Length == settings.WordSize);
+                x => x.WordInputtedByUser, x=> x.State, (word,state) =>
+                    !string.IsNullOrEmpty(word) &&
+                    (state == WordGameState.Ongoing || State == WordGameState.SwitchTeam)
+                    && WordFormatter.Format(word).Length == settings.WordSize);
            
             Accept = ReactiveCommand.Create(() => new Unit(), canAccept);
-            Reject = ReactiveCommand.Create(() => new Unit());
-            TimeOut = ReactiveCommand.Create(() => new Unit());
-            AddRowAndSwitchTeam = ReactiveCommand.Create(() => new Unit());
-            AddBonusLetter = ReactiveCommand.Create(() => new Unit());
+            
+            Reject = ReactiveCommand.Create(() => new Unit(), gameIsOngoing);
+            TimeOut = ReactiveCommand.Create(() => new Unit(), gameIsOngoing);
+            AddRowAndSwitchTeam = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x=>x.State , (state)=> state == WordGameState.SwitchTeam));
+            AddBonusLetter = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x => x.State,(state)=> state == WordGameState.SwitchTeam));
 
             GenerateWord = ReactiveCommand.Create(() =>
             {
@@ -89,13 +96,13 @@ namespace Slingo.Admin.Word
             this.Reject.Subscribe(async onNext =>
             {
                 var cancel = CancelCountDownAndGetNewToken();
-                await wordGameViewModel.RejectWord();
+                State = await wordGameViewModel.RejectWord();
                 StartCountDown(cancel.Token);
             });
             this.TimeOut.Subscribe(async onNext =>
             {
                 var cancel = CancelCountDownAndGetNewToken();
-                await wordGameViewModel.TimeOut();
+                State = await wordGameViewModel.TimeOut();
                 StartCountDown(cancel.Token);
             });
             this.AddRowAndSwitchTeam.Subscribe(async onNext =>

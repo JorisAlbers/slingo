@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ReactiveUI;
+using SlingoLib.Logic.Word;
 
 namespace Slingo.Admin.Word
 {
@@ -29,6 +30,12 @@ namespace Slingo.Admin.Word
                 this.Bind(ViewModel,
                         vm => vm.WordInputtedByUser,
                         view => view.WordTextBox.Text)
+                    .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.State,
+                        view => view.WordTextBox.IsEnabled,
+                        s=> s == WordGameState.Ongoing || s == WordGameState.SwitchTeam)
                     .DisposeWith(dispose);
 
                 this.BindCommand(ViewModel,
