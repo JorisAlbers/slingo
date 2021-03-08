@@ -49,7 +49,14 @@ namespace SlingoLib.Logic.Word
             else if(AttemptIndex == 5)
             {
                 ActiveTeamIndex = ActiveTeamIndex == 0 ? 1 : 0;
-                State = WordGameState.SwitchTeam;
+                if (KnownLetters.Count(x => x == '.') > 1)
+                {
+                    State = WordGameState.SwitchTeamAndAddBonusLetter;
+                }
+                else
+                {
+                    State = WordGameState.SwitchTeam;
+                }
             }
             else
             {
@@ -92,7 +99,14 @@ namespace SlingoLib.Logic.Word
             else if (AttemptIndex == 5)
             {
                 ActiveTeamIndex = ActiveTeamIndex == 0 ? 1 : 0;
-                State = WordGameState.SwitchTeam;
+                if (KnownLetters.Count(x => x == '.') > 1)
+                {
+                    State = WordGameState.SwitchTeamAndAddBonusLetter;
+                }
+                else
+                {
+                    State = WordGameState.SwitchTeam;
+                }
             }
             else
             {
@@ -124,6 +138,7 @@ namespace SlingoLib.Logic.Word
         NotStarted,
         Ongoing,
         SwitchTeam,
+        SwitchTeamAndAddBonusLetter,
         Won,
         Lost
     }

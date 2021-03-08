@@ -16,7 +16,7 @@ namespace SlingoLib.Test.Logic.Word
             WordGame wordGame = new WordGame(wordPuzzleMock.Object, 0);
             Assert.AreEqual(0, wordGame.ActiveTeamIndex);
             Assert.AreEqual(0, wordGame.AttemptIndex);
-            Assert.AreEqual(WordGameState.Ongoing, wordGame.State);
+            Assert.AreEqual(WordGameState.NotStarted, wordGame.State);
         }
 
         [Test()]
@@ -74,7 +74,7 @@ namespace SlingoLib.Test.Logic.Word
 
             Assert.AreEqual(1, wordGame.ActiveTeamIndex);
             Assert.AreEqual(5, wordGame.AttemptIndex);
-            Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State);
+            Assert.AreEqual(WordGameState.SwitchTeamAndAddBonusLetter, wordGame.State);
         }
 
         [Test()]
@@ -112,6 +112,34 @@ namespace SlingoLib.Test.Logic.Word
 
             WordGame wordGame = new WordGame(wordPuzzleMock.Object, 0);
             wordGame.Reject();
+            wordGame.Reject();
+            wordGame.Reject();
+            wordGame.Reject();
+            wordGame.Reject();
+
+            Assert.AreEqual(1, wordGame.ActiveTeamIndex);
+            Assert.AreEqual(5, wordGame.AttemptIndex);
+            Assert.AreEqual(WordGameState.SwitchTeamAndAddBonusLetter, wordGame.State);
+        }
+
+        [Test()]
+        public void Reject_WordAlmostGuessed_StateSetToSwitchTeam()
+        {
+            var puzzleEntry = new WordPuzzleEntry(new[]
+            {
+                new WordPuzzleLetterEntry('a', LetterState.CorrectLocation),
+                new WordPuzzleLetterEntry('a', LetterState.CorrectLocation),
+                new WordPuzzleLetterEntry('a', LetterState.CorrectLocation),
+                new WordPuzzleLetterEntry('a', LetterState.CorrectLocation),
+                new WordPuzzleLetterEntry('b', LetterState.IncorrectLocation),
+            });
+
+            var wordPuzzleMock = new Mock<WordPuzzle>("aaaaa");
+            wordPuzzleMock.Setup(x => x.Solve(It.IsAny<string>())).Returns(puzzleEntry);
+
+
+            WordGame wordGame = new WordGame(wordPuzzleMock.Object, 0);
+            wordGame.Solve("aaaab");
             wordGame.Reject();
             wordGame.Reject();
             wordGame.Reject();
