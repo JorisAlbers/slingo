@@ -48,20 +48,20 @@ namespace Slingo.Admin.Word
             CandidateWord = GetRandomWord();
 
             var gameIsOngoing = this.WhenAnyValue(
-                x => x.State, (state) => state == WordGameState.Ongoing || state == WordGameState.SwitchTeam);
+                x => x.State, (state) => state == WordGameState.Ongoing);
 
             var canAccept = this.WhenAnyValue(
                 x => x.WordInputtedByUser, x=> x.State, (word,state) =>
-                    !string.IsNullOrEmpty(word) &&
-                    (state == WordGameState.Ongoing || State == WordGameState.SwitchTeam)
-                    && WordFormatter.Format(word).Length == settings.WordSize);
+                    !string.IsNullOrEmpty(word) && 
+                    state == WordGameState.Ongoing && 
+                    WordFormatter.Format(word).Length == settings.WordSize);
+            
            
             Accept = ReactiveCommand.Create(() => new Unit(), canAccept);
-            
             Reject = ReactiveCommand.Create(() => new Unit(), gameIsOngoing);
             TimeOut = ReactiveCommand.Create(() => new Unit(), gameIsOngoing);
             AddRowAndSwitchTeam = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x=>x.State , (state)=> state == WordGameState.SwitchTeam));
-            AddBonusLetter = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x => x.State,(state)=> state == WordGameState.SwitchTeam));
+            AddBonusLetter = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x => x.State,(state)=> state == WordGameState.Ongoing));
 
             GenerateWord = ReactiveCommand.Create(() =>
             {
@@ -112,12 +112,14 @@ namespace Slingo.Admin.Word
             {
                 var cancel = CancelCountDownAndGetNewToken();
                 await wordGameViewModel.AddRow();
+                State = WordGameState.Ongoing;
                 StartCountDown(cancel.Token);
             });
             this.AddBonusLetter.Subscribe(async onNext =>
             {
                 var cancel = CancelCountDownAndGetNewToken();
                 await wordGameViewModel.AddBonusLetter();
+                State = WordGameState.Ongoing;
                 StartCountDown(cancel.Token);
             });
         }

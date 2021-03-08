@@ -80,10 +80,8 @@ namespace Slingo.Game.Word
                 {
                     _state.Team2.Score += 50;
                 }
-                return WordGameState.Won;
             }
-            
-            if (_wordGame.State == WordGameState.SwitchTeam)
+            else if (_wordGame.State == WordGameState.SwitchTeam)
             {
                 SwitchTeam();
             }
@@ -91,8 +89,8 @@ namespace Slingo.Game.Word
             {
                 await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             }
-            
-            return WordGameState.Ongoing;
+
+            return _wordGame.State;
         }
 
         private void SwitchTeam()
