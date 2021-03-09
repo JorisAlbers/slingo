@@ -70,7 +70,9 @@ namespace Slingo
                 if (await GameViewModel.Team1ViewModel.BingoViewModel.FillBall(x))
                 {
                     viewmodel.BingoSetupViewModel1.State = BingoCardState.Won;
+                    _state.Team1.Score += 100;
                     _state.SwitchActiveTeam();
+                    
                 }
             });
 
@@ -93,6 +95,7 @@ namespace Slingo
                 if (await GameViewModel.Team2ViewModel.BingoViewModel.FillBall(x))
                 {
                     viewmodel.BingoSetupViewModel2.State = BingoCardState.Won;
+                    _state.Team2.Score += 100;
                     _state.SwitchActiveTeam();
                 }
             });
