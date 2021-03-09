@@ -75,11 +75,11 @@ namespace Slingo.Game.Word
                 _audioPlaybackEngine.PlaySound(_winSound);
                 if (_wordGame.ActiveTeamIndex == 0)
                 {
-                    _state.Team1.Score += 50;
+                    _state.Team1.Score += 25;
                 }
                 else
                 {
-                    _state.Team2.Score += 50;
+                    _state.Team2.Score += 25;
                 }
             }
             else if (_wordGame.State == WordGameState.SwitchTeam)
