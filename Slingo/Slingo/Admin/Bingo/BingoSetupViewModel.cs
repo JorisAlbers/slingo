@@ -9,6 +9,7 @@ namespace Slingo.Admin.Bingo
 {
     public class BingoSetupViewModel : ReactiveObject
     {
+        private readonly TeamState _teamState;
         public ReactiveCommand<Unit, Unit> Initialize { get;}
         public ReactiveCommand<Unit, Unit> ClearBalls { get;}
 
@@ -19,15 +20,21 @@ namespace Slingo.Admin.Bingo
         [Reactive] public BingoCardState State { get; set; }
 
 
-        public BingoSetupViewModel()
+        public BingoSetupViewModel(TeamState teamState)
         {
+            _teamState = teamState;
             Initialize = ReactiveCommand.Create(() => Unit.Default, this.WhenAnyValue(x=> x.State, (state) => state == BingoCardState.Empty));
             ClearBalls = ReactiveCommand.Create(() => Unit.Default, this.WhenAnyValue(x=> x.State, (state) => state == BingoCardState.Won));
 
-            var canSubmitBall = this.WhenAnyValue(x => x.NumberString, x=> x.State,
-                (number, state) =>
+            var canSubmitBall = this.WhenAnyValue(x => x.NumberString, x=> x.State, x=>x._teamState,
+                (number, state, teamState) =>
                 {
                     if (state != BingoCardState.Filled)
+                    {
+                        return false;
+                    }
+
+                    if (!teamState.IsActiveTeam)
                     {
                         return false;
                     }

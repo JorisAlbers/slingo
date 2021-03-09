@@ -36,15 +36,16 @@ namespace Slingo.Admin.Word
         
         [Reactive] public GameSection GameSectionWithFocus { get; private set; }
 
-        public InputViewModel(WordRepository wordRepository, Settings settings,  WordGameViewModel wordGameViewModel)
+        public InputViewModel(GameState gameState, WordRepository wordRepository, Settings settings,
+            WordGameViewModel wordGameViewModel)
         {
             _wordRepository = wordRepository;
             _settings = settings;
             _words = _wordRepository.Deserialize(settings.WordSize);
             _random = new Random();
 
-            BingoSetupViewModel1 = new BingoSetupViewModel();
-            BingoSetupViewModel2 = new BingoSetupViewModel();
+            BingoSetupViewModel1 = new BingoSetupViewModel(gameState.Team1);
+            BingoSetupViewModel2 = new BingoSetupViewModel(gameState.Team2);
             WordInputViewModel = new WordInputViewModel(_words, settings, _random, wordGameViewModel);
 
             FocusTeam1 = ReactiveCommand.Create(() => Unit.Default);

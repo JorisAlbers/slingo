@@ -33,7 +33,7 @@ namespace Slingo
                 _state = new GameState(new TeamState(settings.StartingTeamIndex == 0), new TeamState(settings.StartingTeamIndex == 1));
 
                 GameViewModel = new GameViewModel(settings, _state, _audioPlaybackEngine);
-                _inputViewModel = new InputViewModel(new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings, GameViewModel.WordGameViewModel);
+                _inputViewModel = new InputViewModel(_state,new WordRepository(new FileSystem(), @"Resources\basiswoorden-gekeurd.txt"), settings, GameViewModel.WordGameViewModel);
                 _inputViewModel.FocusTeam1.Subscribe(x => GameViewModel.FocusTeam(0));
                 _inputViewModel.FocusTeam2.Subscribe(x => GameViewModel.FocusTeam(1));
                 _inputViewModel.FocusBingoCard.Subscribe(x => GameViewModel.Team1ViewModel.FocusBingoCard());
