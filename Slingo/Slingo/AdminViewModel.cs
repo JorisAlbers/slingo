@@ -70,6 +70,7 @@ namespace Slingo
                 if (await GameViewModel.Team1ViewModel.BingoViewModel.FillBall(x))
                 {
                     viewmodel.BingoSetupViewModel1.State = BingoCardState.Won;
+                    _state.SwitchActiveTeam();
                 }
             });
 

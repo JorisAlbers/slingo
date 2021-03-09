@@ -84,7 +84,7 @@ namespace Slingo.Game.Word
             }
             else if (_wordGame.State == WordGameState.SwitchTeam)
             {
-                SwitchTeam();
+                _state.SwitchActiveTeam();
             }
             else if (_wordGame.State == WordGameState.Ongoing)
             {
@@ -93,21 +93,7 @@ namespace Slingo.Game.Word
 
             return _wordGame.State;
         }
-
-        private void SwitchTeam()
-        {
-            if (_wordGame.ActiveTeamIndex == 0)
-            {
-                _state.Team1.IsActiveTeam = true;
-                _state.Team2.IsActiveTeam = false;
-            }
-            else
-            {
-                _state.Team1.IsActiveTeam = false;
-                _state.Team2.IsActiveTeam = true;
-            }
-        }
-
+        
         /// <summary>
         /// Reject the word that was previously set
         /// </summary>
@@ -117,7 +103,7 @@ namespace Slingo.Game.Word
             if (_wordGame.State == WordGameState.SwitchTeam)
             {
                 _audioPlaybackEngine.PlaySound(_rejectSound);
-                SwitchTeam();
+                _state.SwitchActiveTeam();
             }
             else
             {

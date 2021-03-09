@@ -14,6 +14,12 @@ namespace Slingo.Admin.Word
             Team1 = team1;
             Team2 = team2;
         }
+
+        public void SwitchActiveTeam()
+        {
+            Team1.IsActiveTeam = !Team1.IsActiveTeam;
+            Team2.IsActiveTeam = !Team2.IsActiveTeam;
+        }
     }
 
     public class TeamState : ReactiveObject
