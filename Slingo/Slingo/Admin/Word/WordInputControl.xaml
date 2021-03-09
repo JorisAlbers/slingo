@@ -30,6 +30,16 @@
 
         </UniformGrid>
 
+        <UniformGrid Rows="1" Height="40" Margin="0,10,0,0">
+
+            <Rectangle/>
+            <Rectangle/>
+            <Rectangle/>
+
+            <Button x:Name="ShowWordButton" Content="Show word" Margin="5,0"></Button>
+
+        </UniformGrid>
+
         <UniformGrid DockPanel.Dock="Top" Rows="1" Height="40" Margin="0,10">
             <Rectangle/>
             <Rectangle/>
@@ -46,6 +56,8 @@
             <Button x:Name="RejectButton" Content="Reject" Margin="5,0"></Button>
 
         </UniformGrid>
+
+      
 
     </StackPanel>
 </reactiveUi:ReactiveUserControl>

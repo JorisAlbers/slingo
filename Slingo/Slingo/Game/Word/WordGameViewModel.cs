@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ReactiveUI;
@@ -149,6 +150,14 @@ namespace Slingo.Game.Word
         public void Clear()
         {
             BoardViewModel = null;
+        }
+
+        public async Task ShowWord(string currentWord)
+        {
+            WordPuzzleEntry solvedWord = new WordPuzzleEntry(currentWord
+                .Select(x => new WordPuzzleLetterEntry(x, LetterState.CorrectLocation)).ToArray());
+            
+            await BoardViewModel.AcceptWord(solvedWord);
         }
     }
 }

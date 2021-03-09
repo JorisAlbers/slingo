@@ -35,6 +35,7 @@ namespace Slingo.Admin.Word
         public ReactiveCommand<Unit, Unit> TimeOut { get; }
         public ReactiveCommand<Unit, Unit> AddRowAndSwitchTeam { get; }
         public ReactiveCommand<Unit, Unit> AddBonusLetter { get; }
+        public ReactiveCommand<Unit, Unit> ShowWord { get; }
         [Reactive] public WordGameState State { get; private set; }
 
 
@@ -80,6 +81,9 @@ namespace Slingo.Admin.Word
                 StartCountDown(cancel.Token);
                 return Unit.Default;
             });
+
+            ShowWord = ReactiveCommand.Create(() => new Unit(),
+                this.WhenAnyValue(x => x.State, (state) => state == WordGameState.Lost));
             
             this.WhenAnyValue(x => x.WordInputtedByUser)
                 .Where(x => !string.IsNullOrWhiteSpace(x))
@@ -126,6 +130,12 @@ namespace Slingo.Admin.Word
                 await wordGameViewModel.AddBonusLetter();
                 State = WordGameState.Ongoing;
                 StartCountDown(cancel.Token);
+            });
+
+            this.ShowWord.Subscribe(onNext =>
+            {
+                CancelCountDownAndGetNewToken();
+                wordGameViewModel.ShowWord(CurrentWord);
             });
         }
 

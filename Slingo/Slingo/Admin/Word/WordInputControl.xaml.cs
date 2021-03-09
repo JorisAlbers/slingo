@@ -95,6 +95,11 @@ namespace Slingo.Admin.Word
                         vm => vm.TimeOut,
                         view => view.ForceTimeOutButton)
                     .DisposeWith(dispose);
+
+                this.BindCommand(ViewModel,
+                        vm => vm.ShowWord,
+                        view => view.ShowWordButton)
+                    .DisposeWith(dispose);
             });
         }
     }
