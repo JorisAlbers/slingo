@@ -24,6 +24,10 @@ namespace Slingo.Game
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
         public WordGameViewModel WordGameViewModel { get; }
         [Reactive] public BingoViewModel BingoViewModel { get; private set; }
+        
+        [Reactive] public bool GreenBall1 { get; private set; }
+        [Reactive] public bool GreenBall2 { get; private set; }
+        [Reactive] public bool GreenBall3 { get; private set; }
 
         public string TeamName => $"TEAM {_teamIndex +1}";
 
@@ -55,6 +59,23 @@ namespace Slingo.Game
         public void FocusWordGame()
         {
             SelectedViewModel = WordGameViewModel;
+        }
+
+        public void AddGreenBall()
+        {
+            if (GreenBall1)
+            {
+                if (GreenBall2)
+                {
+                    GreenBall3 = true;
+                    return;
+                }
+
+                GreenBall2 = true;
+                return;
+            }
+
+            GreenBall1 = true;
         }
     }
 }

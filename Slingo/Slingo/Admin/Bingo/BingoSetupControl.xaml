@@ -19,6 +19,13 @@
             <TextBlock Text="Bingo card setup" FontSize="30"/>
 
             <UniformGrid Rows="1">
+                <Button x:Name="GreenBallButton" VerticalAlignment="Center" Height="30" Background="Green" Content="Groen!"/>
+                <Button x:Name="RedBallButton" VerticalAlignment="Center" Height="30" Background="Red" Content="Rood!"/>
+            </UniformGrid>
+
+            
+
+            <UniformGrid Rows="1">
                 <TextBlock Text="Enter ball number:"/>
                 <TextBox x:Name="BallNumberTextBox"/>
                 <Button x:Name="SubmitBallButton" Content="Submit"/>

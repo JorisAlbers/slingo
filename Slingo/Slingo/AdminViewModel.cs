@@ -76,6 +76,12 @@ namespace Slingo
                 }
             });
 
+            viewmodel.BingoSetupViewModel1.GreenBallSubmitted.Subscribe(x =>
+            {
+                GameViewModel.Team1ViewModel.AddGreenBall();
+            });
+            
+
             // Team 2
             viewmodel.BingoSetupViewModel2.Initialize.Subscribe(async x =>
             {
@@ -98,6 +104,11 @@ namespace Slingo
                     _state.Team2.Score += 100;
                     _state.SwitchActiveTeam();
                 }
+            });
+
+            viewmodel.BingoSetupViewModel2.GreenBallSubmitted.Subscribe(x =>
+            {
+                GameViewModel.Team2ViewModel.AddGreenBall();
             });
 
         }

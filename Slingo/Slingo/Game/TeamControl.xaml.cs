@@ -45,6 +45,25 @@ namespace Slingo.Game
                         vm => vm.TeamName,
                         view => view.TeamNameTextBlock.Text)
                     .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.GreenBall1,
+                        view => view.GreenBallEllipse1.Visibility,
+                        (b)=> b ? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.GreenBall2,
+                        view => view.GreenBallEllipse2.Visibility,
+                        (b) => b ? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                        vm => vm.GreenBall3,
+                        view => view.GreenBallEllipse3.Visibility,
+                        (b) => b ? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
             });
 
         }
