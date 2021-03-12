@@ -121,7 +121,7 @@ namespace Slingo.Admin.Word
                 {
                     State = WordGameState.Ongoing;
                 }
-
+                
                 StartCountDown(cancel.Token);
             });
             this.AddBonusLetter.Subscribe(async onNext =>

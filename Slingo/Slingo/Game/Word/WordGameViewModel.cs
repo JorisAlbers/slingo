@@ -82,7 +82,7 @@ namespace Slingo.Game.Word
                     _state.Team2.Score += 25;
                 }
             }
-            else if (_wordGame.State == WordGameState.SwitchTeam)
+            else if (_wordGame.State == WordGameState.SwitchTeam || _wordGame.State == WordGameState.SwitchTeamAndAddBonusLetter)
             {
                 _state.SwitchActiveTeam();
             }
@@ -100,7 +100,7 @@ namespace Slingo.Game.Word
         public async Task<WordGameState> RejectWord()
         {
             _wordGame.Reject();
-            if (_wordGame.State == WordGameState.SwitchTeam)
+            if (_wordGame.State == WordGameState.SwitchTeam || _wordGame.State == WordGameState.SwitchTeamAndAddBonusLetter)
             {
                 _audioPlaybackEngine.PlaySound(_rejectSound);
                 _state.SwitchActiveTeam();
