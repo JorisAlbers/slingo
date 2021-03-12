@@ -10,7 +10,7 @@
                                 xmlns:game="clr-namespace:Slingo.Game"
                                 mc:Ignorable="d" 
                                 d:DesignHeight="450" d:DesignWidth="800"
-                                Background="#00ff00">
+                                Background="Purple">
 
     <Grid Margin="5">
         <Grid.ColumnDefinitions>
