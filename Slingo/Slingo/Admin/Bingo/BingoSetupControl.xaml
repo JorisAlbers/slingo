@@ -16,7 +16,6 @@
         </Grid.ColumnDefinitions>
 
         <UniformGrid Grid.Column="1" Columns="1">
-            <TextBlock Text="Bingo card setup" FontSize="30"/>
 
             <UniformGrid Rows="1">
                 <Button x:Name="GreenBallButton" VerticalAlignment="Center" Height="30" Background="Green" Content="Groen!"/>
