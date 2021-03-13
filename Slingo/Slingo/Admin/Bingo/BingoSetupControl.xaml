@@ -15,27 +15,27 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <UniformGrid Grid.Column="1" Columns="1">
+        <DockPanel Grid.Column="1" Margin="0,10" LastChildFill="False">
 
-            <UniformGrid Rows="1">
+            <UniformGrid Rows="1" DockPanel.Dock="Top">
                 <Button x:Name="GreenBallButton" VerticalAlignment="Center" Height="30" Background="Green" Content="Groen!"/>
                 <Button x:Name="RedBallButton" VerticalAlignment="Center" Height="30" Background="Red" Content="Rood!"/>
             </UniformGrid>
 
-            
+            <Rectangle Height="15" DockPanel.Dock="Top"/>
 
-            <UniformGrid Rows="1">
+            <UniformGrid Rows="1" Height="30" DockPanel.Dock="Top">
                 <TextBlock Text="Enter ball number:"/>
                 <TextBox x:Name="BallNumberTextBox"/>
                 <Button x:Name="SubmitBallButton" Content="Submit"/>
             </UniformGrid>
 
+            <Rectangle Height="15" DockPanel.Dock="Top"/>
 
-            <Button  x:Name="InitializeButton" Content="add balls"  Height="50" Width="100"/>
-            <Button  x:Name="ClearBallsButton" Content="clear balls"  Height="50" Width="100"/>
-        </UniformGrid>
-        
-            
-            
+            <UniformGrid Rows="1" Height="30" DockPanel.Dock="Top">
+                <Button  x:Name="InitializeButton" Content="add balls" />
+                <Button  x:Name="ClearBallsButton" Content="clear balls"/>
+            </UniformGrid>
+        </DockPanel>
     </Grid>
 </reactiveUi:ReactiveUserControl>
