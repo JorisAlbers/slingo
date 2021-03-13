@@ -1,14 +1,15 @@
 ﻿using System.Reactive.Disposables;
 using ReactiveUI;
+using Slingo.Game.Word;
 
-namespace Slingo.Game.Word
+namespace Slingo
 {
     /// <summary>
-    /// Interaction logic for WordGameControl.xaml
+    /// Interaction logic for GameWindow.xaml
     /// </summary>
-    public partial class GameControl : ReactiveUserControl<GameViewModel>
+    public partial class GameWindow : ReactiveWindow<GameViewModel>
     {
-        public GameControl()
+        public GameWindow()
         {
             InitializeComponent();
 
@@ -24,7 +25,6 @@ namespace Slingo.Game.Word
                         view => view.Team2Control.ViewModel)
                     .DisposeWith(dispose);
             });
-
         }
     }
 }

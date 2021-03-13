@@ -20,11 +20,6 @@ namespace Slingo
                         vm => vm.SelectedAdminViewModel,
                         view => view.ViewModelViewHost.ViewModel)
                     .DisposeWith(dispose);
-
-                this.Bind(ViewModel,
-                        vm => vm.GameViewModel,
-                        view => view.GameViewModelHost.ViewModel)
-                    .DisposeWith(dispose);
             });
         }
     }

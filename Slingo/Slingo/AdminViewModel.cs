@@ -8,6 +8,7 @@ using Slingo.Admin.Word;
 using Slingo.Game.Word;
 using Slingo.Sound;
 using SlingoLib.Serialization;
+using Splat;
 
 namespace Slingo
 {
@@ -45,6 +46,11 @@ namespace Slingo
                 SubscribeToBingoInput(_inputViewModel);
 
                 SelectedAdminViewModel = _inputViewModel;
+
+                var view = Locator.Current.GetService<IViewFor<GameViewModel>>();
+                var window = view as ReactiveWindow<GameViewModel>;
+                window.ViewModel = GameViewModel;
+                window.Show();
             });
             SelectedAdminViewModel = _setupViewModel;
         }
