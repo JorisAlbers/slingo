@@ -7,8 +7,6 @@ namespace SlingoLib
 {
     public class Settings
     {
-        public TeamSettings Team1 { get; }
-        public TeamSettings Team2 { get; }
         public int StartingTeamIndex { get; }
         
         public int WordSize { get; }
@@ -25,15 +23,13 @@ namespace SlingoLib
         public int[] ExcludedBallNumbersOdd { get; }
 
 
-        public Settings(TeamSettings team1, TeamSettings team2, int startingTeamIndex, int wordSize, int timeout, int rounds, int[] excludedBallNumbersEven, int[] excludedBallNumbersOdd)
+        public Settings(int startingTeamIndex, int wordSize, int timeout, int rounds, int[] excludedBallNumbersEven, int[] excludedBallNumbersOdd)
         {
             if (startingTeamIndex != 0 && startingTeamIndex != 1)
             {
                 throw new ArgumentException("The starting team must be either 0 or 1");
             }
-
-            Team1 = team1;
-            Team2 = team2;
+            
             WordSize = wordSize;
             Timeout = timeout;
             Rounds = rounds;

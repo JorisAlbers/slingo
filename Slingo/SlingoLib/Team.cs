@@ -6,13 +6,10 @@ namespace SlingoLib
 {
     public class Team
     {
-        public TeamSettings Settings { get; }
-
         public int Score { get; set; }
 
-        public Team(TeamSettings settings)
+        public Team()
         {
-            Settings = settings;
         }
     }
 }

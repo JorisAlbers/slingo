@@ -14,17 +14,7 @@ namespace Slingo.Admin.Setup
 
             this.WhenActivated((dispose) =>
             {
-                this.Bind(ViewModel,
-                        vm => vm.TeamA,
-                        view => view.TeamAViewHost.ViewModel)
-                    .DisposeWith(dispose);
-
-                this.Bind(ViewModel,
-                        vm => vm.TeamB,
-                        view => view.TeamBViewHost.ViewModel)
-                    .DisposeWith(dispose);
-
-                this.BindCommand(ViewModel,
+               this.BindCommand(ViewModel,
                     vm => vm.Start,
                     view => view.StartButton)
                     .DisposeWith(dispose);
