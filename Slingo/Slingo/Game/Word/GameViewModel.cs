@@ -49,7 +49,7 @@ namespace Slingo.Game.Word
 
            
 
-            this.WhenAnyValue(x => x.WordGameViewModel.BoardViewModel).Subscribe(x =>
+            this.WhenAnyValue(x => x.WordGameViewModel.BoardViewModel).Where(x=>x!=null).Subscribe(x =>
             {
                 WordGameStarted();
             });
