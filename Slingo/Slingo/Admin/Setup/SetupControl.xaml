@@ -41,6 +41,11 @@
                 <TextBox x:Name="TimeOutTextBox" Margin="5"/>
                 <TextBlock Text="Rounds:" Margin="5"/>
                 <TextBox x:Name="RoundsTextBox" Margin="5"/>
+                <TextBlock Text="Starting team:" Margin="5"/>
+                <StackPanel>
+                    <RadioButton x:Name="Team1ActiveRadioButton" Content="Team 1" GroupName="ActiveTeamGroup"/>
+                    <RadioButton x:Name="Team2ActiveRadioButton" Content="Team 2" GroupName="ActiveTeamGroup"/>
+                </StackPanel>
             </UniformGrid>
 
 

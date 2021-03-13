@@ -34,6 +34,16 @@ namespace Slingo.Admin.Setup
                         view => view.TimeOutTextBox.Text)
                     .DisposeWith(dispose);
 
+                this.Bind(ViewModel,
+                        vm => vm.Team1Starts,
+                        view => view.Team1ActiveRadioButton.IsChecked)
+                    .DisposeWith(dispose);
+
+                this.Bind(ViewModel,
+                        vm => vm.Team2Starts,
+                        view => view.Team2ActiveRadioButton.IsChecked)
+                    .DisposeWith(dispose);
+
             });
 
         }

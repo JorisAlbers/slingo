@@ -14,7 +14,9 @@ namespace Slingo.Admin.Setup
         [Reactive] public int TimeOut { get; set; } = 8;
         [Reactive] public int Rounds { get; set; } = 3;
 
-
+        [Reactive] public bool Team1Starts { get; set; } = true;
+        [Reactive] public bool Team2Starts { get; set; }
+        
         public ReactiveCommand<Unit,Settings> Start { get; }
 
         public SetupViewModel()
@@ -22,7 +24,7 @@ namespace Slingo.Admin.Setup
           
             Start = ReactiveCommand.Create(() =>
             {
-                return new Settings(1,WordSize,TimeOut,Rounds, _excludedBallNumbersEven, _excludedBallNumbersOdd);
+                return new Settings(Team1Starts? 0 : 1,WordSize,TimeOut,Rounds, _excludedBallNumbersEven, _excludedBallNumbersOdd);
             });
         }
     }
