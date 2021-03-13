@@ -80,7 +80,12 @@ namespace Slingo
             {
                 GameViewModel.Team1ViewModel.AddGreenBall();
             });
-            
+
+            viewmodel.BingoSetupViewModel1.RedBallSubmitted.Subscribe(x =>
+            {
+                _state.SwitchActiveTeam();
+            });
+
 
             // Team 2
             viewmodel.BingoSetupViewModel2.Initialize.Subscribe(async x =>
@@ -109,6 +114,11 @@ namespace Slingo
             viewmodel.BingoSetupViewModel2.GreenBallSubmitted.Subscribe(x =>
             {
                 GameViewModel.Team2ViewModel.AddGreenBall();
+            });
+
+            viewmodel.BingoSetupViewModel2.RedBallSubmitted.Subscribe(x =>
+            {
+                _state.SwitchActiveTeam();
             });
 
         }
