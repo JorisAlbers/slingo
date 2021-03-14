@@ -113,6 +113,24 @@ namespace SlingoLib.Logic.Word
                 State = WordGameState.Ongoing;
             }
         }
+        
+        public void TimeOut()
+        {
+            if (State == WordGameState.Won || State == WordGameState.Lost)
+            {
+                throw new InvalidOperationException("Game is already over.");
+            }
+
+            ActiveTeamIndex = ActiveTeamIndex == 0 ? 1 : 0;
+            if (KnownLetters.Count(x => x == '.') > 1)
+            {
+                State = WordGameState.SwitchTeamAndAddBonusLetter;
+            }
+            else
+            {
+                State = WordGameState.SwitchTeam;
+            }
+        }
 
         public char AddBonusLetter(out int index)
         {

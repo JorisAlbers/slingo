@@ -149,5 +149,55 @@ namespace SlingoLib.Test.Logic.Word
             Assert.AreEqual(5, wordGame.AttemptIndex);
             Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State);
         }
+
+        [Test()]
+        public void Timeout_WordAlmostGuessed_StateSetToSwitchTeam()
+        {
+            var puzzleEntry = new WordPuzzleEntry(new[]
+            {
+                new WordPuzzleLetterEntry('a', LetterState.CorrectLocation),
+                new WordPuzzleLetterEntry('a', LetterState.CorrectLocation),
+                new WordPuzzleLetterEntry('a', LetterState.CorrectLocation),
+                new WordPuzzleLetterEntry('a', LetterState.CorrectLocation),
+                new WordPuzzleLetterEntry('b', LetterState.IncorrectLocation),
+            });
+
+            var wordPuzzleMock = new Mock<WordPuzzle>("aaaaa");
+            wordPuzzleMock.Setup(x => x.Solve(It.IsAny<string>())).Returns(puzzleEntry);
+
+
+            WordGame wordGame = new WordGame(wordPuzzleMock.Object, 0);
+            wordGame.Solve("aaaab");
+            wordGame.TimeOut();
+
+            Assert.AreEqual(1, wordGame.ActiveTeamIndex);
+            Assert.AreEqual(1, wordGame.AttemptIndex);
+            Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State);
+        }
+
+        [Test()]
+        public void Timeout_NoCorrectGuess_StateSetToSwitchTeamAndAddBonusLetter()
+        {
+            var puzzleEntry = new WordPuzzleEntry(new[]
+            {
+                new WordPuzzleLetterEntry('a', LetterState.CorrectLocation),
+                new WordPuzzleLetterEntry('a', LetterState.CorrectLocation),
+                new WordPuzzleLetterEntry('a', LetterState.CorrectLocation),
+                new WordPuzzleLetterEntry('b', LetterState.IncorrectLocation),
+                new WordPuzzleLetterEntry('b', LetterState.IncorrectLocation),
+            });
+
+            var wordPuzzleMock = new Mock<WordPuzzle>("aaaaa");
+            wordPuzzleMock.Setup(x => x.Solve(It.IsAny<string>())).Returns(puzzleEntry);
+
+
+            WordGame wordGame = new WordGame(wordPuzzleMock.Object, 0);
+            wordGame.Solve("aaabb");
+            wordGame.TimeOut();
+
+            Assert.AreEqual(1, wordGame.ActiveTeamIndex);
+            Assert.AreEqual(1, wordGame.AttemptIndex);
+            Assert.AreEqual(WordGameState.SwitchTeamAndAddBonusLetter, wordGame.State);
+        }
     }
 }
