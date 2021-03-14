@@ -16,7 +16,7 @@ namespace SlingoLib.Test.Logic.Word
             WordGame wordGame = new WordGame(wordPuzzleMock.Object, 0);
             Assert.AreEqual(0, wordGame.ActiveTeamIndex);
             Assert.AreEqual(0, wordGame.AttemptIndex);
-            Assert.AreEqual(WordGameState.NotStarted, wordGame.State);
+            Assert.AreEqual(WordGameState.NotStarted, wordGame.State.State);
         }
 
         [Test()]
@@ -34,7 +34,7 @@ namespace SlingoLib.Test.Logic.Word
             
             Assert.AreEqual(0, wordGame.ActiveTeamIndex);
             Assert.AreEqual(1, wordGame.AttemptIndex);
-            Assert.AreEqual(WordGameState.Won, wordGame.State);
+            Assert.AreEqual(WordGameState.Won, wordGame.State.State);
         }
 
         [Test()]
@@ -52,7 +52,7 @@ namespace SlingoLib.Test.Logic.Word
 
             Assert.AreEqual(0, wordGame.ActiveTeamIndex);
             Assert.AreEqual(1, wordGame.AttemptIndex);
-            Assert.AreEqual(WordGameState.Ongoing, wordGame.State);
+            Assert.AreEqual(WordGameState.Ongoing, wordGame.State.State);
         }
 
         [Test()]
@@ -74,7 +74,9 @@ namespace SlingoLib.Test.Logic.Word
 
             Assert.AreEqual(1, wordGame.ActiveTeamIndex);
             Assert.AreEqual(5, wordGame.AttemptIndex);
-            Assert.AreEqual(WordGameState.SwitchTeamAndAddBonusLetter, wordGame.State);
+            Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State.State);
+            Assert.IsTrue((wordGame.State.Flags & SwitchTeamFlags.AddRow) == SwitchTeamFlags.AddRow);
+            Assert.IsTrue((wordGame.State.Flags & SwitchTeamFlags.AddBonusLetter) == SwitchTeamFlags.AddBonusLetter);
         }
 
         [Test()]
@@ -97,7 +99,7 @@ namespace SlingoLib.Test.Logic.Word
 
             Assert.AreEqual(1, wordGame.ActiveTeamIndex);
             Assert.AreEqual(6, wordGame.AttemptIndex);
-            Assert.AreEqual(WordGameState.Lost, wordGame.State);
+            Assert.AreEqual(WordGameState.Lost, wordGame.State.State);
         }
 
         [Test()]
@@ -119,7 +121,9 @@ namespace SlingoLib.Test.Logic.Word
 
             Assert.AreEqual(1, wordGame.ActiveTeamIndex);
             Assert.AreEqual(5, wordGame.AttemptIndex);
-            Assert.AreEqual(WordGameState.SwitchTeamAndAddBonusLetter, wordGame.State);
+            Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State.State);
+            Assert.IsTrue((wordGame.State.Flags & SwitchTeamFlags.AddRow) == SwitchTeamFlags.AddRow);
+            Assert.IsTrue((wordGame.State.Flags & SwitchTeamFlags.AddBonusLetter) == SwitchTeamFlags.AddBonusLetter);
         }
 
         [Test()]
@@ -147,7 +151,8 @@ namespace SlingoLib.Test.Logic.Word
 
             Assert.AreEqual(1, wordGame.ActiveTeamIndex);
             Assert.AreEqual(5, wordGame.AttemptIndex);
-            Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State);
+            Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State.State);
+            Assert.IsTrue((wordGame.State.Flags & SwitchTeamFlags.AddRow) == SwitchTeamFlags.AddRow);
         }
 
         [Test()]
@@ -172,7 +177,8 @@ namespace SlingoLib.Test.Logic.Word
 
             Assert.AreEqual(1, wordGame.ActiveTeamIndex);
             Assert.AreEqual(1, wordGame.AttemptIndex);
-            Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State);
+            Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State.State);
+            Assert.AreEqual(SwitchTeamFlags.Normal,wordGame.State.Flags);
         }
 
         [Test()]
@@ -197,7 +203,9 @@ namespace SlingoLib.Test.Logic.Word
 
             Assert.AreEqual(1, wordGame.ActiveTeamIndex);
             Assert.AreEqual(1, wordGame.AttemptIndex);
-            Assert.AreEqual(WordGameState.SwitchTeamAndAddBonusLetter, wordGame.State);
+            Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State.State);
+            Assert.IsTrue((wordGame.State.Flags & SwitchTeamFlags.AddRow) != SwitchTeamFlags.AddRow);
+            Assert.IsTrue((wordGame.State.Flags & SwitchTeamFlags.AddBonusLetter) == SwitchTeamFlags.AddBonusLetter);
         }
     }
 }

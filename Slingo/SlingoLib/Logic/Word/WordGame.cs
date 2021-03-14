@@ -14,53 +14,52 @@ namespace SlingoLib.Logic.Word
             _wordPuzzle = wordPuzzle;
             KnownLetters = wordPuzzle.Word[0] + new string('.', wordPuzzle.Word.Length - 1);
             ActiveTeamIndex = startingTeamIndex;
-            
+
         }
-        
+
         public string KnownLetters { get; private set; }
-        
+
         public int ActiveTeamIndex { get; private set; }
-        
+
         public int AttemptIndex { get; private set; }
-        
-        public WordGameState State { get; private set; }
+
+        public WordGameStateInfo State { get; private set; } = new WordGameStateInfo(WordGameState.NotStarted);
+        public SwitchTeamFlags SwitchTeamFlags { get; private set; }
 
         public WordPuzzleEntry Solve(string word)
         {
-            if (State == WordGameState.Won || State == WordGameState.Lost)
-            {
-                throw new InvalidOperationException("Game is already over.");
-            }
+            ThrowIfGameIsOver();
             AttemptIndex++;
-            
+
             var puzzleEntry = _wordPuzzle.Solve(word);
             if (puzzleEntry.LetterEntries.All(x => x.State == LetterState.CorrectLocation))
             {
-                State = WordGameState.Won;
+                State = new WordGameStateInfo(WordGameState.Won);
                 return puzzleEntry;
             }
-            
+
             UpdateKnownLetters(puzzleEntry);
-            
+
             if (AttemptIndex == 6)
             {
-                State = WordGameState.Lost;
+                State = new WordGameStateInfo(WordGameState.Lost);
             }
-            else if(AttemptIndex == 5)
+            else if (AttemptIndex == 5)
             {
                 ActiveTeamIndex = ActiveTeamIndex == 0 ? 1 : 0;
                 if (KnownLetters.Count(x => x == '.') > 1)
                 {
-                    State = WordGameState.SwitchTeamAndAddBonusLetter;
+                    State = new WordGameStateInfo(WordGameState.SwitchTeam,
+                        SwitchTeamFlags.AddBonusLetter | SwitchTeamFlags.AddRow);
                 }
                 else
                 {
-                    State = WordGameState.SwitchTeam;
+                    State = new WordGameStateInfo(WordGameState.SwitchTeam,SwitchTeamFlags.AddRow);
                 }
             }
             else
             {
-                State = WordGameState.Ongoing;
+                State = new WordGameStateInfo(WordGameState.Ongoing);
             }
 
             return puzzleEntry;
@@ -85,50 +84,45 @@ namespace SlingoLib.Logic.Word
 
         public void Reject()
         {
-            if (State == WordGameState.Won || State == WordGameState.Lost)
-            {
-                throw new InvalidOperationException("Game is already over.");
-            }
+            ThrowIfGameIsOver();
 
             AttemptIndex++;
 
             if (AttemptIndex == 6)
             {
-                State = WordGameState.Lost;
+                State = new WordGameStateInfo(WordGameState.Lost);
             }
             else if (AttemptIndex == 5)
             {
                 ActiveTeamIndex = ActiveTeamIndex == 0 ? 1 : 0;
                 if (KnownLetters.Count(x => x == '.') > 1)
                 {
-                    State = WordGameState.SwitchTeamAndAddBonusLetter;
+                    State = new WordGameStateInfo(WordGameState.SwitchTeam,
+                        SwitchTeamFlags.AddBonusLetter | SwitchTeamFlags.AddRow);
                 }
                 else
                 {
-                    State = WordGameState.SwitchTeam;
+                    State = new WordGameStateInfo(WordGameState.SwitchTeam, SwitchTeamFlags.AddRow);
                 }
             }
             else
             {
-                State = WordGameState.Ongoing;
+                State = new WordGameStateInfo(WordGameState.Ongoing);
             }
         }
-        
+
         public void TimeOut()
         {
-            if (State == WordGameState.Won || State == WordGameState.Lost)
-            {
-                throw new InvalidOperationException("Game is already over.");
-            }
+            ThrowIfGameIsOver();
 
             ActiveTeamIndex = ActiveTeamIndex == 0 ? 1 : 0;
             if (KnownLetters.Count(x => x == '.') > 1)
             {
-                State = WordGameState.SwitchTeamAndAddBonusLetter;
+                State = new WordGameStateInfo(WordGameState.SwitchTeam, SwitchTeamFlags.AddBonusLetter);
             }
             else
             {
-                State = WordGameState.SwitchTeam;
+                State = new WordGameStateInfo(WordGameState.SwitchTeam, SwitchTeamFlags.Normal);
             }
         }
 
@@ -148,19 +142,52 @@ namespace SlingoLib.Logic.Word
 
             throw new Exception("Word is already known");
         }
+
+        private void ThrowIfGameIsOver()
+        {
+            if (State == null)
+            {
+                return;
+            }
+            if (State.State == WordGameState.Won || State.State == WordGameState.Lost)
+            {
+                throw new InvalidOperationException("Game is already over.");
+            }
+        }
     }
-    
+
 
     public enum WordGameState
     {
         NotStarted,
         Ongoing,
         SwitchTeam,
-        SwitchTeamAndAddBonusLetter,
         Won,
         Lost
     }
 
-    
-    
+    [Flags]
+    public enum SwitchTeamFlags
+    {
+        Normal = 0,
+        AddRow = 1,
+        AddBonusLetter = 2
+    }
+
+    public class WordGameStateInfo
+    {
+        public WordGameState State { get; }
+        public SwitchTeamFlags Flags { get; }
+
+        public WordGameStateInfo(WordGameState state)
+        {
+            State = state;
+        }
+
+        public WordGameStateInfo(WordGameState state, SwitchTeamFlags flags)
+        {
+            State = state;
+            Flags = flags;
+        }
+    }
 }

@@ -65,12 +65,12 @@ namespace Slingo.Game.Word
         /// <summary>
         /// Accept the word that was previously set
         /// </summary>
-        public async Task<WordGameState> AcceptWord()
+        public async Task<WordGameStateInfo> AcceptWord()
         {
             var result = _wordGame.Solve(_activeWord);
             await BoardViewModel.AcceptWord(result);
 
-            if (_wordGame.State == WordGameState.Won)
+            if (_wordGame.State.State == WordGameState.Won)
             {
                 _audioPlaybackEngine.PlaySound(_winSound);
                 if (_wordGame.ActiveTeamIndex == 0)
@@ -82,11 +82,11 @@ namespace Slingo.Game.Word
                     _state.Team2.Score += 25;
                 }
             }
-            else if (_wordGame.State == WordGameState.SwitchTeam || _wordGame.State == WordGameState.SwitchTeamAndAddBonusLetter)
+            else if (_wordGame.State.State == WordGameState.SwitchTeam)
             {
                 _state.SwitchActiveTeam();
             }
-            else if (_wordGame.State == WordGameState.Ongoing)
+            else if (_wordGame.State.State == WordGameState.Ongoing)
             {
                 await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             }
@@ -97,10 +97,10 @@ namespace Slingo.Game.Word
         /// <summary>
         /// Reject the word that was previously set
         /// </summary>
-        public async Task<WordGameState> RejectWord()
+        public async Task<WordGameStateInfo> RejectWord()
         {
             _wordGame.Reject();
-            if (_wordGame.State == WordGameState.SwitchTeam || _wordGame.State == WordGameState.SwitchTeamAndAddBonusLetter)
+            if (_wordGame.State.State == WordGameState.SwitchTeam)
             {
                 _audioPlaybackEngine.PlaySound(_rejectSound);
                 _state.SwitchActiveTeam();
@@ -113,10 +113,16 @@ namespace Slingo.Game.Word
             return _wordGame.State;
         }
 
-        public async Task<WordGameState> TimeOut()
+        public async Task<WordGameStateInfo> TimeOut()
         {
             _audioPlaybackEngine.PlaySound(_timeOutSound);
-            return await RejectWord();
+            _wordGame.TimeOut();
+            if (_wordGame.State.State == WordGameState.SwitchTeam)
+            {
+                _state.SwitchActiveTeam();
+            }
+
+            return _wordGame.State;
         }
         
         public async Task AddRow()

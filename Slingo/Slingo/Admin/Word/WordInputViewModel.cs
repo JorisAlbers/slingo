@@ -36,7 +36,7 @@ namespace Slingo.Admin.Word
         public ReactiveCommand<Unit, Unit> AddRowAndSwitchTeam { get; }
         public ReactiveCommand<Unit, Unit> AddBonusLetter { get; }
         public ReactiveCommand<Unit, Unit> ShowWord { get; }
-        [Reactive] public WordGameState State { get; private set; }
+        [Reactive] public WordGameStateInfo StateInfo { get; private set; }
 
 
         public WordInputViewModel(List<string> words, Settings settings, Random random,  WordGameViewModel wordGameViewModel)
@@ -48,11 +48,10 @@ namespace Slingo.Admin.Word
 
             CandidateWord = GetRandomWord();
 
-            var gameIsOngoing = this.WhenAnyValue(
-                x => x.State, (state) => state == WordGameState.Ongoing);
+            var gameIsOngoing = this.WhenAnyValue(x => x.StateInfo.State, (state) => state == WordGameState.Ongoing);
 
             var canAccept = this.WhenAnyValue(
-                x => x.WordInputtedByUser, x=> x.State, (word,state) =>
+                x => x.WordInputtedByUser, x=> x.StateInfo.State, (word,state) =>
                     !string.IsNullOrEmpty(word) && 
                     state == WordGameState.Ongoing && 
                     WordFormatter.Format(word).Length == settings.WordSize);
@@ -61,9 +60,8 @@ namespace Slingo.Admin.Word
             Accept = ReactiveCommand.Create(() => new Unit(), canAccept);
             Reject = ReactiveCommand.Create(() => new Unit(), gameIsOngoing);
             TimeOut = ReactiveCommand.Create(() => new Unit(), gameIsOngoing);
-            AddRowAndSwitchTeam = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x=>x.State , (state)=> state == WordGameState.SwitchTeam || 
-                state == WordGameState.SwitchTeamAndAddBonusLetter));
-            AddBonusLetter = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x => x.State,(state)=> state == WordGameState.SwitchTeamAndAddBonusLetter));
+            AddRowAndSwitchTeam = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x=>x.StateInfo.Flags , (switchTeamFlags)=> (switchTeamFlags & SwitchTeamFlags.AddRow) == SwitchTeamFlags.AddRow));
+            AddBonusLetter = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x => x.StateInfo.Flags,(switchTeamFlags)=> (switchTeamFlags & SwitchTeamFlags.AddBonusLetter) == SwitchTeamFlags.AddBonusLetter));
 
             GenerateWord = ReactiveCommand.Create(() =>
             {
@@ -77,13 +75,13 @@ namespace Slingo.Admin.Word
                 CurrentWord = CandidateWord;
                 CandidateWord = GetRandomWord();
                 await wordGameViewModel.StartWordGame(CurrentWord);
-                State = WordGameState.Ongoing;
+                StateInfo = new WordGameStateInfo(WordGameState.Ongoing);
                 StartCountDown(cancel.Token);
                 return Unit.Default;
             });
 
             ShowWord = ReactiveCommand.Create(() => new Unit(),
-                this.WhenAnyValue(x => x.State, (state) => state == WordGameState.Lost));
+                this.WhenAnyValue(x => x.StateInfo.State, (state) => state == WordGameState.Lost));
             
             this.WhenAnyValue(x => x.WordInputtedByUser)
                 .Where(x => !string.IsNullOrWhiteSpace(x))
@@ -92,8 +90,8 @@ namespace Slingo.Admin.Word
             this.Accept.Subscribe(async onNext =>
             {
                 var cancel = CancelCountDownAndGetNewToken();
-                State = await wordGameViewModel.AcceptWord();
-                if (State == WordGameState.Ongoing)
+                StateInfo = await wordGameViewModel.AcceptWord();
+                if (StateInfo.State == WordGameState.Ongoing)
                 {
                     StartCountDown(cancel.Token);
                 }
@@ -101,8 +99,8 @@ namespace Slingo.Admin.Word
             this.Reject.Subscribe(async onNext =>
             {
                 var cancel = CancelCountDownAndGetNewToken();
-                State = await wordGameViewModel.RejectWord();
-                if (State == WordGameState.Ongoing)
+                StateInfo = await wordGameViewModel.RejectWord();
+                if (StateInfo.State == WordGameState.Ongoing)
                 {
                     StartCountDown(cancel.Token);
                 }
@@ -110,16 +108,19 @@ namespace Slingo.Admin.Word
             this.TimeOut.Subscribe(async onNext =>
             {
                 var cancel = CancelCountDownAndGetNewToken();
-                State = await wordGameViewModel.TimeOut();
+                StateInfo = await wordGameViewModel.TimeOut();
                 StartCountDown(cancel.Token);
             });
             this.AddRowAndSwitchTeam.Subscribe(async onNext =>
             {
                 var cancel = CancelCountDownAndGetNewToken();
                 await wordGameViewModel.AddRow();
-                if (State == WordGameState.SwitchTeam)
+                if (StateInfo.State == WordGameState.SwitchTeam)
                 {
-                    State = WordGameState.Ongoing;
+                    if ((StateInfo.Flags & SwitchTeamFlags.AddBonusLetter) != SwitchTeamFlags.AddBonusLetter)
+                    {
+                        StateInfo = new WordGameStateInfo(WordGameState.Ongoing);
+                    }
                 }
                 
                 StartCountDown(cancel.Token);
@@ -128,7 +129,7 @@ namespace Slingo.Admin.Word
             {
                 var cancel = CancelCountDownAndGetNewToken();
                 await wordGameViewModel.AddBonusLetter();
-                State = WordGameState.Ongoing;
+                StateInfo = new WordGameStateInfo(WordGameState.Ongoing);
                 StartCountDown(cancel.Token);
             });
 

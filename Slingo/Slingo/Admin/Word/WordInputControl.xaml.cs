@@ -33,7 +33,7 @@ namespace Slingo.Admin.Word
                     .DisposeWith(dispose);
 
                 this.OneWayBind(ViewModel,
-                        vm => vm.State,
+                        vm => vm.StateInfo.State,
                         view => view.WordTextBox.IsEnabled,
                         s=> s == WordGameState.Ongoing || s == WordGameState.SwitchTeam)
                     .DisposeWith(dispose);
