@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -60,13 +61,26 @@ namespace Slingo.Game.Word
 
         public async Task AcceptWord(WordPuzzleEntry result)
         {
-            CombinedSoundSampleProvider soundProvider = SetupWordGameEntrySounds(result, 200);
+            CombinedSoundSampleProvider soundProvider = SetupWordGameEntrySounds(result.LetterEntries.Select(x=>x.State), 200);
 
             WordGameRowViewModel viewmodel = _wordGameRows.Items.ElementAt(attemptIndex);
             _audioPlaybackEngine.PlaySound(soundProvider);
             for (int i = 0; i < result.LetterEntries.Length; i++)
             {
                 viewmodel.SetLetter(i, result.LetterEntries[i].Letter, result.LetterEntries[i].State);
+                await Task.Delay(200);
+            }
+        }
+
+        public async Task ShowWord(string word)
+        {
+            CombinedSoundSampleProvider soundProvider = SetupWordGameEntrySounds(Enumerable.Repeat(LetterState.CorrectLocation,word.Length), 200);
+
+            WordGameRowViewModel viewmodel = _wordGameRows.Items.ElementAt(attemptIndex);
+            _audioPlaybackEngine.PlaySound(soundProvider);
+            for (int i = 0; i < word.Length; i++)
+            {
+                viewmodel.SetLetter(i, word[i], LetterState.DoesNotExistInWord);
                 await Task.Delay(200);
             }
         }
@@ -87,26 +101,23 @@ namespace Slingo.Game.Word
             await Task.Delay(200);
         }
 
-        private CombinedSoundSampleProvider SetupWordGameEntrySounds(WordPuzzleEntry entry, int millisecondsPerSound)
+        private CombinedSoundSampleProvider SetupWordGameEntrySounds(IEnumerable<LetterState> entry,
+            int millisecondsPerSound)
         {
-            CachedSound[] sounds = new CachedSound[entry.LetterEntries.Length];
-            for (int i = 0; i < entry.LetterEntries.Length; i++)
+            var sounds = entry.Select(x =>
             {
-                switch (entry.LetterEntries[i].State)
+                switch (x)
                 {
                     case LetterState.DoesNotExistInWord:
-                        sounds[i] = _incorrectSound;
-                        break;
+                        return _incorrectSound;
                     case LetterState.CorrectLocation:
-                        sounds[i] = _correctSound;
-                        break;
+                        return _correctSound;
                     case LetterState.IncorrectLocation:
-                        sounds[i] = _incorrectLocationSound;
-                        break;
+                        return _incorrectLocationSound;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-            }
+            }).ToArray();
 
             return new CombinedSoundSampleProvider(sounds, millisecondsPerSound);
         }

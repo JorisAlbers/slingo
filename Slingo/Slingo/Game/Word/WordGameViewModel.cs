@@ -146,10 +146,9 @@ namespace Slingo.Game.Word
 
         public async Task ShowWord(string currentWord)
         {
-            WordPuzzleEntry solvedWord = new WordPuzzleEntry(currentWord
-                .Select(x => new WordPuzzleLetterEntry(x, LetterState.CorrectLocation)).ToArray());
-            
-            await BoardViewModel.AcceptWord(solvedWord);
+            await BoardViewModel.AddAdditionalRow();
+            await Task.Delay(1000);
+            await BoardViewModel.ShowWord(currentWord);
         }
     }
 }
