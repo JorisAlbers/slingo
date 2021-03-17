@@ -75,7 +75,7 @@ namespace Slingo.Admin.Word
             FocusBingoCard.Subscribe(x =>
             {
                 GameSectionWithFocus = GameSection.Bingo;
-                if (WordInputViewModel.StateInfo.State == WordGameState.Won)
+                if (WordInputViewModel.StateInfo != null && WordInputViewModel.StateInfo.State == WordGameState.Won)
                 {
                     WordInputViewModel.Clear();
                 }
