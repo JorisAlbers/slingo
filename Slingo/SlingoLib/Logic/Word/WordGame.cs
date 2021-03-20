@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SlingoLib.Logic.Word
 {
@@ -24,7 +22,6 @@ namespace SlingoLib.Logic.Word
         public int AttemptIndex { get; private set; }
 
         public WordGameStateInfo State { get; private set; } = new WordGameStateInfo(WordGameState.NotStarted);
-        public SwitchTeamFlags SwitchTeamFlags { get; private set; }
 
         public WordPuzzleEntry Solve(string word)
         {
