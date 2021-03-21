@@ -143,6 +143,10 @@ namespace Slingo.Admin.Word
             this.ClearRow.Subscribe(async x =>
             {
                 await wordGameViewModel.ClearRow();
+                if ((StateInfo.Flags & SwitchTeamFlags.AddBonusLetter) != SwitchTeamFlags.AddBonusLetter)
+                {
+                    StateInfo = new WordGameStateInfo(WordGameState.Ongoing);
+                }
             });
 
             this.ShowWord.Subscribe(onNext =>
