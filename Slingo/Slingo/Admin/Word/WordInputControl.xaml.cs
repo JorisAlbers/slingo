@@ -43,6 +43,8 @@ namespace Slingo.Admin.Word
                         view => view.AcceptButton)
                     .DisposeWith(dispose);
 
+                this.WordTextBox.InputBindings.Add(new KeyBinding(ViewModel.Accept, Key.Return, ModifierKeys.None));
+                
                 this.BindCommand(ViewModel,
                         vm => vm.Reject,
                         view => view.RejectButton)
