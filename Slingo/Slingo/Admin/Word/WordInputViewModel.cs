@@ -34,6 +34,7 @@ namespace Slingo.Admin.Word
         public ReactiveCommand<Unit, Unit> NewGame { get; }
         public ReactiveCommand<Unit, Unit> TimeOut { get; }
         public ReactiveCommand<Unit, Unit> AddRowAndSwitchTeam { get; }
+        public ReactiveCommand<Unit, Unit> ClearRow { get; }
         public ReactiveCommand<Unit, Unit> AddBonusLetter { get; }
         public ReactiveCommand<Unit, Unit> ShowWord { get; }
         [Reactive] public WordGameStateInfo StateInfo { get; private set; }
@@ -62,7 +63,8 @@ namespace Slingo.Admin.Word
             TimeOut = ReactiveCommand.Create(() => new Unit(), gameIsOngoing);
             AddRowAndSwitchTeam = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x=>x.StateInfo.Flags , (switchTeamFlags)=> (switchTeamFlags & SwitchTeamFlags.AddRow) == SwitchTeamFlags.AddRow));
             AddBonusLetter = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x => x.StateInfo.Flags,(switchTeamFlags)=> (switchTeamFlags & SwitchTeamFlags.AddBonusLetter) == SwitchTeamFlags.AddBonusLetter));
-
+            ClearRow = ReactiveCommand.Create(()=> new Unit(),this.WhenAnyValue(x => x.StateInfo.Flags, (flags) => (flags & SwitchTeamFlags.ClearRow) == SwitchTeamFlags.ClearRow));
+            
             GenerateWord = ReactiveCommand.Create(() =>
             {
                 CandidateWord = GetRandomWord();
@@ -91,6 +93,11 @@ namespace Slingo.Admin.Word
             {
                 var cancel = CancelCountDownAndGetNewToken();
                 StateInfo = await wordGameViewModel.AcceptWord();
+                if (StateInfo.State == WordGameState.SwitchTeam && StateInfo.Flags == SwitchTeamFlags.Normal)
+                {
+                    StateInfo = new WordGameStateInfo(WordGameState.Ongoing);
+                }
+                
                 if (StateInfo.State == WordGameState.Ongoing)
                 {
                     StartCountDown(cancel.Token);
@@ -131,6 +138,11 @@ namespace Slingo.Admin.Word
                 await wordGameViewModel.AddBonusLetter();
                 StateInfo = new WordGameStateInfo(WordGameState.Ongoing);
                 StartCountDown(cancel.Token);
+            });
+
+            this.ClearRow.Subscribe(async x =>
+            {
+                await wordGameViewModel.ClearRow();
             });
 
             this.ShowWord.Subscribe(onNext =>

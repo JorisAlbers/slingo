@@ -42,8 +42,8 @@
 
         <UniformGrid DockPanel.Dock="Top" Rows="1" Height="40" Margin="0,10">
             <Rectangle/>
-            <Rectangle/>
-            <Button Content="Add row and switch team" x:Name="AddRowAndSwitchTeamButton"/>
+            <Button Content="Clear row" x:Name="ClearRowAndSwitchTeamButton"/>
+            <Button Content="Add row" x:Name="AddRowAndSwitchTeamButton"/>
             <Button Content="Add bonus letter" x:Name="AddBonusLetterButton"/>
         </UniformGrid>
 

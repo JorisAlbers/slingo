@@ -73,6 +73,11 @@ namespace Slingo.Admin.Word
                         view => view.AddBonusLetterButton)
                     .DisposeWith(dispose);
 
+                this.BindCommand(ViewModel,
+                        vm => vm.ClearRow,
+                        view => view.ClearRowAndSwitchTeamButton)
+                    .DisposeWith(dispose);
+
                 this.OneWayBind(ViewModel,
                         vm => vm.CurrentWord,
                         view => view.CurrentWordTextBlock.Text)

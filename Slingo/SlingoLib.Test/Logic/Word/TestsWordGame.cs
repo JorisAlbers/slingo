@@ -103,7 +103,7 @@ namespace SlingoLib.Test.Logic.Word
         }
 
         [Test()]
-        public void Reject_MovesToNextAttemptIndex()
+        public void Reject_KeepsIndexButSwitchesTeam()
         {
             var puzzleEntry = new WordPuzzleEntry(Enumerable.Repeat(new WordPuzzleLetterEntry('a', LetterState.IncorrectLocation), 5).ToArray());
 
@@ -114,15 +114,11 @@ namespace SlingoLib.Test.Logic.Word
 
             WordGame wordGame = new WordGame(wordPuzzleMock.Object, 0);
             wordGame.Reject();
-            wordGame.Reject();
-            wordGame.Reject();
-            wordGame.Reject();
-            wordGame.Reject();
 
             Assert.AreEqual(1, wordGame.ActiveTeamIndex);
-            Assert.AreEqual(5, wordGame.AttemptIndex);
+            Assert.AreEqual(0, wordGame.AttemptIndex);
             Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State.State);
-            Assert.IsTrue((wordGame.State.Flags & SwitchTeamFlags.AddRow) == SwitchTeamFlags.AddRow);
+            Assert.IsTrue((wordGame.State.Flags & SwitchTeamFlags.ClearRow) == SwitchTeamFlags.ClearRow);
             Assert.IsTrue((wordGame.State.Flags & SwitchTeamFlags.AddBonusLetter) == SwitchTeamFlags.AddBonusLetter);
         }
 
@@ -145,14 +141,11 @@ namespace SlingoLib.Test.Logic.Word
             WordGame wordGame = new WordGame(wordPuzzleMock.Object, 0);
             wordGame.Solve("aaaab");
             wordGame.Reject();
-            wordGame.Reject();
-            wordGame.Reject();
-            wordGame.Reject();
 
             Assert.AreEqual(1, wordGame.ActiveTeamIndex);
-            Assert.AreEqual(5, wordGame.AttemptIndex);
+            Assert.AreEqual(1, wordGame.AttemptIndex);
             Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State.State);
-            Assert.IsTrue((wordGame.State.Flags & SwitchTeamFlags.AddRow) == SwitchTeamFlags.AddRow);
+            Assert.IsTrue((wordGame.State.Flags & SwitchTeamFlags.ClearRow) == SwitchTeamFlags.ClearRow);
         }
 
         [Test()]
@@ -178,7 +171,7 @@ namespace SlingoLib.Test.Logic.Word
             Assert.AreEqual(1, wordGame.ActiveTeamIndex);
             Assert.AreEqual(1, wordGame.AttemptIndex);
             Assert.AreEqual(WordGameState.SwitchTeam, wordGame.State.State);
-            Assert.AreEqual(SwitchTeamFlags.Normal,wordGame.State.Flags);
+            Assert.AreEqual(SwitchTeamFlags.ClearRow,wordGame.State.Flags);
         }
 
         [Test()]

@@ -121,5 +121,12 @@ namespace Slingo.Game.Word
 
             return new CombinedSoundSampleProvider(sounds, millisecondsPerSound);
         }
+
+        public async Task ClearRow(string knownLetters)
+        {
+            var viewmodel = new WordGameRowViewModel(_wordGameRows.Items.First().Letters.Count);
+            _wordGameRows.ReplaceAt(attemptIndex,viewmodel);
+            await viewmodel.SetInitialLetters(knownLetters);
+        }
     }
 }

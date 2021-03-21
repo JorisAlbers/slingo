@@ -85,11 +85,19 @@ namespace Slingo.Game.Word
             else if (_wordGame.State.State == WordGameState.SwitchTeam)
             {
                 _state.SwitchActiveTeam();
+                if(_wordGame.State.Flags == SwitchTeamFlags.Normal)
+                {
+                    // attempt made by opposing team is not valid. back to original team. 
+                    await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
+                }
+                
             }
             else if (_wordGame.State.State == WordGameState.Ongoing)
             {
                 await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
             }
+            
+            
 
             return _wordGame.State;
         }
@@ -99,17 +107,9 @@ namespace Slingo.Game.Word
         /// </summary>
         public async Task<WordGameStateInfo> RejectWord()
         {
+            _audioPlaybackEngine.PlaySound(_rejectSound);
             _wordGame.Reject();
-            if (_wordGame.State.State == WordGameState.SwitchTeam)
-            {
-                _audioPlaybackEngine.PlaySound(_rejectSound);
-                _state.SwitchActiveTeam();
-            }
-            else
-            {
-                await BoardViewModel.StartNextAttempt(_wordGame.KnownLetters);
-            }
-
+            _state.SwitchActiveTeam();
             return _wordGame.State;
         }
 
@@ -117,14 +117,15 @@ namespace Slingo.Game.Word
         {
             _audioPlaybackEngine.PlaySound(_timeOutSound);
             _wordGame.TimeOut();
-            if (_wordGame.State.State == WordGameState.SwitchTeam)
-            {
-                _state.SwitchActiveTeam();
-            }
-
+            _state.SwitchActiveTeam();
             return _wordGame.State;
         }
-        
+
+        public async Task ClearRow()
+        {
+            await BoardViewModel.ClearRow(_wordGame.KnownLetters);
+        }
+
         public async Task AddRow()
         {
             // TODO:// Play switch team sound
