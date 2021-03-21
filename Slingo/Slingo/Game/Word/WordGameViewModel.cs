@@ -19,7 +19,7 @@ namespace Slingo.Game.Word
         private readonly AudioPlaybackEngine _audioPlaybackEngine;
         private WordGame _wordGame;
         private string _activeWord;
-        private CachedSound _timeOutSound, _winSound, _rejectSound, _newLetterAppearsSound;
+        private CachedSound _timeOutSound, _winSound, _rejectSound, _newLetterAppearsSound, _bonusLetterAppears;
         private int _wordSize;
 
         [Reactive] public BoardViewModel BoardViewModel { get; private set; }
@@ -32,6 +32,7 @@ namespace Slingo.Game.Word
             _winSound = new CachedSound(@"Resources\Sounds\WordGame\win.wav");
             _rejectSound = new CachedSound(@"Resources\Sounds\WordGame\rejected.wav");
             _newLetterAppearsSound = new CachedSound(@"Resources\Sounds\WordGame\first_letter_appears.wav");
+            _bonusLetterAppears = new CachedSound(@"Resources\Sounds\WordGame\bonusletter.wav");
         }
         
         public async Task StartWordGame(string word)
@@ -135,7 +136,7 @@ namespace Slingo.Game.Word
 
         public async Task AddBonusLetter()
         {
-            // TODO: Play bonus letter appears sound
+            _audioPlaybackEngine.PlaySound(_bonusLetterAppears);
             char letter = _wordGame.AddBonusLetter(out int index);
             await BoardViewModel.AddBonusLetter(letter, index);
         }
