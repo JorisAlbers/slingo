@@ -33,7 +33,7 @@ namespace Slingo.Admin.Word
         public ReactiveCommand<Unit, Unit> GenerateWord { get; }
         public ReactiveCommand<Unit, Unit> NewGame { get; }
         public ReactiveCommand<Unit, Unit> TimeOut { get; }
-        public ReactiveCommand<Unit, Unit> AddRowAndSwitchTeam { get; }
+        public ReactiveCommand<Unit, Unit> AddRow { get; }
         public ReactiveCommand<Unit, Unit> ClearRow { get; }
         public ReactiveCommand<Unit, Unit> AddBonusLetter { get; }
         public ReactiveCommand<Unit, Unit> ShowWord { get; }
@@ -61,7 +61,7 @@ namespace Slingo.Admin.Word
             Accept = ReactiveCommand.Create(() => new Unit(), canAccept);
             Reject = ReactiveCommand.Create(() => new Unit(), gameIsOngoing);
             TimeOut = ReactiveCommand.Create(() => new Unit(), gameIsOngoing);
-            AddRowAndSwitchTeam = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x=>x.StateInfo.Flags , (switchTeamFlags)=> (switchTeamFlags & SwitchTeamFlags.AddRow) == SwitchTeamFlags.AddRow));
+            AddRow = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x=>x.StateInfo.Flags , (switchTeamFlags)=> (switchTeamFlags & SwitchTeamFlags.AddRow) == SwitchTeamFlags.AddRow));
             AddBonusLetter = ReactiveCommand.Create(() => new Unit(), this.WhenAnyValue(x => x.StateInfo.Flags,(switchTeamFlags)=> (switchTeamFlags & SwitchTeamFlags.AddBonusLetter) == SwitchTeamFlags.AddBonusLetter));
             ClearRow = ReactiveCommand.Create(()=> new Unit(),this.WhenAnyValue(x => x.StateInfo.Flags, (flags) => (flags & SwitchTeamFlags.ClearRow) == SwitchTeamFlags.ClearRow));
             
@@ -118,7 +118,7 @@ namespace Slingo.Admin.Word
                 StateInfo = await wordGameViewModel.TimeOut();
                 StartCountDown(cancel.Token);
             });
-            this.AddRowAndSwitchTeam.Subscribe(async onNext =>
+            this.AddRow.Subscribe(async onNext =>
             {
                 var cancel = CancelCountDownAndGetNewToken();
                 await wordGameViewModel.AddRow();

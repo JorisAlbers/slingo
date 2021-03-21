@@ -66,7 +66,7 @@ namespace Slingo.Admin.Word
                     .DisposeWith(dispose);
 
                 this.BindCommand(ViewModel,
-                        vm => vm.AddRowAndSwitchTeam,
+                        vm => vm.AddRow,
                         view => view.AddRowAndSwitchTeamButton)
                     .DisposeWith(dispose);
 
