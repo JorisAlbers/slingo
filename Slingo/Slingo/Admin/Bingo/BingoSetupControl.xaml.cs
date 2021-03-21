@@ -41,6 +41,8 @@ namespace Slingo.Admin.Bingo
                     view => view.BallNumberTextBox.Text)
                     .DisposeWith(dispose);
 
+                this.BallNumberTextBox.InputBindings.Add(new KeyBinding(ViewModel.BallSubmitted, Key.Return, ModifierKeys.None));
+
                 this.BindCommand(ViewModel,
                         vm => vm.BallSubmitted,
                         view => view.SubmitBallButton)
