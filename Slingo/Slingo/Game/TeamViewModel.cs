@@ -77,5 +77,22 @@ namespace Slingo.Game
 
             GreenBall1 = true;
         }
+
+        public void RemoveGreenBall()
+        {
+            if (GreenBall3)
+            {
+                GreenBall3 = false;
+                return;
+            }
+
+            if (GreenBall2)
+            {
+                GreenBall2 = false;
+                return;
+            }
+
+            GreenBall1 = false;
+        }
     }
 }

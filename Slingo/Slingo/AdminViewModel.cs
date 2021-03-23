@@ -84,7 +84,15 @@ namespace Slingo
 
             viewmodel.BingoSetupViewModel1.GreenBallSubmitted.Subscribe(x =>
             {
-                GameViewModel.Team1ViewModel.AddGreenBall();
+                if (x)
+                {
+                    GameViewModel.Team1ViewModel.AddGreenBall();
+                }
+                else
+                {
+                    GameViewModel.Team1ViewModel.RemoveGreenBall();
+                }
+
             });
 
             viewmodel.BingoSetupViewModel1.RedBallSubmitted.Subscribe(x =>
@@ -119,7 +127,14 @@ namespace Slingo
 
             viewmodel.BingoSetupViewModel2.GreenBallSubmitted.Subscribe(x =>
             {
-                GameViewModel.Team2ViewModel.AddGreenBall();
+                if (x)
+                {
+                    GameViewModel.Team2ViewModel.AddGreenBall();
+                }
+                else
+                {
+                    GameViewModel.Team2ViewModel.RemoveGreenBall();
+                }
             });
 
             viewmodel.BingoSetupViewModel2.RedBallSubmitted.Subscribe(x =>

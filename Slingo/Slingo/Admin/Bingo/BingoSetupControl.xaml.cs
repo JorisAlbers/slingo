@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,6 +27,11 @@ namespace Slingo.Admin.Bingo
 
             this.WhenActivated((dispose) =>
             {
+                var shiftDown = this.Events().KeyDown.Where(x => x.Key == Key.LeftShift || x.Key == Key.RightShift);
+                var shiftUp = this.Events().KeyUp.Where(x => x.Key == Key.LeftShift || x.Key == Key.RightShift);
+
+                shiftDown.Merge(shiftUp).Select(x => x.IsDown).BindTo(ViewModel, vm => vm.InverseCommand);
+
                 this.BindCommand(ViewModel,
                         vm => vm.Initialize,
                         view => view.InitializeButton)

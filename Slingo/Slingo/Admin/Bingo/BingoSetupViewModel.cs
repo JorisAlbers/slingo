@@ -15,12 +15,13 @@ namespace Slingo.Admin.Bingo
 
         public ReactiveCommand<Unit, int> BallSubmitted { get; }
         
-        public ReactiveCommand<Unit,Unit> GreenBallSubmitted { get; }
+        public ReactiveCommand<Unit,bool> GreenBallSubmitted { get; }
         public ReactiveCommand<Unit,Unit> RedBallSubmitted { get; }
 
         [Reactive] public string NumberString { get; set; }
 
         [Reactive] public BingoCardState State { get; set; }
+        [Reactive] public bool InverseCommand { get; set; }
 
 
         public BingoSetupViewModel(TeamState teamState)
@@ -53,7 +54,7 @@ namespace Slingo.Admin.Bingo
                 });
 
             BallSubmitted = ReactiveCommand.Create(() => int.Parse(NumberString), canSubmitBall);
-            GreenBallSubmitted = ReactiveCommand.Create(()=> Unit.Default);
+            GreenBallSubmitted = ReactiveCommand.Create(() => !InverseCommand);
             RedBallSubmitted = ReactiveCommand.Create(()=> Unit.Default);
         }
     }
