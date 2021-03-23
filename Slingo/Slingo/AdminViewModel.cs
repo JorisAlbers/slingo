@@ -73,12 +73,17 @@ namespace Slingo
 
             viewmodel.BingoSetupViewModel1.BallSubmitted.Subscribe(async x =>
             {
-                if (await GameViewModel.Team1ViewModel.BingoViewModel.FillBall(x))
+                if (!x.add)
+                {
+                    GameViewModel.Team1ViewModel.BingoViewModel.ClearBall(x.number);
+                    return;
+                }
+
+                if (await GameViewModel.Team1ViewModel.BingoViewModel.FillBall(x.number))
                 {
                     viewmodel.BingoSetupViewModel1.State = BingoCardState.Won;
                     _state.Team1.Score += 100;
                     _state.SwitchActiveTeam();
-                    
                 }
             });
 
@@ -117,7 +122,13 @@ namespace Slingo
 
             viewmodel.BingoSetupViewModel2.BallSubmitted.Subscribe(async x =>
             {
-                if (await GameViewModel.Team2ViewModel.BingoViewModel.FillBall(x))
+                if (!x.add)
+                {
+                    GameViewModel.Team2ViewModel.BingoViewModel.ClearBall(x.number);
+                    return;
+                }
+
+                if (await GameViewModel.Team2ViewModel.BingoViewModel.FillBall(x.number))
                 {
                     viewmodel.BingoSetupViewModel2.State = BingoCardState.Won;
                     _state.Team2.Score += 100;

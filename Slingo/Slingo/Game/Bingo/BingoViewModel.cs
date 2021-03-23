@@ -246,6 +246,37 @@ namespace Slingo.Game.Bingo
             return false;
         }
 
+        public void ClearBall(int number)
+        {
+            foreach (BingoBallViewModel viewmodel in FlattendMatrix)
+            {
+                if (viewmodel.Number == number)
+                {
+                    _audioEngine.PlaySound(_fillBallLongSound);
+                    viewmodel.Clear();
+                    break;
+                }
+            }
+
+            // clear filled state
+            foreach (BingoBallViewModel b in FlattendMatrix)
+            {
+                b.IsMatchPoint = false;
+            }
+
+            foreach (BingoBallViewModel[] line in Lines(Matrix))
+            {
+                int filled = line.Count(x => x.State == BallState.Filled);
+                if (filled == 4)
+                {
+                    foreach (BingoBallViewModel bingoBallViewModel in line.Where(x => x.State != BallState.Filled))
+                    {
+                        bingoBallViewModel.IsMatchPoint = true;
+                    }
+                }
+            }
+        }
+
         private async Task ShowWin(BingoBallViewModel[] line)
         {
             _audioEngine.PlaySound(_winSound);
@@ -378,5 +409,7 @@ namespace Slingo.Game.Bingo
                 list[n] = value;
             }
         }
+
+
     }
 }

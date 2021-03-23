@@ -127,6 +127,11 @@ namespace Slingo.Game.Bingo
             await Task.Delay(100);
             ShouldFlash = false;
         }
+
+        public void Clear()
+        {
+            State = BallState.Normal;
+        }
     }
 
     public enum BallState
