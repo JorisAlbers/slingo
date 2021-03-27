@@ -163,7 +163,7 @@ namespace Slingo.Game.Bingo
                     // Go down colum
                     columns[i][j] = MatrixForAnimation[j][i];
                     columns[i][j].X = margin + width * i;
-                    columns[i][j].Y = -height;
+                    columns[i][j].Y = -height -5;
                 }
             }
             
