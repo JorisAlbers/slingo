@@ -139,8 +139,8 @@ namespace Slingo.Game.Bingo
         {
             double height = MatrixForAnimation[0][0].Height;
             double width = MatrixForAnimation[0][0].Width;
-            double horizontalMarginOfMatrix = 6;
-            double verticalMarginOfMatrix = 3;
+            double horizontalMarginOfMatrix = 5;
+            double verticalMarginOfMatrix = 2;
             
             double horizontalMargin = ((WidthOfMatrix  - 2 * horizontalMarginOfMatrix) - width * MatrixForAnimation.Length) / (MatrixForAnimation.Length -1);
             double verticalMargin   = ((HeightOfMatrix - 2 * verticalMarginOfMatrix)   - height * MatrixForAnimation[0].Length) / (MatrixForAnimation[0].Length -1);
