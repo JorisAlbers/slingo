@@ -92,8 +92,9 @@ namespace Slingo.Admin.Word
             this.Accept.Subscribe(async onNext =>
             {
                 var cancel = CancelCountDownAndGetNewToken();
+                WordInputtedByUser = null;
                 StateInfo = await wordGameViewModel.AcceptWord();
-                WordInputtedByUser = string.Empty;
+                
                 if (StateInfo.State == WordGameState.SwitchTeam && StateInfo.Flags == SwitchTeamFlags.Normal)
                 {
                     StateInfo = new WordGameStateInfo(WordGameState.Ongoing);
@@ -107,8 +108,8 @@ namespace Slingo.Admin.Word
             this.Reject.Subscribe(async onNext =>
             {
                 var cancel = CancelCountDownAndGetNewToken();
+                WordInputtedByUser = null;
                 StateInfo = await wordGameViewModel.RejectWord();
-                WordInputtedByUser = String.Empty;
                 if (StateInfo.State == WordGameState.Ongoing)
                 {
                     StartCountDown(cancel.Token);
@@ -117,8 +118,8 @@ namespace Slingo.Admin.Word
             this.TimeOut.Subscribe(async onNext =>
             {
                 var cancel = CancelCountDownAndGetNewToken();
+                WordInputtedByUser = null;
                 StateInfo = await wordGameViewModel.TimeOut();
-                WordInputtedByUser = String.Empty;
                 StartCountDown(cancel.Token);
             });
             this.AddRow.Subscribe(async onNext =>
