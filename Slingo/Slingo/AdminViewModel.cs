@@ -26,11 +26,13 @@ namespace Slingo
         public AdminViewModel()
         {
             var correctSound = new CachedSound(@"Resources\Sounds\WordGame\correct.wav");
-            _audioPlaybackEngine = new AudioPlaybackEngine(correctSound.WaveFormat.SampleRate, correctSound.WaveFormat.Channels);
+            
 ;            _setupViewModel = new SetupViewModel();
             _setupViewModel.Start.Subscribe(settings =>
             {
-
+                _audioPlaybackEngine = new AudioPlaybackEngine(settings.AudioDevice,correctSound.WaveFormat.SampleRate, correctSound.WaveFormat.Channels);
+                
+                
                 _state = new GameState(new TeamState(settings.StartingTeamIndex == 0), new TeamState(settings.StartingTeamIndex == 1));
 
                 GameViewModel = new GameViewModel(settings, _state, _audioPlaybackEngine);

@@ -5,6 +5,7 @@
                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                            xmlns:reactiveUi="http://reactiveui.net"
                            xmlns:local="clr-namespace:Slingo.Admin.Setup"
+                           xmlns:system="clr-namespace:System;assembly=System.Runtime"
                            mc:Ignorable="d" 
                            d:DesignHeight="450" d:DesignWidth="800">
 
@@ -41,6 +42,8 @@
                 <TextBox x:Name="TimeOutTextBox" Margin="5"/>
                 <TextBlock Text="Rounds:" Margin="5"/>
                 <TextBox x:Name="RoundsTextBox" Margin="5"/>
+                <TextBlock Text="Audio out:" Margin="5"/>
+                <ComboBox x:Name="AudioOutputComboBox" Margin="5" DisplayMemberPath="."/>
                 <TextBlock Text="Starting team:" Margin="5"/>
                 <StackPanel>
                     <RadioButton x:Name="Team1ActiveRadioButton" Content="Team 1" GroupName="ActiveTeamGroup"/>

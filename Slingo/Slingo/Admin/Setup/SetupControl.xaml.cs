@@ -44,6 +44,16 @@ namespace Slingo.Admin.Setup
                         view => view.Team2ActiveRadioButton.IsChecked)
                     .DisposeWith(dispose);
 
+                this.OneWayBind(ViewModel,
+                        vm => vm.AudioOutputDevices,
+                        view => view.AudioOutputComboBox.ItemsSource)
+                    .DisposeWith(dispose);
+
+                this.Bind(ViewModel,
+                        vm => vm.SelectedAudioOutput,
+                        view => view.AudioOutputComboBox.SelectedItem)
+                    .DisposeWith(dispose);
+
             });
 
         }

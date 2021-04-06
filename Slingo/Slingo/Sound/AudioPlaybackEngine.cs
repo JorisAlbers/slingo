@@ -8,16 +8,16 @@ namespace Slingo.Sound
 {
     public class AudioPlaybackEngine : IDisposable
     {
-        private readonly IWavePlayer _outputDevice;
+        private readonly WaveOut _waveOut;
         private readonly MixingSampleProvider _mixer;
 
-        public AudioPlaybackEngine(int sampleRate = 44100, int channelCount = 2)
+        public AudioPlaybackEngine(WaveOut waveOut, int sampleRate = 44100, int channelCount = 2)
         {
-            _outputDevice = new WaveOutEvent();
+            _waveOut = waveOut;
             _mixer = new MixingSampleProvider(WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, channelCount));
             _mixer.ReadFully = true;
-            _outputDevice.Init(_mixer);
-            _outputDevice.Play();
+            _waveOut.Init(_mixer);
+            _waveOut.Play();
         }
         
         private ISampleProvider ConvertToRightChannelCount(ISampleProvider input)
@@ -50,7 +50,7 @@ namespace Slingo.Sound
 
         public void Dispose()
         {
-            _outputDevice.Dispose();
+            _waveOut.Dispose();
         }
     }
 }
