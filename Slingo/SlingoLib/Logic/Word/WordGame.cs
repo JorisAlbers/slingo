@@ -7,6 +7,7 @@ namespace SlingoLib.Logic.Word
     {
         private readonly WordPuzzle _wordPuzzle;
         private int _startingTeamIndex;
+        private int _oneLetterLeftFailures;
 
         public WordGame(WordPuzzle wordPuzzle, int startingTeamIndex)
         {
@@ -28,6 +29,7 @@ namespace SlingoLib.Logic.Word
         {
             ThrowIfGameIsOver();
             AttemptIndex++;
+            _oneLetterLeftFailures = 0;
 
             var puzzleEntry = _wordPuzzle.Solve(word);
             if (puzzleEntry.LetterEntries.All(x => x.State == LetterState.CorrectLocation))
@@ -133,7 +135,14 @@ namespace SlingoLib.Logic.Word
             }
             else
             {
-                State = new WordGameStateInfo(WordGameState.SwitchTeam, flag);
+                if (_oneLetterLeftFailures++ > 1)
+                {
+                    State = new WordGameStateInfo(WordGameState.Lost);
+                }
+                else
+                {
+                    State = new WordGameStateInfo(WordGameState.SwitchTeam, flag);
+                }
             }
         }
     }
