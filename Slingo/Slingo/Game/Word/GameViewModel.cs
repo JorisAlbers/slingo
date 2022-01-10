@@ -1,24 +1,18 @@
 ﻿using System;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Slingo.Admin.Bingo;
 using Slingo.Admin.Word;
-using Slingo.Game.Bingo;
 using Slingo.Game.Score;
 using Slingo.Sound;
-using SlingoLib;
-using SlingoLib.Logic.Word;
 
 namespace Slingo.Game.Word
 {
     public class GameViewModel : ReactiveObject
     {
-        private readonly GameState _state;
-        private int _activeTeam;
         public ScoreboardViewModel ScoreBoardTeam1 { get; }
         public ScoreboardViewModel ScoreBoardTeam2 { get; }
         [Reactive] public ReactiveObject SelectedViewModel { get; set; }
@@ -31,7 +25,6 @@ namespace Slingo.Game.Word
 
         public GameViewModel(Settings settings, GameState state,  AudioPlaybackEngine audioPlaybackEngine, ActiveSceneContainer activeSceneContainer)
         {
-            _state = state;
             Random random = new Random();
             var audioPlaybackEngine1 = audioPlaybackEngine;
 
@@ -46,8 +39,6 @@ namespace Slingo.Game.Word
             Team2ViewModel = new TeamViewModel(1, ScoreBoardTeam1, ScoreBoardTeam2, WordGameViewModel, bingoCardSettingsTeam2, random, audioPlaybackEngine1, activeSceneContainer);
             
             CountDownStarted = ReactiveCommand.Create(() => new Unit());
-
-           
 
             this.WhenAnyValue(x => x.WordGameViewModel.BoardViewModel).Where(x=>x!=null).Subscribe(x =>
             {
