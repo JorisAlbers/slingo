@@ -76,6 +76,12 @@ namespace Slingo.Game
                     x=> x ? Visibility.Visible : Visibility.Collapsed)
                     .DisposeWith(dispose);
 
+                this.OneWayBind(ViewModel,
+                        vm => vm.OnAir,
+                        view => view.OffAirIcon.Visibility,
+                        x => x ? Visibility.Collapsed : Visibility.Visible)
+                    .DisposeWith(dispose);
+
 
             });
 
