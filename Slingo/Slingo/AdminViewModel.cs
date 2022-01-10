@@ -19,10 +19,6 @@ namespace Slingo
     public class AdminViewModel : ReactiveObject
     {
         private GameState _state;
-        private SetupViewModel _setupViewModel;
-        private InputViewModel _inputViewModel;
-        private AudioPlaybackEngine _audioPlaybackEngine;
-        private OBSWebsocket _obsWebsocket;
 
         [Reactive] public ReactiveObject SelectedAdminViewModel { get; private set; }
         
@@ -32,46 +28,46 @@ namespace Slingo
         {
             var correctSound = new CachedSound(@"Resources\Sounds\WordGame\correct.wav");
             
-;            _setupViewModel = new SetupViewModel();
-            _setupViewModel.Start.Subscribe(settings =>
+;           var setupViewModel = new SetupViewModel();
+            setupViewModel.Start.Subscribe(settings =>
             {
-                _audioPlaybackEngine = new AudioPlaybackEngine(settings.AudioDevice,correctSound.WaveFormat.SampleRate, correctSound.WaveFormat.Channels);
+                var audioPlaybackEngine = new AudioPlaybackEngine(settings.AudioDevice,correctSound.WaveFormat.SampleRate, correctSound.WaveFormat.Channels);
                 ActiveSceneContainer activeSceneContainer = null;
 
                 if (settings.ObsSettings != null)
                 {
-                    _obsWebsocket = new OBSWebsocket();
-                    _obsWebsocket.Connect(settings.ObsSettings.ObsAddress, settings.ObsSettings.ObsPassword);
+                    var obsWebsocket = new OBSWebsocket();
+                    obsWebsocket.Connect(settings.ObsSettings.ObsAddress, settings.ObsSettings.ObsPassword);
 
-                    if (_obsWebsocket.IsConnected)
+                    if (obsWebsocket.IsConnected)
                     {
-                        activeSceneContainer = new ActiveSceneContainer(_obsWebsocket);
+                        activeSceneContainer = new ActiveSceneContainer(obsWebsocket);
                     }
                 }
 
                 
                 _state = new GameState(new TeamState(settings.StartingTeamIndex == 0), new TeamState(settings.StartingTeamIndex == 1));
 
-                GameViewModel = new GameViewModel(settings, _state, _audioPlaybackEngine, activeSceneContainer);
-                _inputViewModel = new InputViewModel(_state,new WordRepository(new FileSystem(), @"Resources\5letterwoorden.txt"), settings, GameViewModel.WordGameViewModel);
-                _inputViewModel.FocusTeam1.Subscribe(x => GameViewModel.FocusTeam(0));
-                _inputViewModel.FocusTeam2.Subscribe(x => GameViewModel.FocusTeam(1));
-                _inputViewModel.FocusBingoCard.Subscribe(x => GameViewModel.Team1ViewModel.FocusBingoCard());
-                _inputViewModel.FocusBingoCard.Subscribe(x => GameViewModel.Team2ViewModel.FocusBingoCard());
-                _inputViewModel.FocusWordGame.Subscribe(x => GameViewModel.Team1ViewModel.FocusWordGame());
-                _inputViewModel.FocusWordGame.Subscribe(x => GameViewModel.Team2ViewModel.FocusWordGame());
+                GameViewModel = new GameViewModel(settings, _state, audioPlaybackEngine, activeSceneContainer);
+                var inputViewModel = new InputViewModel(_state,new WordRepository(new FileSystem(), @"Resources\5letterwoorden.txt"), settings, GameViewModel.WordGameViewModel);
+                inputViewModel.FocusTeam1.Subscribe(x => GameViewModel.FocusTeam(0));
+                inputViewModel.FocusTeam2.Subscribe(x => GameViewModel.FocusTeam(1));
+                inputViewModel.FocusBingoCard.Subscribe(x => GameViewModel.Team1ViewModel.FocusBingoCard());
+                inputViewModel.FocusBingoCard.Subscribe(x => GameViewModel.Team2ViewModel.FocusBingoCard());
+                inputViewModel.FocusWordGame.Subscribe(x => GameViewModel.Team1ViewModel.FocusWordGame());
+                inputViewModel.FocusWordGame.Subscribe(x => GameViewModel.Team2ViewModel.FocusWordGame());
                 
                 // Bingo input
-                SubscribeToBingoInput(_inputViewModel);
+                SubscribeToBingoInput(inputViewModel);
 
-                SelectedAdminViewModel = _inputViewModel;
+                SelectedAdminViewModel = inputViewModel;
 
                 var view = Locator.Current.GetService<IViewFor<GameViewModel>>();
                 var window = view as ReactiveWindow<GameViewModel>;
                 window.ViewModel = GameViewModel;
                 window.Show();
             });
-            SelectedAdminViewModel = _setupViewModel;
+            SelectedAdminViewModel = setupViewModel;
         }
 
         private void SubscribeToBingoInput(InputViewModel viewmodel)
