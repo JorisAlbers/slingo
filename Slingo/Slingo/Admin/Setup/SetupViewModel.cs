@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reactive;
 using NAudio.CoreAudioApi;
 using NAudio.Wave;
@@ -42,7 +43,12 @@ namespace Slingo.Admin.Setup
             
             Start = ReactiveCommand.Create(() =>
             {
-                var obsSettings = new ObsSettings(ObsAddress, ObsPassword);
+                ObsSettings obsSettings = null;
+                if (!String.IsNullOrWhiteSpace(ObsAddress) && !string.IsNullOrWhiteSpace(ObsPassword))
+                {
+                    obsSettings = new ObsSettings(ObsAddress, ObsPassword);
+                }
+
                 return new Settings(Team1Starts? 0 : 1,WordSize,TimeOut,Rounds, _excludedBallNumbersEven, _excludedBallNumbersOdd, GetAudioDevice(SelectedAudioOutput), obsSettings);
             });
         }
