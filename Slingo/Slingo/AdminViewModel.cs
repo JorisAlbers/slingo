@@ -43,8 +43,7 @@ namespace Slingo
                     _obsWebsocket = new OBSWebsocket();
                     _obsWebsocket.Connect(settings.ObsSettings.ObsAddress, settings.ObsSettings.ObsPassword);
 
-                    IObservable<EventPattern<string>> sceneChanged = Observable.FromEventPattern<string>(_obsWebsocket, "SceneChanged");
-                    activeSceneContainer = new ActiveSceneContainer(sceneChanged);
+                    activeSceneContainer = new ActiveSceneContainer(_obsWebsocket);
                 }
 
                 

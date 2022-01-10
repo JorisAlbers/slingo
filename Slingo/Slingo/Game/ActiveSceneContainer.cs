@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using OBSWebsocketDotNet;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -8,9 +9,12 @@ namespace Slingo.Game
 {
     public class ActiveSceneContainer : ReactiveObject
     {
-        public ActiveSceneContainer(IObservable<EventPattern<string>> sceneChanged)
+        public ActiveSceneContainer(OBSWebsocket obsWebsocket)
         {
+            IObservable<EventPattern<string>> sceneChanged = Observable.FromEventPattern<string>(obsWebsocket, "SceneChanged");
             sceneChanged.ObserveOn(RxApp.MainThreadScheduler).Subscribe(x => SetScene(x.EventArgs));
+            // set initial scene
+            SetScene(obsWebsocket.GetCurrentScene().Name);
         }
 
         [Reactive] public string Scene { get; private set; }
