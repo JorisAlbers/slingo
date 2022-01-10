@@ -43,7 +43,10 @@ namespace Slingo
                     _obsWebsocket = new OBSWebsocket();
                     _obsWebsocket.Connect(settings.ObsSettings.ObsAddress, settings.ObsSettings.ObsPassword);
 
-                    activeSceneContainer = new ActiveSceneContainer(_obsWebsocket);
+                    if (_obsWebsocket.IsConnected)
+                    {
+                        activeSceneContainer = new ActiveSceneContainer(_obsWebsocket);
+                    }
                 }
 
                 
