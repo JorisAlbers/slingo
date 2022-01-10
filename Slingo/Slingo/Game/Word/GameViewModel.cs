@@ -29,7 +29,7 @@ namespace Slingo.Game.Word
         public ReactiveCommand<Unit,Unit> CountDownStarted { get; } // TODO move to model class
         
 
-        public GameViewModel(Settings settings, GameState state,  AudioPlaybackEngine audioPlaybackEngine)
+        public GameViewModel(Settings settings, GameState state,  AudioPlaybackEngine audioPlaybackEngine, ActiveSceneContainer activeSceneContainer)
         {
             _state = state;
             Random random = new Random();
@@ -42,8 +42,8 @@ namespace Slingo.Game.Word
             var bingoCardSettingsTeam1 = new BingoCardSettings(true, settings.ExcludedBallNumbersEven);
             var bingoCardSettingsTeam2 = new BingoCardSettings(false, settings.ExcludedBallNumbersOdd);
 
-            Team1ViewModel = new TeamViewModel(0, ScoreBoardTeam1, ScoreBoardTeam2, WordGameViewModel, bingoCardSettingsTeam1, random, audioPlaybackEngine1);
-            Team2ViewModel = new TeamViewModel(1, ScoreBoardTeam1, ScoreBoardTeam2, WordGameViewModel, bingoCardSettingsTeam2, random, audioPlaybackEngine1);
+            Team1ViewModel = new TeamViewModel(0, ScoreBoardTeam1, ScoreBoardTeam2, WordGameViewModel, bingoCardSettingsTeam1, random, audioPlaybackEngine1, activeSceneContainer);
+            Team2ViewModel = new TeamViewModel(1, ScoreBoardTeam1, ScoreBoardTeam2, WordGameViewModel, bingoCardSettingsTeam2, random, audioPlaybackEngine1, activeSceneContainer);
             
             CountDownStarted = ReactiveCommand.Create(() => new Unit());
 

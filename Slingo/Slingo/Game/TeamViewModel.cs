@@ -29,11 +29,13 @@ namespace Slingo.Game
         [Reactive] public bool GreenBall2 { get; private set; }
         [Reactive] public bool GreenBall3 { get; private set; }
 
+        public ActiveSceneContainer ActiveSceneContainer { get; }
+
         public string TeamName => $"TEAM {_teamIndex +1}";
 
         public TeamViewModel(int teamIndex, ScoreboardViewModel scoreboard1, ScoreboardViewModel scoreboard2,
             WordGameViewModel wordGameViewModel,BingoCardSettings bingoCardSettings, Random random,
-            AudioPlaybackEngine audioPlaybackEngine)
+            AudioPlaybackEngine audioPlaybackEngine, ActiveSceneContainer activeSceneContainer)
         {
             _teamIndex = teamIndex;
             _bingoCardSettings = bingoCardSettings;
@@ -42,6 +44,7 @@ namespace Slingo.Game
             Scoreboard1 = scoreboard1;
             Scoreboard2 = scoreboard2;
             WordGameViewModel = wordGameViewModel;
+            ActiveSceneContainer = activeSceneContainer;
             CreateNewBingoCard();
         }
 

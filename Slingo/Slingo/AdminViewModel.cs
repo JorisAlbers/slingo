@@ -5,6 +5,7 @@ using ReactiveUI.Fody.Helpers;
 using Slingo.Admin.Bingo;
 using Slingo.Admin.Setup;
 using Slingo.Admin.Word;
+using Slingo.Game;
 using Slingo.Game.Word;
 using Slingo.Sound;
 using SlingoLib.Serialization;
@@ -35,7 +36,10 @@ namespace Slingo
                 
                 _state = new GameState(new TeamState(settings.StartingTeamIndex == 0), new TeamState(settings.StartingTeamIndex == 1));
 
-                GameViewModel = new GameViewModel(settings, _state, _audioPlaybackEngine);
+                ActiveSceneContainer fakeActiveSceneContainer = new ActiveSceneContainer();
+                fakeActiveSceneContainer.SetScene("team 1");
+
+                GameViewModel = new GameViewModel(settings, _state, _audioPlaybackEngine, fakeActiveSceneContainer);
                 _inputViewModel = new InputViewModel(_state,new WordRepository(new FileSystem(), @"Resources\5letterwoorden.txt"), settings, GameViewModel.WordGameViewModel);
                 _inputViewModel.FocusTeam1.Subscribe(x => GameViewModel.FocusTeam(0));
                 _inputViewModel.FocusTeam2.Subscribe(x => GameViewModel.FocusTeam(1));
