@@ -44,10 +44,10 @@
                 <TextBox x:Name="RoundsTextBox" Margin="5"/>
                 <TextBlock Text="Audio out:" Margin="5"/>
                 <ComboBox x:Name="AudioOutputComboBox" Margin="5" DisplayMemberPath="."/>
-                <TextBlock Text="OBS server address:"/>
-                <TextBox x:Name="ObsAddressTextBox"/>
-                <TextBlock Text="OBS server password:"/>
-                <TextBox x:Name="ObsPasswordTextBox"/>
+                <TextBlock Text="OBS server address:" Margin="5"/>
+                <TextBox x:Name="ObsAddressTextBox" Margin="5"/>
+                <TextBlock Text="OBS server password:" Margin="5"/>
+                <TextBox x:Name="ObsPasswordTextBox" Margin="5"/>
 
                 <TextBlock Text="Starting team:" Margin="5"/>
                 <StackPanel>
