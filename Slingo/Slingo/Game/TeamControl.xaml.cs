@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
 using ReactiveUI;
 
 namespace Slingo.Game
@@ -63,6 +64,18 @@ namespace Slingo.Game
                         view => view.GreenBallEllipse3.Visibility,
                         (b) => b ? Visibility.Visible : Visibility.Collapsed)
                     .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.ActiveSceneContainer.Scene,
+                    view => view.ActiveSceneTextBlock.Text)
+                    .DisposeWith(dispose);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.OnAir,
+                    view => view.OnAirIcon.Visibility,
+                    x=> x ? Visibility.Visible : Visibility.Collapsed)
+                    .DisposeWith(dispose);
+
 
             });
 

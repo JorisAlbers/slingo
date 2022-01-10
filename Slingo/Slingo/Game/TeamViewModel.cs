@@ -30,6 +30,8 @@ namespace Slingo.Game
         [Reactive] public bool GreenBall3 { get; private set; }
 
         public ActiveSceneContainer ActiveSceneContainer { get; }
+        [ObservableAsProperty] public bool OnAir { get; private set; }
+
 
         public string TeamName => $"TEAM {_teamIndex +1}";
 
@@ -45,6 +47,17 @@ namespace Slingo.Game
             Scoreboard2 = scoreboard2;
             WordGameViewModel = wordGameViewModel;
             ActiveSceneContainer = activeSceneContainer;
+
+            if (teamIndex == 0)
+            {
+                this.WhenAnyValue(x => x.ActiveSceneContainer.IsTeam1Active).ToPropertyEx(this, x => x.OnAir);
+            }
+            else
+            {
+                this.WhenAnyValue(x => x.ActiveSceneContainer.IsTeam2Active).ToPropertyEx(this, x => x.OnAir);
+            }
+
+
             CreateNewBingoCard();
         }
 
