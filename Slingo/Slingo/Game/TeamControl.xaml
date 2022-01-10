@@ -53,12 +53,7 @@
                            HorizontalAlignment="Left"/>
                 </Grid>
 
-
-                
-
-                <TextBlock 
-                    x:Name="ActiveSceneTextBlock"
-                    Text="studio" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <TextBlock x:Name="ActiveSceneTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
 
             </StackPanel>
 
