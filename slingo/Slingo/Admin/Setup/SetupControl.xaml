@@ -1,0 +1,70 @@
+﻿<reactiveUi:ReactiveUserControl x:TypeArguments="local:SetupViewModel" x:Class="Slingo.Admin.Setup.SetupControl"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                           xmlns:reactiveUi="http://reactiveui.net"
+                           xmlns:local="clr-namespace:Slingo.Admin.Setup"
+                           xmlns:system="clr-namespace:System;assembly=System.Runtime"
+                           mc:Ignorable="d" 
+                           d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Column="1" Grid.Row="1">
+            <UniformGrid DockPanel.Dock="Top" >
+                <reactiveUi:ViewModelViewHost x:Name="TeamAViewHost"
+                                              HorizontalAlignment="Stretch" 
+                                              VerticalAlignment="Stretch"
+                                              VerticalContentAlignment="Stretch"
+                                              HorizontalContentAlignment="Stretch"/>
+                <reactiveUi:ViewModelViewHost x:Name="TeamBViewHost"
+                                              HorizontalAlignment="Stretch" 
+                                              VerticalAlignment="Stretch"
+                                              VerticalContentAlignment="Stretch"
+                                              HorizontalContentAlignment="Stretch"/>
+            </UniformGrid>
+
+            <UniformGrid DockPanel.Dock="Top" Columns="2" Margin="10">
+                <TextBlock Text="Word size:" Margin="5"/>
+                <TextBox x:Name="WordSizeTextBox" Margin="5"/>
+                <TextBlock Text="Timeout:" Margin="5"/>
+                <TextBox x:Name="TimeOutTextBox" Margin="5"/>
+                <TextBlock Text="Rounds:" Margin="5"/>
+                <TextBox x:Name="RoundsTextBox" Margin="5"/>
+                <TextBlock Text="Audio out:" Margin="5"/>
+                <ComboBox x:Name="AudioOutputComboBox" Margin="5" DisplayMemberPath="."/>
+                <TextBlock Text="OBS server address:" Margin="5"/>
+                <TextBox x:Name="ObsAddressTextBox" Margin="5"/>
+                <TextBlock Text="OBS server password:" Margin="5"/>
+                <TextBox x:Name="ObsPasswordTextBox" Margin="5"/>
+
+                <TextBlock Text="Starting team:" Margin="5"/>
+                <StackPanel>
+                    <RadioButton x:Name="Team1ActiveRadioButton" Content="Team 1" GroupName="ActiveTeamGroup"/>
+                    <RadioButton x:Name="Team2ActiveRadioButton" Content="Team 2" GroupName="ActiveTeamGroup"/>
+                </StackPanel>
+            </UniformGrid>
+
+
+            <Button DockPanel.Dock="Top"  Height="30" Width="100"
+                    x:Name="StartButton" Content="Start game"/>
+        </DockPanel>
+
+       
+    </Grid>
+
+   
+
+   
+</reactiveUi:ReactiveUserControl>
