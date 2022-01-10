@@ -44,6 +44,11 @@
                 <TextBox x:Name="RoundsTextBox" Margin="5"/>
                 <TextBlock Text="Audio out:" Margin="5"/>
                 <ComboBox x:Name="AudioOutputComboBox" Margin="5" DisplayMemberPath="."/>
+                <TextBlock Text="OBS server address:"/>
+                <TextBox x:Name="ObsAddressTextBox"/>
+                <TextBlock Text="OBS server password:"/>
+                <TextBox x:Name="ObsPasswordTextBox"/>
+
                 <TextBlock Text="Starting team:" Margin="5"/>
                 <StackPanel>
                     <RadioButton x:Name="Team1ActiveRadioButton" Content="Team 1" GroupName="ActiveTeamGroup"/>

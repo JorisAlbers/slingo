@@ -1,5 +1,8 @@
 ﻿using System;
 using System.IO.Abstractions;
+using System.Reactive;
+using System.Reactive.Linq;
+using OBSWebsocketDotNet;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Slingo.Admin.Bingo;
@@ -19,6 +22,7 @@ namespace Slingo
         private SetupViewModel _setupViewModel;
         private InputViewModel _inputViewModel;
         private AudioPlaybackEngine _audioPlaybackEngine;
+        private OBSWebsocket _obsWebsocket;
 
         [Reactive] public ReactiveObject SelectedAdminViewModel { get; private set; }
         
@@ -32,14 +36,21 @@ namespace Slingo
             _setupViewModel.Start.Subscribe(settings =>
             {
                 _audioPlaybackEngine = new AudioPlaybackEngine(settings.AudioDevice,correctSound.WaveFormat.SampleRate, correctSound.WaveFormat.Channels);
-                
+                ActiveSceneContainer activeSceneContainer = null;
+
+                if (settings.ObsSettings != null)
+                {
+                    _obsWebsocket = new OBSWebsocket();
+                    _obsWebsocket.Connect(settings.ObsSettings.ObsAddress, settings.ObsSettings.ObsPassword);
+
+                    IObservable<EventPattern<string>> sceneChanged = Observable.FromEventPattern<string>(_obsWebsocket, "SceneChanged");
+                    activeSceneContainer = new ActiveSceneContainer(sceneChanged);
+                }
+
                 
                 _state = new GameState(new TeamState(settings.StartingTeamIndex == 0), new TeamState(settings.StartingTeamIndex == 1));
 
-                ActiveSceneContainer fakeActiveSceneContainer = new ActiveSceneContainer();
-                fakeActiveSceneContainer.SetScene("team 1");
-
-                GameViewModel = new GameViewModel(settings, _state, _audioPlaybackEngine, fakeActiveSceneContainer);
+                GameViewModel = new GameViewModel(settings, _state, _audioPlaybackEngine, activeSceneContainer);
                 _inputViewModel = new InputViewModel(_state,new WordRepository(new FileSystem(), @"Resources\5letterwoorden.txt"), settings, GameViewModel.WordGameViewModel);
                 _inputViewModel.FocusTeam1.Subscribe(x => GameViewModel.FocusTeam(0));
                 _inputViewModel.FocusTeam2.Subscribe(x => GameViewModel.FocusTeam(1));

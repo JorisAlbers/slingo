@@ -19,12 +19,16 @@ namespace Slingo.Admin.Setup
 
         [Reactive] public bool Team1Starts { get; set; } = true;
         [Reactive] public bool Team2Starts { get; set; }
-        
+        [Reactive] public string ObsPassword { get; set; } = "slingo5life";
+        [Reactive] public string ObsAddress { get; set; } = "ws://localhost:4444";
+
         public string[] AudioOutputDevices { get; }
         
         [Reactive] public string SelectedAudioOutput { get; set; }
         
         public ReactiveCommand<Unit,Settings> Start { get; }
+        
+
 
         public SetupViewModel()
         {
@@ -38,7 +42,8 @@ namespace Slingo.Admin.Setup
             
             Start = ReactiveCommand.Create(() =>
             {
-                return new Settings(Team1Starts? 0 : 1,WordSize,TimeOut,Rounds, _excludedBallNumbersEven, _excludedBallNumbersOdd, GetAudioDevice(SelectedAudioOutput));
+                var obsSettings = new ObsSettings(ObsAddress, ObsPassword);
+                return new Settings(Team1Starts? 0 : 1,WordSize,TimeOut,Rounds, _excludedBallNumbersEven, _excludedBallNumbersOdd, GetAudioDevice(SelectedAudioOutput), obsSettings);
             });
         }
 

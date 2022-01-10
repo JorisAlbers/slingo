@@ -54,6 +54,15 @@ namespace Slingo.Admin.Setup
                         view => view.AudioOutputComboBox.SelectedItem)
                     .DisposeWith(dispose);
 
+                this.Bind(ViewModel,
+                        vm => vm.ObsAddress,
+                        view => view.ObsAddressTextBox.Text)
+                    .DisposeWith(dispose);
+
+                this.Bind(ViewModel,
+                        vm => vm.ObsPassword,
+                        view => view.ObsPasswordTextBox.Text)
+                    .DisposeWith(dispose);
             });
 
         }

@@ -1,10 +1,18 @@
-﻿using ReactiveUI;
+﻿using System;
+using System.Reactive;
+using System.Reactive.Linq;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace Slingo.Game
 {
     public class ActiveSceneContainer : ReactiveObject
     {
+        public ActiveSceneContainer(IObservable<EventPattern<string>> sceneChanged)
+        {
+            sceneChanged.ObserveOn(RxApp.MainThreadScheduler).Subscribe(x => SetScene(x.EventArgs));
+        }
+
         [Reactive] public string Scene { get; private set; }
 
         [Reactive] public bool IsTeam1Active { get; private set; }
