@@ -1,8 +1,12 @@
 ﻿using System;
 using System.IO.Abstractions;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading;
+using Newtonsoft.Json.Linq;
 using OBSWebsocketDotNet;
+using OBSWebsocketDotNet.Types;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using Slingo.Admin.Bingo;
@@ -34,9 +38,11 @@ namespace Slingo
                 var audioPlaybackEngine = new AudioPlaybackEngine(settings.AudioDevice,correctSound.WaveFormat.SampleRate, correctSound.WaveFormat.Channels);
                 ActiveSceneContainer activeSceneContainer = null;
 
+                OBSWebsocket obsWebsocket = null;
+
                 if (settings.ObsSettings != null)
                 {
-                    var obsWebsocket = new OBSWebsocket();
+                    obsWebsocket = new OBSWebsocket();
                     obsWebsocket.Connect(settings.ObsSettings.ObsAddress, settings.ObsSettings.ObsPassword);
 
                     if (obsWebsocket.IsConnected)
@@ -66,6 +72,21 @@ namespace Slingo
                 var window = view as ReactiveWindow<GameViewModel>;
                 window.ViewModel = GameViewModel;
                 window.Show();
+
+                if (obsWebsocket != null)
+                {
+                    window.WhenAnyValue(x => x.Width).Subscribe(x =>
+                    {
+                        obsWebsocket.SetSourceFilterSettings("bord team 1", "Crop", new JObject
+                        {
+                            {"right", (int) window.Width / 2},
+                        });
+                        obsWebsocket.SetSourceFilterSettings("bord team 2", "Crop", new JObject
+                        {
+                            {"left", (int) window.Width / 2},
+                        });
+                     });
+                }
             });
             SelectedAdminViewModel = setupViewModel;
         }
