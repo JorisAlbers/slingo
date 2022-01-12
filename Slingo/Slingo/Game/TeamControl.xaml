@@ -39,7 +39,7 @@
             <RowDefinition Height="80*"/>
         </Grid.RowDefinitions>
 
-        <Viewbox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,10">
+        <Viewbox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                 <Grid>
                     <Label Content="{materialDesign:PackIcon Cctv}" 
