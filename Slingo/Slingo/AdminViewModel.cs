@@ -73,22 +73,25 @@ namespace Slingo
                 window.ViewModel = GameViewModel;
                 window.Show();
 
-                if (obsWebsocket != null)
+                if (obsWebsocket != null  && obsWebsocket.IsConnected)
                 {
                     window.WhenAnyValue(x => x.Width).Subscribe(x =>
                     {
-                        obsWebsocket.SetSourceFilterSettings("bord team 1", "Crop", new JObject
+                        if (obsWebsocket.IsConnected)
                         {
-                            {"right", (int) window.Width / 2},
-                            {"top", Math.Max(((int) window.Height * 0.084),50)}, // The info panel, only for the candidates, has a ratio of 8.4 % and should not be shown. min width is 50
-                        });
-                        obsWebsocket.SetSourceFilterSettings("bord team 2", "Crop", new JObject
-                        {
-                            {"left", (int) window.Width / 2},
-                            {"top", Math.Max(((int) window.Height * 0.084),50)}, // The info panel, only for the candidates, has a ratio of 8.4 % and should not be shown. min width is 50
+                            obsWebsocket.SetSourceFilterSettings("bord team 1", "Crop", new JObject
+                            {
+                                {"right", (int) window.Width / 2},
+                                {"top", Math.Max(((int) window.Height * 0.084),50)}, // The info panel, only for the candidates, has a ratio of 8.4 % and should not be shown. min width is 50
+                            });
+                            obsWebsocket.SetSourceFilterSettings("bord team 2", "Crop", new JObject
+                            {
+                                {"left", (int) window.Width / 2},
+                                {"top", Math.Max(((int) window.Height * 0.084),50)}, // The info panel, only for the candidates, has a ratio of 8.4 % and should not be shown. min width is 50
 
-                        });
-                     });
+                            });
+                        }
+                    });
                 }
             });
             SelectedAdminViewModel = setupViewModel;
