@@ -8,7 +8,7 @@
                            xmlns:word="clr-namespace:Slingo.Game.Word"
                            xmlns:game="clr-namespace:Slingo.Game"
                            mc:Ignorable="d"
-                           Title="GameWindow" Height="450" Width="800"
+                           Title="GameWindow" Height="549" Width="1285"
                            Background="Purple"
                            AllowsTransparency="False">
     <Grid Margin="5">
