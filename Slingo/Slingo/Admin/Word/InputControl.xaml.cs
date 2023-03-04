@@ -25,6 +25,11 @@ namespace Slingo.Admin.Word
                         view => view.TeamWithFocusTextBlock.Text)
                     .DisposeWith(dispose);
 
+                this.OneWayBind(ViewModel,
+                        vm => vm.ActiveTeam,
+                        view => view.ActiveTeamTextBlock.Text)
+                    .DisposeWith(dispose);
+
                 this.BindCommand(ViewModel,
                         vm => vm.FocusTeam1,
                         view => view.FocusTeam1Button)

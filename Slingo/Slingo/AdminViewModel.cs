@@ -27,7 +27,7 @@ namespace Slingo
         [Reactive] public ReactiveObject SelectedAdminViewModel { get; private set; }
         
         [Reactive] public GameViewModel GameViewModel { get; private set; }
-        
+
         public AdminViewModel()
         {
             var correctSound = new CachedSound(@"Resources\Sounds\WordGame\correct.wav");

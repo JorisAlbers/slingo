@@ -17,6 +17,7 @@ namespace Slingo.Admin.Word
 {
     public class InputViewModel : ReactiveObject
     {
+        private readonly GameState _gameState;
         private readonly WordRepository _wordRepository;
         private readonly Settings _settings;
         private readonly Random _random;
@@ -33,12 +34,17 @@ namespace Slingo.Admin.Word
         public ReactiveCommand<Unit, Unit> FocusWordGame { get; }
         
         [Reactive] public int TeamWithFocus { get; private set; } = 1;
-        
-        [Reactive] public GameSection GameSectionWithFocus { get; private set; }
 
+        /// <summary>
+        /// The team that, according to the game state, should have the turn.
+        /// </summary>
+        [Reactive] public int ActiveTeam { get; set; }
+        [Reactive] public GameSection GameSectionWithFocus { get; private set; }
+        
         public InputViewModel(GameState gameState, WordRepository wordRepository, Settings settings,
             WordGameViewModel wordGameViewModel)
         {
+            _gameState = gameState;
             _wordRepository = wordRepository;
             _settings = settings;
             _words = _wordRepository.Deserialize(settings.WordSize);
@@ -52,6 +58,11 @@ namespace Slingo.Admin.Word
             FocusTeam2 = ReactiveCommand.Create(() => Unit.Default);
             FocusBingoCard = ReactiveCommand.Create(() => Unit.Default);
             FocusWordGame = ReactiveCommand.Create(() => Unit.Default);
+
+            this.WhenAnyValue(x => x._gameState.ActiveTeam).Subscribe(x =>
+            {
+                ActiveTeam = x;
+            });
 
             FocusTeam1.Subscribe(x =>
             {
