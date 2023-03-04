@@ -11,8 +11,8 @@
         <UniformGrid DockPanel.Dock="Top" Rows="1" Height="40">
             <TextBlock Text="The next word will be:"/>
             <TextBlock x:Name="NextWordTextBlock"/>
-            <Button x:Name="GenerateNewWordButton" Content="Generate"/>
-            <Button x:Name="StartNewGameButton" Content="Start"/>
+            <Button x:Name="GenerateNewWordButton" Content="Generate" Margin="5,0"/>
+            <Button x:Name="StartNewGameButton" Content="Start" Margin="5,0"/>
         </UniformGrid>
 
         <UniformGrid DockPanel.Dock="Top" Rows="1" Height="40" Margin="0,10">
@@ -42,9 +42,9 @@
 
         <UniformGrid DockPanel.Dock="Top" Rows="1" Height="40" Margin="0,10">
             <Rectangle/>
-            <Button Content="Clear row" x:Name="ClearRowAndSwitchTeamButton"/>
-            <Button Content="Add row" x:Name="AddRowAndSwitchTeamButton"/>
-            <Button Content="Add bonus letter" x:Name="AddBonusLetterButton"/>
+            <Button Content="Clear row" x:Name="ClearRowAndSwitchTeamButton" Margin="5,0"/>
+            <Button Content="Add row" x:Name="AddRowAndSwitchTeamButton" Margin="5,0"/>
+            <Button Content="Add bonus letter" x:Name="AddBonusLetterButton" Margin="5,0"/>
         </UniformGrid>
 
         <UniformGrid Rows="1" Height="40" Margin="0,10,0,0">

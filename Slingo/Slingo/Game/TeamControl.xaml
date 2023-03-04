@@ -45,7 +45,8 @@
                     <Label Content="{materialDesign:PackIcon Cctv}" 
                            Foreground="White"
                            x:Name="OnAirIcon"
-                           HorizontalAlignment="Left"/>
+                           HorizontalAlignment="Left"
+                    />
 
                     <Label Content="{materialDesign:PackIcon CctvOff}" 
                            Foreground="White"
