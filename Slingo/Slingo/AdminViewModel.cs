@@ -49,6 +49,11 @@ namespace Slingo
                     {
                         activeSceneContainer = new ActiveSceneContainer(obsWebsocket);
                     }
+
+                    else
+                    {
+                        throw new Exception($"Failed to connect to the OBS websocket at {settings.ObsSettings.ObsAddress} with password {settings.ObsSettings.ObsPassword}");
+                    }
                 }
 
                 
